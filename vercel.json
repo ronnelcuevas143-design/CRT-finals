@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/binance", "destination": "/api/binance" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
