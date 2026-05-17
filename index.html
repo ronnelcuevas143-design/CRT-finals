@@ -6,17 +6,13 @@
 <title>CRT Analyzer Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#05070d;--surface:#0b0f1a;--surface2:#111827;--border:#1a2332;--accent:#00e5ff;--bull:#00ff9d;--bear:#ff4466;--warn:#ffb700;--text:#dce8f5;--muted:#4d6070;--muted2:#7a9ab0;}
+:root{--bg:#05070d;--surface:#0b0f1a;--border:#1a2332;--accent:#00e5ff;--bull:#00ff9d;--bear:#ff4466;--warn:#ffb700;--text:#dce8f5;--muted:#4d6070;--muted2:#7a9ab0;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:80px;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(0,229,255,0.05) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(0,255,157,0.03) 0%,transparent 60%);pointer-events:none;z-index:0;}
 .wrap{max-width:900px;margin:0 auto;padding:24px 16px;position:relative;z-index:1;}
-
-/* Header */
 .logo{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:4px;color:var(--accent);line-height:1;}
 .logo-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-top:3px;margin-bottom:20px;}
-
-/* Settings Panel */
 .settings-panel{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:20px;}
 .settings-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
 .settings-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
@@ -29,8 +25,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .notif-status{font-family:'DM Mono',monospace;font-size:10px;margin-top:8px;padding:6px 10px;border-radius:4px;display:none;}
 .notif-status.ok{background:rgba(0,255,157,0.1);color:var(--bull);border:1px solid rgba(0,255,157,0.2);}
 .notif-status.err{background:rgba(255,68,102,0.1);color:var(--bear);border:1px solid rgba(255,68,102,0.2);}
-
-/* Monitor toggle */
 .monitor-bar{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap;}
 .monitor-btn{font-family:'DM Mono',monospace;font-size:11px;padding:9px 18px;border-radius:5px;cursor:pointer;letter-spacing:1px;border:1px solid;transition:all 0.2s;}
 .monitor-btn.start{background:rgba(0,255,157,0.1);border-color:rgba(0,255,157,0.3);color:var(--bull);}
@@ -39,8 +33,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .monitor-status{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
 .pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bull);animation:pulse 1.2s infinite;margin-right:6px;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-
-/* Search */
 .search-box{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
 .coin-input{flex:1;min-width:160px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:14px;color:var(--text);letter-spacing:2px;text-transform:uppercase;outline:none;transition:border-color 0.2s;}
 .coin-input::placeholder{color:var(--muted);text-transform:none;letter-spacing:1px;font-size:12px;}
@@ -49,20 +41,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .analyze-btn:hover{opacity:0.85;}
 .analyze-btn:active{transform:scale(0.98);}
 .analyze-btn:disabled{opacity:0.4;cursor:not-allowed;}
-
 .quick-picks{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;align-items:center;}
 .quick-label{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-right:4px;}
 .qbtn{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border:1px solid var(--border);background:var(--surface);color:var(--muted2);border-radius:4px;cursor:pointer;letter-spacing:1px;transition:all 0.15s;}
 .qbtn:hover,.qbtn.active{border-color:var(--accent);color:var(--accent);}
-
-/* Loading / Error */
 .loading{display:none;flex-direction:column;align-items:center;gap:14px;padding:50px 20px;}
 .spinner{width:34px;height:34px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-msg{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;}
 .error-box{display:none;background:rgba(255,68,102,0.08);border:1px solid rgba(255,68,102,0.3);border-radius:6px;padding:14px 18px;font-size:13px;color:var(--bear);text-align:center;margin-bottom:14px;}
-
-/* Results */
 .results{display:none;}
 .coin-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;}
 .coin-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;}
@@ -70,7 +57,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .coin-change{font-family:'DM Mono',monospace;font-size:12px;padding:4px 10px;border-radius:4px;}
 .coin-change.up{background:rgba(0,255,157,0.1);color:var(--bull);}
 .coin-change.down{background:rgba(255,68,102,0.1);color:var(--bear);}
-
 .overall-signal{padding:18px;border-radius:8px;margin-bottom:18px;border:1px solid;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes popIn{from{opacity:0;transform:scale(0.93)}to{opacity:1;transform:scale(1)}}
 .overall-signal.bull{background:rgba(0,255,157,0.06);border-color:rgba(0,255,157,0.3);}
@@ -84,60 +70,39 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .signal-title.forming{color:var(--warn);}
 .signal-title.none{color:var(--muted2);}
 .signal-desc{font-size:12px;color:var(--muted2);}
-
-/* TF Grid - 5 columns */
 .tf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px;}
 @media(max-width:700px){.tf-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:400px){.tf-grid{grid-template-columns:1fr;}}
-
+@media(max-width:380px){.tf-grid{grid-template-columns:1fr;}}
 .tf-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;animation:slideUp 0.4s ease forwards;opacity:0;}
 @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.tf-card:nth-child(1){animation-delay:0.04s}
-.tf-card:nth-child(2){animation-delay:0.08s}
-.tf-card:nth-child(3){animation-delay:0.12s}
-.tf-card:nth-child(4){animation-delay:0.16s}
-.tf-card:nth-child(5){animation-delay:0.20s}
+.tf-card:nth-child(1){animation-delay:0.04s}.tf-card:nth-child(2){animation-delay:0.08s}.tf-card:nth-child(3){animation-delay:0.12s}.tf-card:nth-child(4){animation-delay:0.16s}.tf-card:nth-child(5){animation-delay:0.20s}
 .tf-card.bull{border-color:rgba(0,255,157,0.3);}
 .tf-card.bear{border-color:rgba(255,68,102,0.3);}
 .tf-card.forming{border-color:rgba(255,183,0,0.3);}
-.tf-card.c2close{border-color:var(--accent);box-shadow:0 0 12px rgba(0,229,255,0.2);}
-
 .tf-card-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 8px;border-bottom:1px solid var(--border);}
 .tf-label{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--muted2);}
 .tf-signal-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 7px;border-radius:3px;font-weight:500;text-transform:uppercase;}
 .tf-signal-badge.bull{background:rgba(0,255,157,0.15);color:var(--bull);}
 .tf-signal-badge.bear{background:rgba(255,68,102,0.15);color:var(--bear);}
 .tf-signal-badge.forming{background:rgba(255,183,0,0.15);color:var(--warn);}
-.tf-signal-badge.c2close{background:rgba(0,229,255,0.15);color:var(--accent);}
 .tf-signal-badge.none{background:rgba(74,96,112,0.15);color:var(--muted2);}
-
-/* 3-candle visual */
-.candle-visual{padding:10px 12px 6px;display:flex;align-items:flex-end;justify-content:center;gap:6px;height:80px;}
+.candle-visual{padding:8px 12px 4px;display:flex;align-items:flex-end;justify-content:center;gap:4px;height:76px;}
 .c-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;}
-.c-label{font-family:'DM Mono',monospace;font-size:7px;color:var(--muted);letter-spacing:1px;text-align:center;}
-.candle{width:100%;border-radius:2px;position:relative;min-height:4px;}
-.candle.green{background:var(--bull);}
-.candle.red{background:var(--bear);}
-.candle.gray{background:rgba(255,255,255,0.15);border:1px dashed rgba(255,255,255,0.2);}
-.candle.highlight{box-shadow:0 0 8px currentColor;}
-
+.c-lbl{font-family:'DM Mono',monospace;font-size:7px;color:var(--muted);letter-spacing:1px;}
 .checklist{padding:8px 12px 12px;}
 .check-item{display:flex;align-items:flex-start;gap:6px;padding:4px 0;font-size:10px;color:var(--muted2);border-bottom:1px solid rgba(30,35,50,0.4);line-height:1.4;}
 .check-item:last-child{border-bottom:none;}
 .check-icon{font-size:10px;flex-shrink:0;margin-top:1px;}
 .check-item.pass{color:var(--text);}
 .check-val{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);flex-shrink:0;}
-
-/* Alert log */
 .alert-log{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:18px;}
 .alert-log-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
-.alert-item{font-size:11px;padding:6px 0;border-bottom:1px solid rgba(30,35,50,0.4);display:flex;gap:8px;align-items:flex-start;}
+.alert-item{font-size:11px;padding:6px 0;border-bottom:1px solid rgba(30,35,50,0.4);display:flex;gap:8px;}
 .alert-item:last-child{border-bottom:none;}
 .alert-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0;}
 .alert-msg.bull{color:var(--bull);}
 .alert-msg.bear{color:var(--bear);}
 .no-alerts{font-size:11px;color:var(--muted);font-style:italic;}
-
 .ts{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-top:8px;letter-spacing:1px;}
 .disclaimer{font-size:10px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.7;padding:12px;border-top:1px solid var(--border);}
 </style>
@@ -145,15 +110,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <body>
 <div class="wrap">
   <div class="logo">CRT ANALYZER PRO</div>
-  <div class="logo-sub">3-Candle Detection · 5 Timeframes · Browser + Telegram Alerts</div>
+  <div class="logo-sub">3-Candle Detection · 5 Timeframes · Telegram + Browser Alerts</div>
 
-  <!-- Settings -->
   <div class="settings-panel">
     <div class="settings-title">⚙️ Notification Settings</div>
     <div class="settings-row">
       <div class="settings-field">
         <div class="settings-label">Telegram Bot Token</div>
-        <input class="settings-input" id="tgToken" type="password" placeholder="Paste your bot token here">
+        <input class="settings-input" id="tgToken" type="password" placeholder="Paste bot token">
       </div>
       <div class="settings-field" style="max-width:160px;">
         <div class="settings-label">Chat ID</div>
@@ -164,31 +128,28 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="notif-status" id="notifStatus"></div>
   </div>
 
-  <!-- Monitor Controls -->
   <div class="monitor-bar">
     <button class="monitor-btn start" id="monitorBtn" onclick="toggleMonitor()">▶ Start Auto-Monitor</button>
-    <div class="monitor-status" id="monitorStatus">Auto-monitor OFF — checks every 5 min</div>
+    <div class="monitor-status" id="monitorStatus">Auto-monitor OFF · checks every 5 min</div>
   </div>
 
-  <!-- Search -->
   <div class="search-box">
-    <input class="coin-input" id="coinInput" type="text" placeholder="Enter coin (BTC, SOL, PEPE...)" maxlength="20"
-      onkeydown="if(event.key==='Enter') analyze()">
+    <input class="coin-input" id="coinInput" type="text" placeholder="Enter coin (BTC, SOL, PEPE...)" maxlength="15" onkeydown="if(event.key==='Enter')analyze()">
     <button class="analyze-btn" id="analyzeBtn" onclick="analyze()">🔍 Analyze</button>
   </div>
 
   <div class="quick-picks">
     <span class="quick-label">Quick:</span>
-    <button class="qbtn" onclick="quickLoad('BTC','bitcoin')">BTC</button>
-    <button class="qbtn" onclick="quickLoad('ETH','ethereum')">ETH</button>
-    <button class="qbtn" onclick="quickLoad('SOL','solana')">SOL</button>
-    <button class="qbtn" onclick="quickLoad('BNB','binancecoin')">BNB</button>
-    <button class="qbtn" onclick="quickLoad('PEPE','pepe')">PEPE</button>
-    <button class="qbtn" onclick="quickLoad('DOGE','dogecoin')">DOGE</button>
-    <button class="qbtn" onclick="quickLoad('SUI','sui')">SUI</button>
-    <button class="qbtn" onclick="quickLoad('XRP','ripple')">XRP</button>
-    <button class="qbtn" onclick="quickLoad('ADA','cardano')">ADA</button>
-    <button class="qbtn" onclick="quickLoad('WIF','dogwifcoin')">WIF</button>
+    <button class="qbtn" onclick="quickLoad('BTC')">BTC</button>
+    <button class="qbtn" onclick="quickLoad('ETH')">ETH</button>
+    <button class="qbtn" onclick="quickLoad('SOL')">SOL</button>
+    <button class="qbtn" onclick="quickLoad('BNB')">BNB</button>
+    <button class="qbtn" onclick="quickLoad('PEPE')">PEPE</button>
+    <button class="qbtn" onclick="quickLoad('DOGE')">DOGE</button>
+    <button class="qbtn" onclick="quickLoad('SUI')">SUI</button>
+    <button class="qbtn" onclick="quickLoad('XRP')">XRP</button>
+    <button class="qbtn" onclick="quickLoad('ADA')">ADA</button>
+    <button class="qbtn" onclick="quickLoad('WIF')">WIF</button>
   </div>
 
   <div class="loading" id="loading">
@@ -201,7 +162,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="coin-header">
       <div>
         <div class="coin-title" id="coinTitle">—</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace">CoinGecko OHLC · 5 TF</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace">CryptoCompare · 5 TF</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div class="coin-price" id="coinPrice">—</div>
@@ -217,7 +178,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
     <div class="tf-grid" id="tfGrid"></div>
 
-    <!-- Alert Log -->
     <div class="alert-log">
       <div class="alert-log-title">🔔 Alert Log</div>
       <div id="alertLog"><div class="no-alerts">Walang alerts pa. I-start ang auto-monitor.</div></div>
@@ -229,301 +189,104 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 </div>
 
 <script>
-const COIN_MAP = {
-  BTC:'bitcoin',ETH:'ethereum',SOL:'solana',BNB:'binancecoin',
-  PEPE:'pepe',DOGE:'dogecoin',SUI:'sui',XRP:'ripple',
-  ADA:'cardano',WIF:'dogwifcoin',AVAX:'avalanche-2',MATIC:'matic-network',
-  DOT:'polkadot',LINK:'chainlink',UNI:'uniswap',ATOM:'cosmos',
-  LTC:'litecoin',TON:'the-open-network',SHIB:'shiba-inu',TRX:'tron',
-  OP:'optimism',ARB:'arbitrum',INJ:'injective-protocol',APT:'aptos',
-};
-
-// 5 Timeframes — CoinGecko days mapping
 const INTERVALS = [
-  { key:'1h',  label:'1H',     days:'1'   },
-  { key:'4h',  label:'4H',     days:'7'   },
-  { key:'1d',  label:'DAILY',  days:'30'  },
-  { key:'1w',  label:'WEEKLY', days:'180' },
-  { key:'1mo', label:'MONTHLY',days:'max' },
+  { key:'1h',  label:'1H'     },
+  { key:'4h',  label:'4H'     },
+  { key:'1d',  label:'DAILY'  },
+  { key:'1w',  label:'WEEKLY' },
+  { key:'1mo', label:'MONTHLY'},
 ];
 
-let currentCoinId = '';
 let monitorInterval = null;
 let alertLog = [];
-let notifiedKeys = new Set(); // prevent duplicate alerts
-
-// ---- SETTINGS ----
-function saveSettings() {
-  const token = document.getElementById('tgToken').value.trim();
-  const chatId = document.getElementById('tgChatId').value.trim();
-  if (token) localStorage.setItem('tg_token', token);
-  if (chatId) localStorage.setItem('tg_chatid', chatId);
-}
+let notifiedKeys = new Set();
+let currentSymbol = '';
 
 function loadSettings() {
-  const token = localStorage.getItem('tg_token') || '';
-  const chatId = localStorage.getItem('tg_chatid') || '';
-  if (token) document.getElementById('tgToken').value = token;
-  if (chatId) document.getElementById('tgChatId').value = chatId;
+  const t = localStorage.getItem('tg_token')||'';
+  const c = localStorage.getItem('tg_chatid')||'';
+  if(t) document.getElementById('tgToken').value = t;
+  if(c) document.getElementById('tgChatId').value = c;
+}
+
+function saveSettings() {
+  const t = document.getElementById('tgToken').value.trim();
+  const c = document.getElementById('tgChatId').value.trim();
+  if(t) localStorage.setItem('tg_token', t);
+  if(c) localStorage.setItem('tg_chatid', c);
 }
 
 async function saveAndTest() {
   saveSettings();
   const token = localStorage.getItem('tg_token');
   const chatId = localStorage.getItem('tg_chatid');
-  const statusEl = document.getElementById('notifStatus');
+  const el = document.getElementById('notifStatus');
 
-  if (!token || !chatId) {
-    statusEl.textContent = '❌ Lagyan mo ng Token at Chat ID';
-    statusEl.className = 'notif-status err';
-    statusEl.style.display = 'block';
-    return;
+  if(!token || !chatId) {
+    el.textContent='❌ Lagyan mo ng Token at Chat ID';
+    el.className='notif-status err'; el.style.display='block'; return;
   }
 
-  // Request browser notification permission
-  if ('Notification' in window && Notification.permission === 'default') {
+  if('Notification' in window && Notification.permission==='default') {
     await Notification.requestPermission();
   }
 
-  // Test Telegram
   try {
-    const msg = '✅ CRT Analyzer Pro connected! Makakatanggap ka na ng alerts dito.';
-    const res = await fetch(`/api/binance?type=telegram&token=${encodeURIComponent(token)}&chat_id=${chatId}&text=${encodeURIComponent(msg)}`);
+    const msg = '✅ CRT Analyzer Pro connected!\n\nMakakatanggap ka na ng CRT alerts dito. 🚀';
+    const qs = new URLSearchParams({type:'telegram',token,chat_id:chatId,text:msg}).toString();
+    const res = await fetch(`/api/binance?${qs}`);
     const data = await res.json();
-    if (data.ok) {
-      statusEl.textContent = '✅ Saved! Telegram test message sent successfully.';
-      statusEl.className = 'notif-status ok';
+    if(data.ok) {
+      el.textContent='✅ Saved! Telegram test message sent!';
+      el.className='notif-status ok';
     } else {
-      statusEl.textContent = `❌ Telegram error: ${data.description || 'Unknown error'}`;
-      statusEl.className = 'notif-status err';
+      el.textContent=`❌ Telegram error: ${data.description||'Unknown'}`;
+      el.className='notif-status err';
     }
   } catch(e) {
-    statusEl.textContent = `❌ ${e.message}`;
-    statusEl.className = 'notif-status err';
+    el.textContent=`❌ ${e.message}`;
+    el.className='notif-status err';
   }
-  statusEl.style.display = 'block';
+  el.style.display='block';
 }
 
-// ---- NOTIFICATIONS ----
 function sendBrowserNotif(title, body) {
-  if ('Notification' in window && Notification.permission === 'granted') {
-    new Notification(title, { body, icon: '🟢' });
+  if('Notification' in window && Notification.permission==='granted') {
+    new Notification(title, {body});
   }
 }
 
 async function sendTelegramAlert(msg) {
   const token = localStorage.getItem('tg_token');
   const chatId = localStorage.getItem('tg_chatid');
-  if (!token || !chatId) return;
+  if(!token || !chatId) return;
   try {
-    await fetch(`/api/binance?type=telegram&token=${encodeURIComponent(token)}&chat_id=${chatId}&text=${encodeURIComponent(msg)}`);
-  } catch(e) { console.log('Telegram error:', e); }
+    const qs = new URLSearchParams({type:'telegram',token,chat_id:chatId,text:msg}).toString();
+    await fetch(`/api/binance?${qs}`);
+  } catch(e) {}
 }
 
-function addAlertLog(symbol, tf, signal, type) {
-  const now = new Date();
-  const time = now.toLocaleTimeString();
-  const emoji = signal === 'bull' ? '🟢' : '🔴';
-  const msg = `${emoji} ${symbol} ${tf} — ${signal.toUpperCase()} CRT ${type}`;
-  alertLog.unshift({ time, msg, signal });
-  if (alertLog.length > 20) alertLog.pop();
+function addAlertLog(symbol, tf, signal) {
+  const time = new Date().toLocaleTimeString();
+  const emoji = signal==='bull'?'🟢':'🔴';
+  const msg = `${emoji} ${symbol} ${tf} — ${signal.toUpperCase()} CRT DETECTED`;
+  alertLog.unshift({time, msg, signal});
+  if(alertLog.length > 20) alertLog.pop();
   renderAlertLog();
 }
 
 function renderAlertLog() {
   const el = document.getElementById('alertLog');
-  if (!el) return;
-  if (alertLog.length === 0) {
-    el.innerHTML = '<div class="no-alerts">Walang alerts pa.</div>';
-    return;
-  }
-  el.innerHTML = alertLog.map(a => `
+  if(!el) return;
+  if(!alertLog.length) { el.innerHTML='<div class="no-alerts">Walang alerts pa.</div>'; return; }
+  el.innerHTML = alertLog.map(a=>`
     <div class="alert-item">
       <div class="alert-time">${a.time}</div>
       <div class="alert-msg ${a.signal}">${a.msg}</div>
     </div>`).join('');
 }
 
-// ---- CRT DETECTION — Exact 3-Candle ----
-// Candle 1 = Range candle (establishes high/low)
-// Candle 2 = Manipulation candle (sweeps beyond C1)
-// Candle 3 = Current/forming candle (the entry signal)
-function detectCRT3Candle(candles) {
-  if (candles.length < 4) return { signal:'none', checks:[], c2closed:false };
-
-  const c1 = candles[candles.length - 4]; // Range candle
-  const c2 = candles[candles.length - 3]; // Manipulation candle (closed)
-  const c3 = candles[candles.length - 2]; // Last closed candle
-  const forming = candles[candles.length - 1]; // Current forming
-
-  const c1High = c1.h, c1Low = c1.l;
-  const c1Mid  = (c1High + c1Low) / 2;
-  const c1Range = c1High - c1Low || 0.000001;
-
-  // ---- BULL CRT ----
-  // C2: swept below C1 low (manipulation down)
-  // C3: closed above C1 midpoint (reversal up)
-  const c2SweptLow    = c2.l < c1Low;
-  const c3AboveMid    = c3.c > c1Mid;
-  const c3Green       = c3.c > c3.o;
-  const c3ClosedAboveC1Low = c3.c > c1Low;
-  const lowerWickC2   = (Math.min(c2.o,c2.c) - c2.l) / (c2.h - c2.l || 0.001);
-  const bigLowerWickC2 = lowerWickC2 > 0.3;
-
-  // Forming bull: C3 is forming and currently above midpoint
-  const formingBull = forming.c > c1Mid && c2SweptLow;
-
-  // ---- BEAR CRT ----
-  // C2: swept above C1 high (manipulation up)
-  // C3: closed below C1 midpoint (reversal down)
-  const c2SweptHigh   = c2.h > c1High;
-  const c3BelowMid    = c3.c < c1Mid;
-  const c3Red         = c3.c < c3.o;
-  const c3ClosedBelowC1High = c3.c < c1High;
-  const upperWickC2   = (c2.h - Math.max(c2.o,c2.c)) / (c2.h - c2.l || 0.001);
-  const bigUpperWickC2 = upperWickC2 > 0.3;
-
-  // Forming bear: forming candle below midpoint after C2 swept high
-  const formingBear = forming.c < c1Mid && c2SweptHigh;
-
-  const bullScore = [c2SweptLow, c3AboveMid, c3Green, bigLowerWickC2, c3ClosedAboveC1Low].filter(Boolean).length;
-  const bearScore = [c2SweptHigh, c3BelowMid, c3Red, bigUpperWickC2, c3ClosedBelowC1High].filter(Boolean).length;
-
-  // C2 just closed detection (for alert)
-  const c2JustClosed = c2SweptLow || c2SweptHigh;
-
-  let signal = 'none';
-  if      (bullScore >= 3) signal = 'bull';
-  else if (bearScore >= 3) signal = 'bear';
-  else if (formingBull)    signal = 'forming';
-  else if (formingBear)    signal = 'forming';
-
-  const formingDir = formingBull ? 'bull' : formingBear ? 'bear' : null;
-
-  const bullChecks = [
-    { label:'C1 Range established',     pass:true,              val:`${formatPrice(c1Low)} - ${formatPrice(c1High)}` },
-    { label:'C2 Swept below C1 low',    pass:c2SweptLow,        val:c2SweptLow?`${((c1Low-c2.l)/c1Low*100).toFixed(2)}% below`:'—' },
-    { label:'C2 Big lower wick',        pass:bigLowerWickC2,    val:`${(lowerWickC2*100).toFixed(0)}% wick` },
-    { label:'C3 Closed above midpoint', pass:c3AboveMid,        val:`mid: ${formatPrice(c1Mid)}` },
-    { label:'C3 Bullish (green)',        pass:c3Green,           val:c3Green?'✓':'✗' },
-  ];
-  const bearChecks = [
-    { label:'C1 Range established',     pass:true,              val:`${formatPrice(c1Low)} - ${formatPrice(c1High)}` },
-    { label:'C2 Swept above C1 high',   pass:c2SweptHigh,       val:c2SweptHigh?`${((c2.h-c1High)/c1High*100).toFixed(2)}% above`:'—' },
-    { label:'C2 Big upper wick',        pass:bigUpperWickC2,    val:`${(upperWickC2*100).toFixed(0)}% wick` },
-    { label:'C3 Closed below midpoint', pass:c3BelowMid,        val:`mid: ${formatPrice(c1Mid)}` },
-    { label:'C3 Bearish (red)',          pass:c3Red,             val:c3Red?'✓':'✗' },
-  ];
-
-  return {
-    signal, bullScore, bearScore, c2JustClosed,
-    formingDir,
-    checks: signal==='bear' ? bearChecks : bullChecks,
-    c1, c2, c3, forming,
-    c1Mid, c1High, c1Low
-  };
-}
-
-function computeOverall(analyses) {
-  const w = [1, 1.5, 2, 2.5, 3]; // 1h, 4h, daily, weekly, monthly
-  let bull=0, bear=0, form=0;
-  analyses.forEach((a,i)=>{
-    if(a.signal==='bull') bull+=w[i];
-    else if(a.signal==='bear') bear+=w[i];
-    else if(a.signal==='forming') form+=w[i];
-  });
-  if(bull>bear && bull>=2) return 'bull';
-  if(bear>bull && bear>=2) return 'bear';
-  if(form>0||bull>0||bear>0) return 'forming';
-  return 'none';
-}
-
-// ---- 3-CANDLE VISUAL ----
-function renderCandleVisual(analysis) {
-  if (!analysis.c1) return '';
-  const { c1, c2, c3, forming, c1Mid, signal } = analysis;
-
-  function candleHeight(c, maxRange) {
-    const body = Math.abs(c.h - c.l);
-    return Math.max(10, Math.round((body / maxRange) * 50));
-  }
-
-  const allH = Math.max(c1.h, c2.h, c3.h, forming.h);
-  const allL = Math.min(c1.l, c2.l, c3.l, forming.l);
-  const maxRange = allH - allL || 1;
-
-  const toH = (v) => Math.max(4, Math.round(((v - allL) / maxRange) * 56));
-
-  const candleSVG = (c, isHighlight, label) => {
-    const oY = toH(Math.max(c.o,c.c));
-    const cY = toH(Math.min(c.o,c.c));
-    const hY = toH(c.h);
-    const lY = toH(c.l);
-    const isBull = c.c >= c.o;
-    const color = isHighlight ? (signal==='bull'?'#00ff9d':signal==='bear'?'#ff4466':'#ffb700') :
-                  isBull ? 'rgba(0,255,157,0.6)' : 'rgba(255,68,102,0.6)';
-    const bodyH = Math.max(2, oY - cY);
-    return `<div class="c-wrap">
-      <svg width="24" height="64" style="overflow:visible">
-        <line x1="12" y1="${64-hY}" x2="12" y2="${64-lY}" stroke="${color}" stroke-width="1.5"/>
-        <rect x="4" y="${64-oY}" width="16" height="${bodyH}" fill="${color}" rx="1"/>
-        ${isHighlight?`<rect x="2" y="${64-oY-1}" width="20" height="${bodyH+2}" fill="none" stroke="${color}" stroke-width="1" rx="2" opacity="0.5"/>`:''}
-      </svg>
-      <div class="c-label">${label}</div>
-    </div>`;
-  };
-
-  const formingColor = 'rgba(255,255,255,0.2)';
-  const formingSVG = `<div class="c-wrap">
-    <svg width="24" height="64" style="overflow:visible">
-      <line x1="12" y1="${64-toH(forming.h)}" x2="12" y2="${64-toH(forming.l)}" stroke="${formingColor}" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <rect x="4" y="${64-toH(Math.max(forming.o,forming.c))}" width="16" height="${Math.max(2,toH(Math.max(forming.o,forming.c))-toH(Math.min(forming.o,forming.c)))}" fill="${formingColor}" rx="1"/>
-    </svg>
-    <div class="c-label" style="color:rgba(255,255,255,0.3)">C3?</div>
-  </div>`;
-
-  return `<div class="candle-visual">
-    ${candleSVG(c1, false, 'C1')}
-    ${candleSVG(c2, true, 'C2')}
-    ${candleSVG(c3, false, 'C3')}
-    ${formingSVG}
-  </div>`;
-}
-
-function renderTFCard(tf, analysis) {
-  const labels = {bull:'🟢 BULL',bear:'🔴 BEAR',forming:'🟡 FORMING',none:'— NONE'};
-  const checksHtml = analysis.checks.map(ch=>`
-    <div class="check-item ${ch.pass?'pass':'fail'}">
-      <span class="check-icon">${ch.pass?'✅':'☐'}</span>
-      <span>${ch.label}</span>
-      <span class="check-val">${ch.val}</span>
-    </div>`).join('');
-
-  const isC2Close = analysis.c2JustClosed && (analysis.signal==='forming'||analysis.signal!=='none');
-  const cardClass = isC2Close ? 'c2close' : analysis.signal;
-  const badgeClass = isC2Close ? 'c2close' : analysis.signal;
-  const badgeLabel = isC2Close ? '⚡ C2 CLOSE' : labels[analysis.signal];
-
-  return `
-    <div class="tf-card ${cardClass}">
-      <div class="tf-card-header">
-        <div class="tf-label">${tf.label}</div>
-        <div class="tf-signal-badge ${badgeClass}">${badgeLabel}</div>
-      </div>
-      ${renderCandleVisual(analysis)}
-      <div class="checklist">${checksHtml}</div>
-    </div>`;
-}
-
 // ---- API ----
-function formatPrice(p) {
-  if(!p) return '—';
-  if(p>=10000) return '$'+p.toLocaleString(undefined,{maximumFractionDigits:0});
-  if(p>=1) return '$'+p.toFixed(2);
-  if(p>=0.01) return '$'+p.toFixed(4);
-  return '$'+p.toFixed(8);
-}
-
 async function apiFetch(type, params={}) {
   const qs = new URLSearchParams({type,...params}).toString();
   const res = await fetch(`/api/binance?${qs}`);
@@ -531,50 +294,180 @@ async function apiFetch(type, params={}) {
   return res.json();
 }
 
-async function searchCoinId(symbol) {
-  const mapped = COIN_MAP[symbol.toUpperCase()];
-  if(mapped) return mapped;
-  const data = await apiFetch('search',{symbol});
-  if(data.coins&&data.coins.length>0){
-    const exact=data.coins.find(c=>c.symbol.toUpperCase()===symbol.toUpperCase());
-    return exact?exact.id:data.coins[0].id;
+// CryptoCompare returns {Data:{Data:[{time,open,high,low,close,volumefrom}]}}
+async function fetchOHLC(symbol, type) {
+  const data = await apiFetch(type, {symbol, limit:60});
+  if(data.Response==='Error') throw new Error(data.Message||'CryptoCompare error');
+  const candles = data.Data?.Data || data.Data || [];
+  return candles.map(k=>({
+    t: k.time*1000, o:k.open, h:k.high, l:k.low, c:k.close, v:k.volumefrom
+  }));
+}
+
+async function fetchPrice(symbol) {
+  const data = await apiFetch('price', {symbol});
+  const info = data.RAW?.[symbol.toUpperCase()]?.USD;
+  return info ? { price: info.PRICE, change24h: info.CHANGEPCT24HOUR } : null;
+}
+
+// ---- CRT 3-CANDLE DETECTION ----
+function detectCRT(candles) {
+  if(candles.length < 5) return {signal:'none', checks:[]};
+
+  const c1 = candles[candles.length-4];
+  const c2 = candles[candles.length-3];
+  const c3 = candles[candles.length-2];
+  const forming = candles[candles.length-1];
+
+  const c1High = c1.h, c1Low = c1.l;
+  const c1Mid  = (c1High + c1Low) / 2;
+
+  // Bull CRT: C2 swept below C1 low, C3 closed above midpoint
+  const c2SweptLow     = c2.l < c1Low;
+  const c3AboveMid     = c3.c > c1Mid;
+  const c3Green        = c3.c >= c3.o;
+  const lowerWickC2    = (c2.h-c2.l)>0 ? (Math.min(c2.o,c2.c)-c2.l)/(c2.h-c2.l) : 0;
+  const bigLowerWick   = lowerWickC2 > 0.25;
+  const c3AboveC1Low   = c3.c > c1Low;
+
+  // Bear CRT: C2 swept above C1 high, C3 closed below midpoint
+  const c2SweptHigh    = c2.h > c1High;
+  const c3BelowMid     = c3.c < c1Mid;
+  const c3Red          = c3.c < c3.o;
+  const upperWickC2    = (c2.h-c2.l)>0 ? (c2.h-Math.max(c2.o,c2.c))/(c2.h-c2.l) : 0;
+  const bigUpperWick   = upperWickC2 > 0.25;
+  const c3BelowC1High  = c3.c < c1High;
+
+  // Forming: C2 swept, C3 still forming
+  const formingBull = c2SweptLow && forming.c > c1Mid;
+  const formingBear = c2SweptHigh && forming.c < c1Mid;
+
+  const bullScore = [c2SweptLow,c3AboveMid,c3Green,bigLowerWick,c3AboveC1Low].filter(Boolean).length;
+  const bearScore = [c2SweptHigh,c3BelowMid,c3Red,bigUpperWick,c3BelowC1High].filter(Boolean).length;
+
+  let signal = 'none';
+  if     (bullScore>=3) signal='bull';
+  else if(bearScore>=3) signal='bear';
+  else if(formingBull||formingBear) signal='forming';
+
+  const bullChecks = [
+    {label:'C1 Range set',           pass:true,          val:`${fp(c1Low)}–${fp(c1High)}`},
+    {label:'C2 Swept below C1 low',  pass:c2SweptLow,    val:c2SweptLow?`${((c1Low-c2.l)/c1Low*100).toFixed(2)}% below`:'—'},
+    {label:'C2 Large lower wick',    pass:bigLowerWick,   val:`${(lowerWickC2*100).toFixed(0)}%`},
+    {label:'C3 Closed above midpoint',pass:c3AboveMid,   val:`mid:${fp(c1Mid)}`},
+    {label:'C3 Bullish close',        pass:c3Green,       val:c3Green?'✓ green':'✗ red'},
+  ];
+  const bearChecks = [
+    {label:'C1 Range set',           pass:true,          val:`${fp(c1Low)}–${fp(c1High)}`},
+    {label:'C2 Swept above C1 high', pass:c2SweptHigh,   val:c2SweptHigh?`${((c2.h-c1High)/c1High*100).toFixed(2)}% above`:'—'},
+    {label:'C2 Large upper wick',    pass:bigUpperWick,   val:`${(upperWickC2*100).toFixed(0)}%`},
+    {label:'C3 Closed below midpoint',pass:c3BelowMid,   val:`mid:${fp(c1Mid)}`},
+    {label:'C3 Bearish close',        pass:c3Red,         val:c3Red?'✓ red':'✗ green'},
+  ];
+
+  return {
+    signal, bullScore, bearScore,
+    checks: signal==='bear'?bearChecks:bullChecks,
+    c1, c2, c3, forming, c1Mid, c1High, c1Low
+  };
+}
+
+function computeOverall(analyses) {
+  const w=[1,1.5,2,2.5,3];
+  let bull=0,bear=0,form=0;
+  analyses.forEach((a,i)=>{
+    if(a.signal==='bull') bull+=w[i];
+    else if(a.signal==='bear') bear+=w[i];
+    else if(a.signal==='forming') form+=w[i];
+  });
+  if(bull>bear&&bull>=2) return 'bull';
+  if(bear>bull&&bear>=2) return 'bear';
+  if(form>0||bull>0||bear>0) return 'forming';
+  return 'none';
+}
+
+function fp(p) {
+  if(!p) return '—';
+  if(p>=10000) return '$'+p.toLocaleString(undefined,{maximumFractionDigits:0});
+  if(p>=1) return '$'+p.toFixed(2);
+  if(p>=0.01) return '$'+p.toFixed(4);
+  return '$'+p.toFixed(8);
+}
+
+// ---- 3-CANDLE SVG VISUAL ----
+function candleSVG(candles, analysis) {
+  if(!analysis.c1) return '';
+  const {c1,c2,c3,forming,c1Mid,signal} = analysis;
+  const all = [c1,c2,c3,forming];
+  const maxH = Math.max(...all.map(c=>c.h));
+  const minL = Math.min(...all.map(c=>c.l));
+  const range = maxH-minL||1;
+  const H=60, W=16;
+  const toY = v=>H-Math.round(((v-minL)/range)*H);
+
+  function bar(c,highlight,label,isDashed){
+    const oh=toY(Math.max(c.o,c.c));
+    const cl=toY(Math.min(c.o,c.c));
+    const hh=toY(c.h), ll=toY(c.l);
+    const bh=Math.max(2,cl-oh);
+    const isBull=c.c>=c.o;
+    let color = isDashed?'rgba(255,255,255,0.2)':highlight?(signal==='bull'?'#00ff9d':signal==='bear'?'#ff4466':'#ffb700'):(isBull?'rgba(0,255,157,0.6)':'rgba(255,68,102,0.6)');
+    const dash = isDashed?'stroke-dasharray="3,2"':'';
+    return `<div class="c-wrap">
+      <svg width="${W}" height="${H}" overflow="visible">
+        <line x1="${W/2}" y1="${hh}" x2="${W/2}" y2="${ll}" stroke="${color}" stroke-width="1.5" ${dash}/>
+        <rect x="2" y="${oh}" width="${W-4}" height="${bh}" fill="${color}" rx="1"/>
+        ${highlight?`<rect x="1" y="${oh-1}" width="${W-2}" height="${bh+2}" fill="none" stroke="${color}" stroke-width="1.5" rx="2" opacity="0.6"/>`:''}
+      </svg>
+      <div class="c-lbl">${label}</div>
+    </div>`;
   }
-  throw new Error(`Coin "${symbol}" not found`);
+
+  return `<div class="candle-visual">
+    ${bar(c1,false,'C1',false)}
+    ${bar(c2,true,'C2',false)}
+    ${bar(c3,false,'C3',false)}
+    ${bar(forming,false,'?',true)}
+  </div>`;
 }
 
-async function fetchOHLC(coinId, days) {
-  const raw = await apiFetch('ohlc',{id:coinId,days,vs_currency:'usd'});
-  if(!Array.isArray(raw)) throw new Error('Invalid OHLC data');
-  return raw.map(k=>({t:k[0],o:k[1],h:k[2],l:k[3],c:k[4],v:0}));
+function renderTFCard(tf, analysis) {
+  const labels={bull:'🟢 BULL',bear:'🔴 BEAR',forming:'🟡 FORMING',none:'— NONE'};
+  const checksHtml=analysis.checks.map(ch=>`
+    <div class="check-item ${ch.pass?'pass':'fail'}">
+      <span class="check-icon">${ch.pass?'✅':'☐'}</span>
+      <span>${ch.label}</span>
+      <span class="check-val">${ch.val}</span>
+    </div>`).join('');
+  return `
+    <div class="tf-card ${analysis.signal}">
+      <div class="tf-card-header">
+        <div class="tf-label">${tf.label}</div>
+        <div class="tf-signal-badge ${analysis.signal}">${labels[analysis.signal]}</div>
+      </div>
+      ${candleSVG(null,analysis)}
+      <div class="checklist">${checksHtml}</div>
+    </div>`;
 }
-
-async function fetchTicker(coinId) {
-  const data = await apiFetch('ticker',{id:coinId});
-  return data[coinId]||null;
-}
-
-let storedCandles=[], currentSymbol='';
 
 // ---- MONITOR ----
-function toggleMonitor() {
-  if(monitorInterval) {
-    clearInterval(monitorInterval);
-    monitorInterval=null;
+function toggleMonitor(){
+  if(monitorInterval){
+    clearInterval(monitorInterval); monitorInterval=null;
     document.getElementById('monitorBtn').textContent='▶ Start Auto-Monitor';
     document.getElementById('monitorBtn').className='monitor-btn start';
-    document.getElementById('monitorStatus').textContent='Auto-monitor OFF — checks every 5 min';
-    document.getElementById('monitorStatus').innerHTML='Auto-monitor OFF — checks every 5 min';
+    document.getElementById('monitorStatus').textContent='Auto-monitor OFF · checks every 5 min';
   } else {
-    if(!currentCoinId){ alert('Mag-analyze muna ng coin bago i-start ang monitor.'); return; }
-    monitorInterval=setInterval(()=>analyze(true), 5*60*1000);
+    if(!currentSymbol){alert('Mag-analyze muna ng coin.');return;}
+    monitorInterval=setInterval(()=>analyze(true),5*60*1000);
     document.getElementById('monitorBtn').textContent='⏹ Stop Monitor';
     document.getElementById('monitorBtn').className='monitor-btn stop';
     document.getElementById('monitorStatus').innerHTML=`<span class="pulse"></span>Monitoring ${currentSymbol} every 5 min...`;
   }
 }
 
-// ---- MAIN ANALYZE ----
-async function analyze(silent=false) {
+// ---- MAIN ----
+async function analyze(silent=false){
   const raw=document.getElementById('coinInput').value.trim().toUpperCase();
   if(!raw) return;
   currentSymbol=raw;
@@ -587,37 +480,34 @@ async function analyze(silent=false) {
   }
 
   try {
-    if(!silent) document.getElementById('loadingMsg').textContent='Looking up coin...';
-    if(!currentCoinId||raw!==currentSymbol) currentCoinId=await searchCoinId(raw);
-
     if(!silent) document.getElementById('loadingMsg').textContent='Fetching price...';
-    const ticker=await fetchTicker(currentCoinId);
+    const ticker = await fetchPrice(raw);
 
     if(!silent) document.getElementById('loadingMsg').textContent='Fetching 5 timeframes...';
-    storedCandles=await Promise.all(INTERVALS.map(tf=>fetchOHLC(currentCoinId,tf.days)));
+    const candles = await Promise.all(INTERVALS.map(tf=>fetchOHLC(raw,tf.key)));
 
-    const analyses=storedCandles.map(detectCRT3Candle);
-    const overall=computeOverall(analyses);
+    const analyses = candles.map(detectCRT);
+    const overall = computeOverall(analyses);
 
-    // Check for alerts
+    // Alerts
     analyses.forEach((a,i)=>{
       const tf=INTERVALS[i];
       const key=`${raw}-${tf.key}-${a.signal}`;
       if((a.signal==='bull'||a.signal==='bear')&&!notifiedKeys.has(key)){
         notifiedKeys.add(key);
         const emoji=a.signal==='bull'?'🟢':'🔴';
-        const alertMsg=`${emoji} CRT ALERT!\n\nCoin: ${raw}\nTimeframe: ${tf.label}\nSignal: ${a.signal.toUpperCase()} CRT\n\nC2 manipulation candle closed. Pwede nang mag-prepare ng entry!\n\n⚠️ Educational purposes lang.`;
-        sendBrowserNotif(`${emoji} ${raw} ${tf.label} CRT Alert!`,`${a.signal.toUpperCase()} CRT detected — C2 closed!`);
+        const alertMsg=`${emoji} CRT ALERT!\n\nCoin: ${raw}\nTimeframe: ${tf.label}\nSignal: ${a.signal.toUpperCase()} CRT\n\nC2 candle closed — prepare for entry!\n\n⚠️ Educational purposes lang.`;
+        sendBrowserNotif(`${emoji} ${raw} ${tf.label} CRT!`,`${a.signal.toUpperCase()} CRT detected!`);
         sendTelegramAlert(alertMsg);
-        addAlertLog(raw, tf.label, a.signal, 'DETECTED');
+        addAlertLog(raw,tf.label,a.signal);
       }
     });
 
-    // UI update
-    const price=ticker?.usd||0;
-    const chg=ticker?.usd_24h_change||0;
-    document.getElementById('coinTitle').textContent=raw+'USDT';
-    document.getElementById('coinPrice').textContent=formatPrice(price);
+    // UI
+    const price=ticker?.price||0;
+    const chg=ticker?.change24h||0;
+    document.getElementById('coinTitle').textContent=raw+'/USD';
+    document.getElementById('coinPrice').textContent=fp(price);
     const chgEl=document.getElementById('coinChange');
     chgEl.textContent=(chg>=0?'+':'')+chg.toFixed(2)+'%';
     chgEl.className='coin-change '+(chg>=0?'up':'down');
@@ -625,16 +515,16 @@ async function analyze(silent=false) {
     const icons={bull:'🟢',bear:'🔴',forming:'🟡',none:'⚪'};
     const titles={bull:'BULL CRT DETECTED',bear:'BEAR CRT DETECTED',forming:'PATTERN FORMING',none:'NO CLEAR SIGNAL'};
     const descs={
-      bull:'C2 manipulation swept lows, C3 reversed up. Smart money collected liquidity. Wait for entry confirmation.',
-      bear:'C2 manipulation swept highs, C3 reversed down. Smart money collected liquidity. Wait for entry confirmation.',
-      forming:'C2 swept — C3 pa lang forming. Hintayin ang candle close para mag-confirm.',
-      none:'Walang CRT setup ngayon. Hanapin ibang coin o hintayin ang setup.',
+      bull:'C2 swept lows, C3 reversed up. Smart money collected liquidity pababa. Wait for entry confirmation.',
+      bear:'C2 swept highs, C3 reversed down. Smart money collected liquidity pataas. Wait for entry confirmation.',
+      forming:'C2 swept na — C3 pa lang forming. Hintayin ang candle close para ma-confirm.',
+      none:'Walang CRT setup sa lahat ng TF ngayon. Hanapin ibang coin o hintayin ang setup.',
     };
     const oEl=document.getElementById('overallSignal');
     oEl.className=`overall-signal ${overall}`;
     document.getElementById('overallIcon').textContent=icons[overall];
     const tEl=document.getElementById('overallTitle');
-    tEl.textContent=titles[overall];tEl.className=`signal-title ${overall}`;
+    tEl.textContent=titles[overall]; tEl.className=`signal-title ${overall}`;
     document.getElementById('overallDesc').textContent=descs[overall];
 
     document.getElementById('tfGrid').innerHTML=INTERVALS.map((tf,i)=>renderTFCard(tf,analyses[i])).join('');
@@ -643,29 +533,26 @@ async function analyze(silent=false) {
       document.getElementById('results').style.display='block';
       document.getElementById('loading').style.display='none';
     }
-    document.getElementById('ts').textContent=`Last scan: ${new Date().toLocaleString()} · CoinGecko`;
+    document.getElementById('ts').textContent=`Last scan: ${new Date().toLocaleString()} · CryptoCompare`;
 
-  } catch(err) {
+  } catch(err){
     if(!silent){
       document.getElementById('loading').style.display='none';
       const el=document.getElementById('errorBox');
       el.style.display='block';
       el.textContent=`❌ ${err.message}`;
     }
-    currentCoinId='';
   }
   if(!silent) document.getElementById('analyzeBtn').disabled=false;
 }
 
-function quickLoad(sym,id){
+function quickLoad(sym){
   document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
   document.getElementById('coinInput').value=sym;
-  currentCoinId=id;
   analyze();
 }
 
-// Load saved settings on start
 loadSettings();
 </script>
 </body>
