@@ -7,9 +7,8 @@ export default async function handler(req, res) {
   try {
     let url, response, data;
 
-    // Telegram send message
     if (type === 'telegram') {
-      if (!token || !chat_id || !text) return res.status(400).json({ error: 'Missing telegram params' });
+      if (!token || !chat_id || !text) return res.status(400).json({ error: 'Missing params' });
       url = `https://api.telegram.org/bot${token}/sendMessage`;
       response = await fetch(url, {
         method: 'POST',
@@ -20,9 +19,8 @@ export default async function handler(req, res) {
       return res.status(200).json(data);
     }
 
-    // CoinGecko OHLC
     if (type === 'ohlc') {
-      url = `https://api.coingecko.com/api/v3/coins/${id}/ohlc?vs_currency=${vs_currency || 'usd'}&days=${days || 1}`;
+      url = `https://api.coingecko.com/api/v3/coins/${id}/ohlc?vs_currency=${vs_currency||'usd'}&days=${days||1}`;
     } else if (type === 'ticker') {
       url = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd&include_24hr_change=true`;
     } else if (type === 'search') {
@@ -31,8 +29,18 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid type' });
     }
 
-    response = await fetch(url, { headers: { 'Accept': 'application/json' } });
-    if (!response.ok) return res.status(response.status).json({ error: `API error ${response.status}` });
+    response = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'x-cg-demo-api-key': 'CG-demo'
+      }
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      return res.status(response.status).json({ error: `CoinGecko ${response.status}`, detail: text });
+    }
+
     data = await response.json();
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
     return res.status(200).json(data);
