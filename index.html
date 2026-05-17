@@ -171,7 +171,192 @@ body::before {
 .disclaimer { font-size:10px; color:var(--muted); text-align:center; margin-top:20px; line-height:1.7; padding:12px; border-top:1px solid var(--border); }
 </style>
 </head>
-< truncated lines 174-359 >
+<body>
+<div class="wrap">
+  <div class="logo">CRT ANALYZER</div>
+  <div class="logo-sub">Auto Pattern Detection · Bybit Data · Multi-Timeframe</div>
+
+  <div class="search-box">
+    <input class="coin-input" id="coinInput" type="text" placeholder="Enter coin (e.g. SOL, PEPE, ETH)" maxlength="20"
+      onkeydown="if(event.key==='Enter') analyze()">
+    <button class="analyze-btn" id="analyzeBtn" onclick="analyze()">🔍 Analyze</button>
+  </div>
+
+  <div class="quick-picks">
+    <span class="quick-label">Quick:</span>
+    <button class="qbtn" onclick="quickLoad('BTC')">BTC</button>
+    <button class="qbtn" onclick="quickLoad('ETH')">ETH</button>
+    <button class="qbtn" onclick="quickLoad('SOL')">SOL</button>
+    <button class="qbtn" onclick="quickLoad('BNB')">BNB</button>
+    <button class="qbtn" onclick="quickLoad('PEPE')">PEPE</button>
+    <button class="qbtn" onclick="quickLoad('DOGE')">DOGE</button>
+    <button class="qbtn" onclick="quickLoad('WIF')">WIF</button>
+    <button class="qbtn" onclick="quickLoad('SUI')">SUI</button>
+    <button class="qbtn" onclick="quickLoad('XRP')">XRP</button>
+    <button class="qbtn" onclick="quickLoad('ADA')">ADA</button>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-msg" id="loadingMsg">Fetching candle data...</div>
+  </div>
+  <div class="error-box" id="errorBox"></div>
+
+  <div class="results" id="results">
+    <div class="coin-header">
+      <div>
+        <div class="coin-title" id="coinTitle">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace">USDT Pair · Bybit</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="coin-price" id="coinPrice">—</div>
+        <div class="coin-change" id="coinChange">—</div>
+      </div>
+    </div>
+
+    <div class="overall-signal none" id="overallSignal">
+      <div class="signal-icon" id="overallIcon">⚪</div>
+      <div class="signal-title none" id="overallTitle">ANALYZING...</div>
+      <div class="signal-desc" id="overallDesc"></div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-lbl">Bull TFs</div>
+        <div class="stat-val" id="statBull" style="color:var(--bull)">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">Bear TFs</div>
+        <div class="stat-val" id="statBear" style="color:var(--bear)">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">Forming</div>
+        <div class="stat-val" id="statForm" style="color:var(--warn)">0</div>
+      </div>
+    </div>
+
+    <div class="tf-grid" id="tfGrid"></div>
+
+    <div class="edu-box">
+      <div class="edu-title">// CRT PATTERN GUIDE</div>
+      <div class="edu-grid">
+        <div class="edu-item bull">
+          <div class="edu-item-title">🟢 BULL CRT</div>
+          Price swept below prev low (liquidity grab) → reversed → closed above midpoint. Smart money collected lows bago pumalo pataas.
+        </div>
+        <div class="edu-item bear">
+          <div class="edu-item-title">🔴 BEAR CRT</div>
+          Price swept above prev high (liquidity grab) → reversed → closed below midpoint. Smart money collected highs bago bumaba.
+        </div>
+      </div>
+    </div>
+
+    <div class="ts" id="ts"></div>
+    <div class="disclaimer">⚠️ Para sa educational purposes lang. Hindi ito financial advice.<br>Palaging i-confirm sa TradingView bago mag-entry.</div>
+  </div>
+</div>
+
+<script>
+const INTERVALS = [
+  { key:'1h',  label:'1H',    bybit:'60',   limit:60 },
+  { key:'4h',  label:'4H',    bybit:'240',  limit:60 },
+  { key:'1d',  label:'DAILY', bybit:'D',    limit:40 },
+];
+
+function quickLoad(sym) {
+  document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('coinInput').value = sym;
+  analyze();
+}
+
+function formatPrice(p) {
+  if (p >= 10000) return '$' + p.toLocaleString(undefined,{maximumFractionDigits:0});
+  if (p >= 1)     return '$' + p.toFixed(2);
+  if (p >= 0.01)  return '$' + p.toFixed(4);
+  return '$' + p.toFixed(8);
+}
+
+// Fetch via Vercel proxy
+async function proxyFetch(endpoint, params={}) {
+  const qs = new URLSearchParams({ endpoint, ...params }).toString();
+  const res = await fetch(`/api/binance?${qs}`);
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  return res.json();
+}
+
+// Bybit klines: returns list format
+async function fetchCandles(symbol, interval, limit) {
+  const data = await proxyFetch('kline', { symbol, interval, limit });
+  if (data.retCode !== 0) throw new Error(data.retMsg || 'Bybit error');
+  // Bybit returns newest first, reverse it
+  return data.result.list.reverse().map(k => ({
+    t: parseInt(k[0]),
+    o: parseFloat(k[1]),
+    h: parseFloat(k[2]),
+    l: parseFloat(k[3]),
+    c: parseFloat(k[4]),
+    v: parseFloat(k[5]),
+  }));
+}
+
+async function fetchTicker(symbol) {
+  const data = await proxyFetch('tickers', { category:'spot', symbol });
+  if (data.retCode !== 0) throw new Error(data.retMsg || 'Ticker error');
+  return data.result.list[0];
+}
+
+function detectCRT(candles) {
+  if (candles.length < 5) return { signal:'none', checks:[], bullScore:0, bearScore:0 };
+
+  const prev2 = candles[candles.length - 4];
+  const prev  = candles[candles.length - 3];
+  const curr  = candles[candles.length - 2];
+
+  const rangeHigh = Math.max(prev.h, prev2.h);
+  const rangeLow  = Math.min(prev.l, prev2.l);
+  const rangeMid  = (rangeHigh + rangeLow) / 2;
+  const candleRange = curr.h - curr.l || 0.000001;
+  const avgVol = candles.slice(-8,-1).reduce((a,b)=>a+b.v,0) / 7;
+
+  const sweptLow        = curr.l < rangeLow;
+  const closedAboveMid  = curr.c > rangeMid;
+  const greenCandle     = curr.c > curr.o;
+  const lowerWickPct    = (Math.min(curr.o,curr.c) - curr.l) / candleRange;
+  const bigLowerWick    = lowerWickPct > 0.25;
+  const volumeSpike     = curr.v > avgVol * 0.9;
+  const closedAbovePrev = curr.c > prev.c;
+
+  const sweptHigh       = curr.h > rangeHigh;
+  const closedBelowMid  = curr.c < rangeMid;
+  const redCandle       = curr.c < curr.o;
+  const upperWickPct    = (curr.h - Math.max(curr.o,curr.c)) / candleRange;
+  const bigUpperWick    = upperWickPct > 0.25;
+  const closedBelowPrev = curr.c < prev.c;
+
+  const bullScore = [sweptLow,closedAboveMid,greenCandle,bigLowerWick,volumeSpike,closedAbovePrev].filter(Boolean).length;
+  const bearScore = [sweptHigh,closedBelowMid,redCandle,bigUpperWick,volumeSpike,closedBelowPrev].filter(Boolean).length;
+
+  const forming = candles[candles.length - 1];
+  const bullForming = forming.l < rangeLow && forming.c > rangeMid;
+  const bearForming = forming.h > rangeHigh && forming.c < rangeMid;
+
+  let signal = 'none';
+  if      (bullScore >= 4) signal = 'bull';
+  else if (bearScore >= 4) signal = 'bear';
+  else if (bullScore === 3 || bearScore === 3) signal = 'forming';
+  else if (bullForming || bearForming) signal = 'forming';
+
+  const bullChecks = [
+    { label:'Swept below prev low',    pass:sweptLow,        val:sweptLow?`${((rangeLow-curr.l)/curr.l*100).toFixed(2)}% below`:'—' },
+    { label:'Closed above midpoint',   pass:closedAboveMid,  val:`mid: ${formatPrice(rangeMid)}` },
+    { label:'Green (bullish) candle',  pass:greenCandle,     val:greenCandle?'✓ green':'✗ red' },
+    { label:'Large lower wick',        pass:bigLowerWick,    val:`${(lowerWickPct*100).toFixed(0)}% of range` },
+    { label:'Volume above average',    pass:volumeSpike,     val:volumeSpike?'✓ strong':'✗ weak' },
+    { label:'Closed above prev close', pass:closedAbovePrev, val:closedAbovePrev?'✓':'✗' },
+  ];
+  const bearChecks = [
+    { label:'Swept above prev high',   pass:sweptHigh,       val:sweptHigh?`${((curr.h-rangeHigh)/rangeHigh*100).toFixed(2)}% above`:'—' },
     { label:'Closed below midpoint',   pass:closedBelowMid,  val:`mid: ${formatPrice(rangeMid)}` },
     { label:'Red (bearish) candle',    pass:redCandle,       val:redCandle?'✓ red':'✗ green' },
     { label:'Large upper wick',        pass:bigUpperWick,    val:`${(upperWickPct*100).toFixed(0)}% of range` },
