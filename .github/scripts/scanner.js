@@ -1,7 +1,7 @@
 // ============================================================
-// CRT Scanner - GitHub Actions Direct Script
-// Runs every hour - scans Top 50 coins
-// Sends Telegram ONLY for valid Grade A/B/C setups
+// CRT Scanner - GitHub Actions
+// Every 4 hours - Top 50 coins
+// ONE combined Telegram alert per coin with full details
 // ============================================================
 
 const CC_KEY   = process.env.CC_KEY   || '108f8dee474443ab7206e517aea0e597477076d507e0db140dd60c29b21d7dae';
@@ -20,10 +20,9 @@ const TIMEFRAMES = [
   { key:'1h',  label:'1H',      weight:1 },
 ];
 
-// ---- HELPERS ----
 function fp(p) {
   if (!p && p !== 0) return '—';
-  if (p >= 10000) return '$' + p.toLocaleString('en', {maximumFractionDigits:0});
+  if (p >= 10000) return '$' + p.toLocaleString('en',{maximumFractionDigits:0});
   if (p >= 1)     return '$' + p.toFixed(2);
   if (p >= 0.01)  return '$' + p.toFixed(4);
   return '$' + p.toFixed(8);
@@ -94,7 +93,6 @@ function detectPOIs(candles) {
     const avgBody = candles.slice(Math.max(0,i-5), i)
       .reduce((a,b) => a + Math.abs(b.c-b.o), 0) / 5 || 0.0001;
 
-    // Order Block
     if (body >= avgBody * 1.2) {
       if (c.c < c.o && next.c > c.h)
         pois.push({ type:'bull', kind:'OB', high:c.h, low:c.l, mid:(c.h+c.l)/2 });
@@ -102,7 +100,6 @@ function detectPOIs(candles) {
         pois.push({ type:'bear', kind:'OB', high:c.h, low:c.l, mid:(c.h+c.l)/2 });
     }
 
-    // FVG
     if (i >= 1 && i < candles.length - 2) {
       const c0 = candles[i-1], c2 = candles[i+1];
       if (c0.h < c2.l && (c2.l - c0.h) / c0.h > 0.002)
@@ -111,7 +108,6 @@ function detectPOIs(candles) {
         pois.push({ type:'bear', kind:'FVG', high:c0.l, low:c2.h, mid:(c0.l+c2.h)/2 });
     }
 
-    // Rejection Block
     const uWick = c.h - Math.max(c.o, c.c);
     const lWick = Math.min(c.o, c.c) - c.l;
     if (uWick / range > 0.65)
@@ -152,11 +148,9 @@ function detectC2(c1, c2, htfBias) {
 
   let direction = null, sweepPct = 0;
   if ((htfBias === 'bull' || htfBias === 'neutral') && sweptLow) {
-    direction = 'bull';
-    sweepPct  = ((c1Low - c2.l) / c1Low * 100);
+    direction = 'bull'; sweepPct = ((c1Low - c2.l) / c1Low * 100);
   } else if ((htfBias === 'bear' || htfBias === 'neutral') && sweptHigh) {
-    direction = 'bear';
-    sweepPct  = ((c2.h - c1High) / c1High * 100);
+    direction = 'bear'; sweepPct = ((c2.h - c1High) / c1High * 100);
   }
   if (!direction) return null;
 
@@ -164,8 +158,8 @@ function detectC2(c1, c2, htfBias) {
     direction, sweepPct: sweepPct.toFixed(2),
     c1Mid, c1High, c1Low,
     entryZone: direction === 'bull'
-      ? { low: fp(c1Low),  high: fp(c1Mid) }
-      : { low: fp(c1Mid),  high: fp(c1High) },
+      ? { low: fp(c1Low), high: fp(c1Mid) }
+      : { low: fp(c1Mid), high: fp(c1High) },
     stopLoss: direction === 'bull' ? fp(c2.l * 0.997) : fp(c2.h * 1.003),
     target:   direction === 'bull' ? fp(c1High) : fp(c1Low),
   };
@@ -175,20 +169,16 @@ function detectC2(c1, c2, htfBias) {
 function scanTF(candles, htfBias) {
   if (candles.length < 6) return { signal:'none' };
   const pois = detectPOIs(candles);
-
   for (let i = candles.length - 16; i < candles.length - 2; i++) {
     if (i < 1) continue;
     const c1 = candles[i];
-    const c2 = candles[i+1]; // closed candle
-
+    const c2 = candles[i+1];
     const c1v = validateC1(c1, candles.slice(0, i+1), htfBias, pois);
     if (!c1v.valid) continue;
-
     const c2s = detectC2(c1, c2, htfBias);
     if (!c2s) continue;
-
     return {
-      signal:    'c2closed',
+      signal: 'c2closed',
       direction: c2s.direction,
       c1v, c2s,
       pois: pois.filter(p => p.type === c2s.direction).slice(-2),
@@ -202,12 +192,11 @@ function computeGrade(tfResults) {
   const WEIGHTS = [5, 4, 3, 2, 1];
   let bullScore = 0, bearScore = 0;
   const bullTFs = [], bearTFs = [];
-  const c2TFs   = { bull: [], bear: [] };
+  const c2TFs = { bull: [], bear: [] };
 
   tfResults.forEach((r, i) => {
     if (!r || r.signal !== 'c2closed') return;
-    const w  = WEIGHTS[i];
-    const tf = TIMEFRAMES[i];
+    const w = WEIGHTS[i], tf = TIMEFRAMES[i];
     if (r.direction === 'bull') { bullScore += w; bullTFs.push(tf.label); c2TFs.bull.push(tf.label); }
     if (r.direction === 'bear') { bearScore += w; bearTFs.push(tf.label); c2TFs.bear.push(tf.label); }
   });
@@ -223,35 +212,16 @@ function computeGrade(tfResults) {
   if      (score >= 9 && alignedTFs.length >= 3) grade = 'A';
   else if (score >= 6 && alignedTFs.length >= 3) grade = 'B';
   else if (score >= 4 && alignedTFs.length >= 2) grade = 'C';
-
   if (!grade) return null;
 
-  // Must have at least Weekly or Monthly aligned
   const hasHTF = alignedTFs.includes('Monthly') || alignedTFs.includes('Weekly');
   if (!hasHTF) return null;
 
   return { grade, direction, score, alignedTFs, sweepTFs };
 }
 
-// ---- SEND TELEGRAM ----
-async function sendTelegram(message) {
-  if (!TG_TOKEN || !TG_CHAT) { console.log('No Telegram credentials'); return; }
-  try {
-    const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ chat_id: TG_CHAT, text: message, parse_mode: 'HTML' }),
-    });
-    const data = await res.json();
-    if (!data.ok) console.error('Telegram error:', data.description);
-    else console.log('✅ Alert sent to Telegram');
-  } catch (e) {
-    console.error('Telegram error:', e.message);
-  }
-}
-
-// ---- FORMAT ALERT ----
-function formatAlert(symbol, gradeResult, tfResults, priceInfo) {
+// ---- FORMAT COMBINED ALERT ----
+function formatAlert(symbol, gradeResult, tfResults, priceInfo, htfBias) {
   const { grade, direction, alignedTFs, sweepTFs } = gradeResult;
   const emoji      = direction === 'bull' ? '🟢' : '🔴';
   const gradeEmoji = grade === 'A' ? '🏆' : grade === 'B' ? '🥈' : '🥉';
@@ -260,24 +230,43 @@ function formatAlert(symbol, gradeResult, tfResults, priceInfo) {
   const now        = new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
 
   const best = tfResults.find(r => r?.signal === 'c2closed' && r?.direction === direction);
-  const poi  = best?.pois?.[0];
+  const pois = best?.pois || [];
   const tvLink = `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}USDT`;
 
-  const priceStr = priceInfo ? `${fp(priceInfo.price)} (${priceInfo.change24h >= 0 ? '+' : ''}${priceInfo.change24h?.toFixed(2)}%)` : '—';
+  const price    = priceInfo ? fp(priceInfo.price) : '—';
+  const chgStr   = priceInfo ? `${priceInfo.change24h >= 0 ? '+' : ''}${priceInfo.change24h?.toFixed(2)}%` : '';
+  const htfLabel = htfBias === 'bull' ? '🟢 BULLISH' : htfBias === 'bear' ? '🔴 BEARISH' : '⚪ NEUTRAL';
+
+  // All 5 TF status
+  const tfStatus = TIMEFRAMES.map((tf, i) => {
+    const r = tfResults[i];
+    if (!r || r.signal === 'none') return `— ${tf.label}`;
+    if (r.direction === 'bull') return sweepTFs.includes(tf.label) ? `⚡ ${tf.label} C2` : `✅ ${tf.label}`;
+    if (r.direction === 'bear') return sweepTFs.includes(tf.label) ? `⚡ ${tf.label} C2` : `🔴 ${tf.label}`;
+    return `— ${tf.label}`;
+  }).join('\n');
+
+  const poiText = pois.length > 0
+    ? pois.map(p => `🎯 ${p.kind}: ${fp(p.low)} – ${fp(p.high)}`).join('\n')
+    : '—';
 
   return `${emoji} ${gradeEmoji} <b>GRADE ${grade} ${dirLabel} ALERT!</b>
 
 📊 <b>${symbol}/USDT</b>
-💰 Price: ${priceStr}
+💰 ${price} (${chgStr})
 ⏰ ${now}
 
-<b>Top-Down Alignment:</b>
-${alignedTFs.map(tf => `✅ ${tf}`).join('\n')}
+<b>HTF Bias:</b> ${htfLabel}
 
-⚡ <b>C2 Swept ${sweepDir} on: ${sweepTFs.join(', ')}</b>
+<b>Top-Down Alignment:</b>
+${tfStatus}
+
+<b>⚡ C2 Swept ${sweepDir}</b>
 📉 Sweep: ${best?.c2s?.sweepPct}%
 
-${poi ? `🎯 POI: ${poi.kind} ${fp(poi.low)}–${fp(poi.high)}\n` : ''}
+<b>Points of Interest:</b>
+${poiText}
+
 <b>Entry Details:</b>
 📥 Entry: ${best?.c2s?.entryZone?.low} – ${best?.c2s?.entryZone?.high}
 🛑 SL: ${best?.c2s?.stopLoss}
@@ -288,31 +277,52 @@ ${poi ? `🎯 POI: ${poi.kind} ${fp(poi.low)}–${fp(poi.high)}\n` : ''}
 ⚠️ <i>C3 pa lang forming — confirm muna sa chart bago mag-entry. Educational only.</i>`;
 }
 
+// ---- SEND TELEGRAM ----
+async function sendTelegram(message) {
+  if (!TG_TOKEN || !TG_CHAT) { console.log('⚠️ No Telegram credentials'); return false; }
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ chat_id: TG_CHAT, text: message, parse_mode: 'HTML' }),
+    });
+    const data = await res.json();
+    if (!data.ok) { console.error('❌ Telegram error:', data.description); return false; }
+    console.log('✅ Telegram alert sent!');
+    return true;
+  } catch (e) {
+    console.error('❌ Telegram error:', e.message);
+    return false;
+  }
+}
+
 // ---- MAIN ----
 async function main() {
+  const now = new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
   console.log('🔍 CRT Scanner starting...');
-  console.log(`⏰ ${new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' })}`);
+  console.log(`⏰ ${now}`);
+
+  if (!TG_TOKEN) console.log('⚠️ TG_TOKEN not set');
+  if (!TG_CHAT)  console.log('⚠️ TG_CHAT_ID not set');
 
   try {
     const symbols = await fetchTop50();
     console.log(`📊 Scanning ${symbols.length} coins...`);
 
-    const validSetups  = [];
-    const alertsSent   = new Set();
+    const validSetups = [];
+    const alertsSent  = new Set();
 
-    // Scan in batches of 5
     for (let i = 0; i < symbols.length; i += 5) {
       const batch = symbols.slice(i, i + 5);
 
       await Promise.all(batch.map(async symbol => {
         try {
-          // Fetch all 5 TFs
           const allCandles = await Promise.all(
             TIMEFRAMES.map(tf => fetchOHLC(symbol, tf.key).catch(() => []))
           );
 
-          const htfBias    = getHTFBias(allCandles[0], allCandles[1]);
-          const tfResults  = allCandles.map((c, i) => c.length > 5 ? scanTF(c, htfBias) : { signal:'none' });
+          const htfBias     = getHTFBias(allCandles[0], allCandles[1]);
+          const tfResults   = allCandles.map(c => c.length > 5 ? scanTF(c, htfBias) : { signal:'none' });
           const gradeResult = computeGrade(tfResults);
 
           if (!gradeResult) {
@@ -320,38 +330,35 @@ async function main() {
             return;
           }
 
-          console.log(`  ${gradeResult.direction === 'bull' ? '🟢' : '🔴'} ${symbol} — Grade ${gradeResult.grade} ${gradeResult.direction.toUpperCase()} CRT`);
-          console.log(`     C2 swept on: ${gradeResult.sweepTFs.join(', ')}`);
+          const { grade, direction, alignedTFs, sweepTFs } = gradeResult;
+          const gradeEmoji = grade === 'A' ? '🏆' : grade === 'B' ? '🥈' : '🥉';
+          console.log(`  ${direction === 'bull' ? '🟢' : '🔴'} ${symbol} — Grade ${grade} ${gradeEmoji} | TFs: ${alignedTFs.join(', ')} | C2 on: ${sweepTFs.join(', ')}`);
 
-          validSetups.push({ symbol, gradeResult });
-
-          // Send alert (no duplicates per run)
-          const alertKey = `${symbol}-${gradeResult.direction}-${gradeResult.grade}`;
+          const alertKey = `${symbol}-${direction}-${grade}`;
           if (!alertsSent.has(alertKey)) {
             alertsSent.add(alertKey);
+            validSetups.push({ symbol, grade, direction });
             const priceInfo = await fetchPrice(symbol).catch(() => null);
-            const message   = formatAlert(symbol, gradeResult, tfResults, priceInfo);
+            const message   = formatAlert(symbol, gradeResult, tfResults, priceInfo, htfBias);
             await sendTelegram(message);
             await delay(800);
           }
-
         } catch (e) {
           console.log(`  ❌ ${symbol} — ${e.message}`);
         }
       }));
 
-      // Delay between batches
       if (i + 5 < symbols.length) await delay(1500);
     }
 
-    // Summary
     console.log(`\n✅ Scan complete!`);
     console.log(`📊 Scanned: ${symbols.length} coins`);
-    console.log(`🎯 Valid setups: ${validSetups.length}`);
+    console.log(`🎯 Valid setups found: ${validSetups.length}`);
+    validSetups.forEach(s => console.log(`   ${s.direction === 'bull' ? '🟢' : '🔴'} ${s.symbol} Grade ${s.grade}`));
 
     if (validSetups.length === 0) {
-      const now = new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-      await sendTelegram(`⚪ <b>CRT Scan Complete</b>\n\n📊 ${symbols.length} coins scanned\n⏰ ${now}\n\nWalang valid Grade A/B/C CRT setup ngayon.\nSusunod na scan: 1 hour.`);
+      const scanTime = new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+      await sendTelegram(`⚪ <b>CRT Scan Complete</b>\n\n📊 ${symbols.length} coins scanned\n⏰ ${scanTime}\n\nWalang valid Grade A/B/C CRT setup ngayon.\nSusunod na scan: 4 hours.`);
     }
 
   } catch (err) {
