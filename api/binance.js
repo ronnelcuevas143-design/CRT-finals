@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
 
   const { type, symbol, token, chat_id, text, limit } = req.query;
-  const CC_KEY = '108f8dee474443ab7206e517aea0e597477076d507e0db140dd60c29b21d7dae';
+  const CC_KEY = process.env.CC_KEY || '108f8dee474443ab7206e517aea0e597477076d507e0db140dd60c29b21d7dae';
 
   try {
     let url, response, data;
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
     const sym = (symbol || 'BTC').toUpperCase();
     const BASE = 'https://min-api.cryptocompare.com/data/v2';
-    const lim = limit || 60;
+    const lim = limit || 100;
     const headers = { 'Accept': 'application/json', 'authorization': `Apikey ${CC_KEY}` };
 
     if      (type === '1h')    url = `${BASE}/histohour?fsym=${sym}&tsym=USD&limit=${lim}`;
@@ -29,6 +29,8 @@ export default async function handler(req, res) {
     else if (type === '1w')    url = `${BASE}/histoday?fsym=${sym}&tsym=USD&limit=56&aggregate=7`;
     else if (type === '1mo')   url = `${BASE}/histoday?fsym=${sym}&tsym=USD&limit=24&aggregate=30`;
     else if (type === 'price') url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${sym}&tsyms=USD`;
+    else if (type === 'top50') url = `https://min-api.cryptocompare.com/data/top/totalvolfull?limit=50&tsym=USD`;
+    else if (type === 'top100') url = `https://min-api.cryptocompare.com/data/top/totalvolfull?limit=100&tsym=USD`;
     else return res.status(400).json({ error: 'Invalid type' });
 
     response = await fetch(url, { headers });
