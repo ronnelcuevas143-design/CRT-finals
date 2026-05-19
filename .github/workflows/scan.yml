@@ -1,7 +1,7 @@
 name: CRT Scanner - Auto Alert
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '0 0,4,8,12,16,20 * * *'
   workflow_dispatch:
 jobs:
   scan:
