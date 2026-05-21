@@ -1,46 +1,78 @@
+// api/binance.js  — Vercel Serverless Function
+// Handles: CryptoCompare OHLCV, price, top coins, AND Telegram alerts
+// Deploy this to: /api/binance.js in your repo root
+
+const CC_KEY = process.env.CC_KEY || '';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { type, symbol, token, chat_id, text, limit } = req.query;
-  const CC_KEY = process.env.CC_KEY || '108f8dee474443ab7206e517aea0e597477076d507e0db140dd60c29b21d7dae';
+  const { type, symbol, limit = 100, token, chat_id, text } = req.query;
 
   try {
-    let url, response, data;
-
+    // ── Telegram Alert ─────────────────────────────────────────
     if (type === 'telegram') {
-      url = `https://api.telegram.org/bot${token}/sendMessage`;
-      response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id, text, parse_mode: 'HTML' })
-      });
-      return res.status(200).json(await response.json());
+      if (!token || !chat_id || !text) {
+        return res.status(400).json({ ok: false, description: 'Missing token, chat_id or text' });
+      }
+      const tgRes = await fetch(
+        `https://api.telegram.org/bot${token}/sendMessage`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id,
+            text,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: true,
+          }),
+        }
+      );
+      const tgData = await tgRes.json();
+      return res.status(200).json(tgData);
     }
 
-    const sym = (symbol || 'BTC').toUpperCase();
-    const BASE = 'https://min-api.cryptocompare.com/data/v2';
-    const lim = limit || 100;
-    const headers = { 'Accept': 'application/json', 'authorization': `Apikey ${CC_KEY}` };
+    // ── Price (RAW) ─────────────────────────────────────────────
+    if (type === 'price') {
+      const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${symbol}&tsyms=USD&api_key=${CC_KEY}`;
+      const r   = await fetch(url);
+      const d   = await r.json();
+      return res.status(200).json(d);
+    }
 
-    if      (type === '1h')    url = `${BASE}/histohour?fsym=${sym}&tsym=USD&limit=${lim}`;
-    else if (type === '4h')    url = `${BASE}/histohour?fsym=${sym}&tsym=USD&limit=${lim}&aggregate=4`;
-    else if (type === '1d')    url = `${BASE}/histoday?fsym=${sym}&tsym=USD&limit=${lim}`;
-    else if (type === '1w')    url = `${BASE}/histoday?fsym=${sym}&tsym=USD&limit=56&aggregate=7`;
-    else if (type === '1mo')   url = `${BASE}/histoday?fsym=${sym}&tsym=USD&limit=24&aggregate=30`;
-    else if (type === 'price') url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${sym}&tsyms=USD`;
-    else if (type === 'top50') url = `https://min-api.cryptocompare.com/data/top/totalvolfull?limit=50&tsym=USD`;
-    else if (type === 'top100') url = `https://min-api.cryptocompare.com/data/top/totalvolfull?limit=100&tsym=USD`;
-    else return res.status(400).json({ error: 'Invalid type' });
+    // ── Top coins by market cap ─────────────────────────────────
+    if (type === 'top') {
+      const url = `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=${limit}&tsym=USD&api_key=${CC_KEY}`;
+      const r   = await fetch(url);
+      const d   = await r.json();
+      return res.status(200).json(d);
+    }
 
-    response = await fetch(url, { headers });
-    if (!response.ok) return res.status(response.status).json({ error: `API ${response.status}` });
-    data = await response.json();
-    if (data.Response === 'Error') return res.status(400).json({ error: data.Message });
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-    return res.status(200).json(data);
+    // ── Daily candles (for Monthly/Weekly/Daily logic) ──────────
+    if (type === 'histoday' || type === 'histoday_weekly' || type === 'histoday_monthly') {
+      // aggregate = how many days per candle
+      const agg = type === 'histoday_monthly' ? 30 : type === 'histoday_weekly' ? 7 : 1;
+      const url = `https://min-api.cryptocompare.com/data/v2/histoday?fsym=${symbol}&tsym=USD&limit=${limit}&aggregate=${agg}&api_key=${CC_KEY}`;
+      const r   = await fetch(url);
+      const d   = await r.json();
+      return res.status(200).json(d);
+    }
+
+    // ── Hourly candles (for 4H and 1H) ─────────────────────────
+    if (type === 'histohour' || type === 'histohour_4h') {
+      const agg = type === 'histohour_4h' ? 4 : 1;
+      const url = `https://min-api.cryptocompare.com/data/v2/histohour?fsym=${symbol}&tsym=USD&limit=${limit}&aggregate=${agg}&api_key=${CC_KEY}`;
+      const r   = await fetch(url);
+      const d   = await r.json();
+      return res.status(200).json(d);
+    }
+
+    return res.status(400).json({ error: `Unknown type: ${type}` });
 
   } catch (err) {
+    console.error('[api/binance]', err);
     return res.status(500).json({ error: err.message });
   }
 }
