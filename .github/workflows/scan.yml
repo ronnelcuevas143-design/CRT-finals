@@ -1,18 +1,15 @@
-name: CRT Scanner - Auto Alert
+name: CRT Auto Scan
+
 on:
   schedule:
-    - cron: '0 0,4,8,12,16,20 * * *'
+    - cron: '0 */4 * * *'
   workflow_dispatch:
+
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: node .github/scripts/scanner.js
-        env:
-          TG_TOKEN: ${{ secrets.TG_TOKEN }}
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          CC_KEY: ${{ secrets.CC_KEY }}
+      - name: Check app
+        run: |
+          echo "Scan triggered at $(date)"
+          curl -s -o /dev/null -w "%{http_code}" https://crt-finals.vercel.app
