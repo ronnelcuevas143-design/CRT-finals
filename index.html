@@ -7,17 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#eef0f4;
-  --surface:#ffffff;
-  --surface2:#f4f5f7;
-  --border:#dde1e7;
-  --accent:#1a6fe8;
-  --bull:#1a7a4a;
-  --bear:#c0392b;
-  --warn:#d35400;
-  --text:#1c1e24;
-  --muted:#6b7280;
-  --muted2:#9ca3af;
+--bg:#eef0f4;
+--surface:#ffffff;
+--surface2:#f4f5f7;
+--border:#dde1e7;
+--accent:#1a6fe8;
+--bull:#1a7a4a;
+--bear:#c0392b;
+--warn:#d35400;
+--text:#1c1e24;
+--muted:#6b7280;
+--muted2:#9ca3af;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:80px;}
@@ -25,6 +25,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px;position:relative;z-index:1;}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--accent);}
 .logo-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-top:3px;margin-bottom:20px;}
+
 /* Light theme overrides */
 .settings,.status-bar,.bias-card,.coin-card,.entry-box,.alert-log{box-shadow:0 1px 3px rgba(0,0,0,0.08);}
 .coin-card.bull{border-left:3px solid var(--bull);}
@@ -34,6 +35,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .tf-chip.c2{background:rgba(26,111,232,0.1);border-color:rgba(26,111,232,0.35);color:var(--accent);}
 .tf-chip.none{background:rgba(107,114,128,0.08);border-color:var(--border);color:var(--muted);}
 .poi-chip{background:rgba(211,84,0,0.07);border-color:rgba(211,84,0,0.2);color:var(--warn);}
+.poi-chip.fresh{background:rgba(26,122,74,0.08);border-color:rgba(26,122,74,0.25);color:var(--bull);}
+.poi-chip.touched{background:rgba(107,114,128,0.07);border-color:var(--border);color:var(--muted);}
 .c2-banner.bull{background:rgba(26,122,74,0.07);border-color:rgba(26,122,74,0.2);color:var(--bull);}
 .c2-banner.bear{background:rgba(192,57,43,0.07);border-color:rgba(192,57,43,0.2);color:var(--bear);}
 .overall-signal.bull{background:rgba(26,122,74,0.06);border-color:rgba(26,122,74,0.25);}
@@ -79,6 +82,21 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .alert-msg.bull{color:var(--bull);}
 .alert-msg.bear{color:var(--bear);}
 
+/* Confluence bar - NEW */
+.conf-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.conf-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.conf-dots{display:flex;gap:4px;}
+.conf-dot{width:8px;height:8px;border-radius:50%;background:var(--border);}
+.conf-dot.active.bull{background:var(--bull);}
+.conf-dot.active.bear{background:var(--bear);}
+.conf-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
+
+/* Detected timestamp - NEW */
+.det-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);margin-top:6px;letter-spacing:0.5px;}
+
+/* Grade description - NEW */
+.grade-desc{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;}
+
 /* Settings */
 .settings{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:16px;}
 .settings-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
@@ -97,7 +115,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .search-input{flex:1;min-width:160px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 14px;font-family:'DM Mono',monospace;font-size:13px;color:var(--text);letter-spacing:1px;text-transform:uppercase;outline:none;}
 .search-input::placeholder{text-transform:none;color:var(--muted);font-size:12px;letter-spacing:0;}
 .search-input:focus{border-color:var(--accent);}
-.btn-scan{background:var(--accent);color:#000;border:none;border-radius:6px;padding:11px 18px;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.btn-scan{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:11px 18px;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
 .btn-scan:disabled{opacity:0.4;cursor:not-allowed;}
 .btn-top{background:var(--surface);border:1px solid var(--border);color:var(--muted2);border-radius:6px;padding:11px 14px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;white-space:nowrap;}
 .btn-top:hover{border-color:var(--accent);color:var(--accent);}
@@ -140,13 +158,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .coin-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
 .coin-card.bull{border-left:3px solid var(--bull);}
 .coin-card.bear{border-left:3px solid var(--bear);}
-.card-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
 .coin-left{display:flex;align-items:center;gap:10px;}
 .coin-sym{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
-.grade-badge{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:1px;}
-.grade-badge.A{background:rgba(0,229,255,0.15);color:var(--accent);border:1px solid rgba(0,229,255,0.3);}
-.grade-badge.B{background:rgba(255,183,0,0.15);color:var(--warn);border:1px solid rgba(255,183,0,0.25);}
-.grade-badge.C{background:rgba(74,96,112,0.15);color:var(--muted2);border:1px solid var(--border);}
+.grade-block{display:flex;flex-direction:column;gap:2px;}
+.grade-badge{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:1px;border:1px solid;}
+.grade-badge.A{background:rgba(26,111,232,0.1);color:var(--accent);border-color:rgba(26,111,232,0.3);}
+.grade-badge.B{background:rgba(211,84,0,0.1);color:var(--warn);border-color:rgba(211,84,0,0.25);}
+.grade-badge.C{background:rgba(107,114,128,0.1);color:var(--muted);border-color:var(--border);}
 .coin-right{text-align:right;}
 .coin-price{font-family:'DM Mono',monospace;font-size:15px;color:var(--accent);}
 .coin-chg{font-family:'DM Mono',monospace;font-size:11px;}
@@ -155,20 +174,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* C2 Alert */
 .c2-banner{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:5px;margin-bottom:10px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;}
-.c2-banner.bull{background:rgba(0,255,157,0.08);border:1px solid rgba(0,255,157,0.2);color:var(--bull);}
-.c2-banner.bear{background:rgba(255,68,102,0.08);border:1px solid rgba(255,68,102,0.2);color:var(--bear);}
+.c2-banner.bull{background:rgba(26,122,74,0.07);border:1px solid rgba(26,122,74,0.2);color:var(--bull);}
+.c2-banner.bear{background:rgba(192,57,43,0.07);border:1px solid rgba(192,57,43,0.2);color:var(--bear);}
 
 /* TF chips */
 .tf-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
 .tf-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;border:1px solid;letter-spacing:1px;}
-.tf-chip.bull{background:rgba(0,255,157,0.06);border-color:rgba(0,255,157,0.25);color:var(--bull);}
-.tf-chip.bear{background:rgba(255,68,102,0.06);border-color:rgba(255,68,102,0.25);color:var(--bear);}
-.tf-chip.c2{background:rgba(0,229,255,0.1);border-color:rgba(0,229,255,0.35);color:var(--accent);font-weight:700;}
-.tf-chip.none{background:rgba(74,96,112,0.06);border-color:var(--border);color:var(--muted);}
+.tf-chip.bull{background:rgba(26,122,74,0.06);border-color:rgba(26,122,74,0.25);color:var(--bull);}
+.tf-chip.bear{background:rgba(192,57,43,0.06);border-color:rgba(192,57,43,0.25);color:var(--bear);}
+.tf-chip.c2{background:rgba(26,111,232,0.1);border-color:rgba(26,111,232,0.35);color:var(--accent);font-weight:700;}
+.tf-chip.none{background:rgba(107,114,128,0.06);border-color:var(--border);color:var(--muted);}
 
 /* POI chips */
 .poi-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
-.poi-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;background:rgba(255,183,0,0.07);border:1px solid rgba(255,183,0,0.2);color:var(--warn);}
+.poi-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;background:rgba(211,84,0,0.07);border:1px solid rgba(211,84,0,0.2);color:var(--warn);}
+.poi-chip.fresh{background:rgba(26,122,74,0.08);border-color:rgba(26,122,74,0.25);color:var(--bull);}
+.poi-chip.touched{background:rgba(107,114,128,0.07);border-color:var(--border);color:var(--muted);}
 
 /* Entry grid */
 .entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
@@ -185,10 +206,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* No results / Empty */
 .empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.8;}
-
 .divider{height:1px;background:var(--border);margin:16px 0;}
 .ts{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-align:right;margin-top:10px;}
 .disclaimer{font-size:10px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.7;padding:12px;border-top:1px solid var(--border);}
+
+/* Alert log */
+.alert-log{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:16px;max-height:200px;overflow-y:auto;}
+.alert-log-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.alert-item{font-family:'DM Mono',monospace;font-size:10px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--muted);}
+.alert-item:last-child{border-bottom:none;}
+.alert-msg.bull{color:var(--bull);}
+.alert-msg.bear{color:var(--bear);}
 </style>
 </head>
 <body>
@@ -208,7 +236,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="sl">Chat ID</div>
         <input class="si" id="tgChatId" placeholder="Chat ID">
       </div>
-      <button class="test-btn" onclick="saveAndTest()">💾 Save & Test</button>
+      <button class="test-btn" onclick="saveAndTest()">💾 Save &amp; Test</button>
     </div>
     <div class="tg-status" id="tgStatus"></div>
   </div>
@@ -251,7 +279,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
   <!-- Results -->
   <div id="resultsWrap"></div>
-
   <div class="ts" id="ts"></div>
   <div class="disclaimer" id="disclaimer" style="display:none">
     ⚠️ Educational purposes lang. Hindi financial advice.<br>
@@ -261,14 +288,29 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <script>
 const STABLES = ['USDT','USDC','BUSD','DAI','TUSD','FDUSD','USDE','USDS'];
-
 const TIMEFRAMES = [
-  { key:'1mo', label:'Monthly', weight:5 },
-  { key:'1w',  label:'Weekly',  weight:4 },
-  { key:'1d',  label:'Daily',   weight:3 },
-  { key:'4h',  label:'4H',      weight:2 },
-  { key:'1h',  label:'1H',      weight:1 },
+  { key:'1mo', label:'Monthly', tfCode:'1M', weight:5 },
+  { key:'1w',  label:'Weekly',  tfCode:'1W', weight:4 },
+  { key:'1d',  label:'Daily',   tfCode:'1D', weight:3 },
+  { key:'4h',  label:'4H',      tfCode:'4H', weight:2 },
+  { key:'1h',  label:'1H',      tfCode:'1H', weight:1 },
 ];
+
+// ============================================================
+// UPDATE 1 — Timestamp helper (PHT = UTC+8)
+// ============================================================
+function nowPHT() {
+  return new Date().toLocaleString('en-PH', {
+    timeZone: 'Asia/Manila',
+    year:   'numeric',
+    month:  'short',
+    day:    '2-digit',
+    hour:   '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  }); // → "May 21, 2025, 09:45:12 PM"
+}
 
 // ---- SETTINGS ----
 function loadSettings() {
@@ -279,9 +321,9 @@ function loadSettings() {
 }
 
 async function saveAndTest() {
-  const token = document.getElementById('tgToken').value.trim();
+  const token  = document.getElementById('tgToken').value.trim();
   const chatId = document.getElementById('tgChatId').value.trim();
-  if(token) localStorage.setItem('tg_token', token);
+  if(token)  localStorage.setItem('tg_token',  token);
   if(chatId) localStorage.setItem('tg_chatid', chatId);
   const el = document.getElementById('tgStatus');
   if(!token||!chatId){ el.textContent='❌ Fill in token and chat ID'; el.className='tg-status err'; el.style.display='block'; return; }
@@ -348,22 +390,30 @@ function detectPOIs(candles) {
 
     // OB
     if(body >= avgBody*1.2) {
-      if(c.c<c.o && next.c>c.h) pois.push({type:'bull',kind:'OB',high:c.h,low:c.l,mid:(c.h+c.l)/2});
-      if(c.c>c.o && next.c<c.l) pois.push({type:'bear',kind:'OB',high:c.h,low:c.l,mid:(c.h+c.l)/2});
+      if(c.c<c.o && next.c>c.h) pois.push({type:'bull',kind:'OB',high:c.h,low:c.l,mid:(c.h+c.l)/2,formationIndex:i,touched:false});
+      if(c.c>c.o && next.c<c.l) pois.push({type:'bear',kind:'OB',high:c.h,low:c.l,mid:(c.h+c.l)/2,formationIndex:i,touched:false});
     }
-
     // FVG
     if(i>=1 && i<candles.length-2) {
       const c0=candles[i-1], c2=candles[i+1];
-      if(c0.h<c2.l && (c2.l-c0.h)/c0.h>0.002) pois.push({type:'bull',kind:'FVG',high:c2.l,low:c0.h,mid:(c0.h+c2.l)/2});
-      if(c0.l>c2.h && (c0.l-c2.h)/c2.h>0.002) pois.push({type:'bear',kind:'FVG',high:c0.l,low:c2.h,mid:(c0.l+c2.h)/2});
+      if(c0.h<c2.l && (c2.l-c0.h)/c0.h>0.002) pois.push({type:'bull',kind:'FVG',high:c2.l,low:c0.h,mid:(c0.h+c2.l)/2,formationIndex:i,touched:false});
+      if(c0.l>c2.h && (c0.l-c2.h)/c2.h>0.002) pois.push({type:'bear',kind:'FVG',high:c0.l,low:c2.h,mid:(c0.l+c2.h)/2,formationIndex:i,touched:false});
     }
-
     // Rejection Block
     const uWick=c.h-Math.max(c.o,c.c), lWick=Math.min(c.o,c.c)-c.l;
-    if(uWick/range>0.65) pois.push({type:'bear',kind:'RB',high:c.h,low:Math.max(c.o,c.c),mid:(c.h+Math.max(c.o,c.c))/2});
-    if(lWick/range>0.65) pois.push({type:'bull',kind:'RB',high:Math.min(c.o,c.c),low:c.l,mid:(Math.min(c.o,c.c)+c.l)/2});
+    if(uWick/range>0.65) pois.push({type:'bear',kind:'RB',high:c.h,low:Math.max(c.o,c.c),mid:(c.h+Math.max(c.o,c.c))/2,formationIndex:i,touched:false});
+    if(lWick/range>0.65) pois.push({type:'bull',kind:'RB',high:Math.min(c.o,c.c),low:c.l,mid:(Math.min(c.o,c.c)+c.l)/2,formationIndex:i,touched:false});
   }
+
+  // ============================================================
+  // UPDATE 2 — Mark each POI as fresh (hindi pa na-touch) or touched
+  // ============================================================
+  pois.forEach(poi => {
+    const candlesAfter = candles.slice(poi.formationIndex + 1);
+    poi.touched = candlesAfter.some(c => c.low <= poi.high && c.high >= poi.low);
+    poi.fresh = !poi.touched;
+  });
+
   return pois.slice(-15);
 }
 
@@ -377,11 +427,11 @@ function validateC1(c1, candles, htfBias, pois) {
   const avgBody = slice.length ? slice.reduce((a,b)=>a+Math.abs(b.c-b.o),0)/slice.length : 0.0001;
   const body = Math.abs(c1.c-c1.o);
   const range = (c1.h-c1.l)||0.0001;
-  const isLarge = body >= avgBody*1.5;
-  const notDoji = (body/range) >= 0.4;
-  const c1Dir = c1.c>c1.o?'bull':'bear';
-  const biasOk = htfBias==='neutral' || c1Dir===htfBias;
-  const poi = findNearPOI((c1.h+c1.l)/2, pois, htfBias==='neutral'?c1Dir:htfBias);
+  const isLarge  = body >= avgBody*1.5;
+  const notDoji  = (body/range) >= 0.4;
+  const c1Dir    = c1.c>c1.o?'bull':'bear';
+  const biasOk   = htfBias==='neutral' || c1Dir===htfBias;
+  const poi      = findNearPOI((c1.h+c1.l)/2, pois, htfBias==='neutral'?c1Dir:htfBias);
   return { valid:isLarge&&notDoji&&biasOk&&!!poi, isLarge, notDoji, biasOk, poi, direction:c1Dir };
 }
 
@@ -390,20 +440,20 @@ function detectC2(c1, c2, htfBias) {
   const c1High=c1.h, c1Low=c1.l, c1Mid=(c1High+c1Low)/2;
   const sweptLow=c2.l<c1Low, sweptHigh=c2.h>c1High;
   let direction=null, sweepPct=0;
-  if((htfBias==='bull'||htfBias==='neutral') && sweptLow) { direction='bull'; sweepPct=((c1Low-c2.l)/c1Low*100); }
+  if((htfBias==='bull'||htfBias==='neutral') && sweptLow)  { direction='bull'; sweepPct=((c1Low-c2.l)/c1Low*100); }
   else if((htfBias==='bear'||htfBias==='neutral') && sweptHigh) { direction='bear'; sweepPct=((c2.h-c1High)/c1High*100); }
   if(!direction) return null;
   return {
     direction, sweepPct:sweepPct.toFixed(2),
     c1Mid, c1High, c1Low,
     entryZone: direction==='bull'?{low:fp(c1Low),high:fp(c1Mid)}:{low:fp(c1Mid),high:fp(c1High)},
-    stopLoss: direction==='bull'?fp(c2.l*0.997):fp(c2.h*1.003),
-    target: direction==='bull'?fp(c1High):fp(c1Low),
+    stopLoss:  direction==='bull'?fp(c2.l*0.997):fp(c2.h*1.003),
+    target:    direction==='bull'?fp(c1High):fp(c1Low),
   };
 }
 
 // ---- SCAN ONE TF ----
-function scanTF(candles, htfBias) {
+function scanTF(candles, htfBias, tfLabel) {
   if(candles.length<6) return {signal:'none'};
   const pois = detectPOIs(candles);
   for(let i=candles.length-16; i<candles.length-2; i++) {
@@ -413,12 +463,28 @@ function scanTF(candles, htfBias) {
     if(!c1v.valid) continue;
     const c2s = detectC2(c1, c2, htfBias);
     if(!c2s) continue;
-    return { signal:'c2closed', direction:c2s.direction, c1v, c2s, pois:pois.filter(p=>p.type===c2s.direction).slice(-2) };
+    // Attach TF label to each POI for display
+    const taggedPois = pois.filter(p=>p.type===c2s.direction).slice(-2).map(p=>({...p, tfLabel}));
+    return { signal:'c2closed', direction:c2s.direction, c1v, c2s, pois:taggedPois };
   }
   return {signal:'none'};
 }
 
-// ---- GRADE ----
+// ============================================================
+// UPDATE 3 — Confluence count: ilang POI/signal ang na-hit
+// ============================================================
+function getConfluence(tfResults, direction) {
+  const items = [];
+  tfResults.forEach((r, i) => {
+    if(!r || r.signal !== 'c2closed' || r.direction !== direction) return;
+    items.push(TIMEFRAMES[i].label);
+  });
+  return { count: items.length, items };
+}
+
+// ============================================================
+// UPDATE 4 — Improved grade: A/B/C mas malinaw na description
+// ============================================================
 function computeGrade(tfResults) {
   const WEIGHTS=[5,4,3,2,1];
   let bullScore=0, bearScore=0, bullTFs=[], bearTFs=[];
@@ -428,318 +494,380 @@ function computeGrade(tfResults) {
     if(r.direction==='bull'){bullScore+=w;bullTFs.push(tf.label);}
     else if(r.direction==='bear'){bearScore+=w;bearTFs.push(tf.label);}
   });
-  const direction=bullScore>=bearScore?'bull':'bear';
-  const score=Math.max(bullScore,bearScore);
-  const alignedTFs=direction==='bull'?bullTFs:bearTFs;
+  const direction = bullScore>=bearScore?'bull':'bear';
+  const score     = Math.max(bullScore,bearScore);
+  const alignedTFs= direction==='bull'?bullTFs:bearTFs;
   if(alignedTFs.length<2) return null;
-  let grade=null;
-  if(score>=9&&alignedTFs.length>=3) grade='A';
-  else if(score>=6&&alignedTFs.length>=3) grade='B';
-  else if(score>=4&&alignedTFs.length>=2) grade='C';
+
+  let grade=null, gradeDesc='', gradeTip='';
+  if(score>=9 && alignedTFs.length>=3) {
+    grade='A';
+    gradeDesc='🏆 High Confluence — 3+ TF aligned';
+    gradeTip ='Strong HTF confirmation. Wait for C3 entry candle.';
+  } else if(score>=6 && alignedTFs.length>=3) {
+    grade='B';
+    gradeDesc='🥈 Moderate Setup — Multiple TF hits';
+    gradeTip ='Good setup pero monitor pa rin. Tight SL recommended.';
+  } else if(score>=4 && alignedTFs.length>=2) {
+    grade='C';
+    gradeDesc='🥉 Low Confluence — 2 TF lang';
+    gradeTip ='Risky. Minimum 2:1 RR required. Confirm sa higher TF.';
+  }
   if(!grade) return null;
-  return {grade,direction,score,alignedTFs};
+
+  return {grade, direction, score, alignedTFs, gradeDesc, gradeTip};
 }
 
 // ---- FORMAT ----
 function fp(p) {
   if(!p&&p!==0) return '—';
   if(p>=10000) return '$'+p.toLocaleString(undefined,{maximumFractionDigits:0});
-  if(p>=1) return '$'+p.toFixed(2);
-  if(p>=0.01) return '$'+p.toFixed(4);
+  if(p>=1)     return '$'+p.toFixed(2);
+  if(p>=0.01)  return '$'+p.toFixed(4);
   return '$'+p.toFixed(8);
 }
 
-// ---- RENDER COIN CARD ----
-function renderCard(symbol, gradeResult, tfResults, priceInfo, htfBias) {
-  const {grade,direction,alignedTFs} = gradeResult;
-  const emoji = direction==='bull'?'🟢':'🔴';
-  const gradeEmoji = grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
-  const best = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
-  const price = priceInfo?.price;
-  const chg = priceInfo?.change24h||0;
-  const tvLink = `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}USDT`;
+// ============================================================
+// UPDATE 5 — TF label builder for C2 sweep + POI display
+// e.g. "OB Daily $178–$183" or "FVG 4H $0.412–$0.418"
+// ============================================================
+function buildTFLabel(kind, tfLabel, low, high) {
+  const tfMap = {
+    'Monthly':'Monthly','Weekly':'Weekly','Daily':'Daily',
+    '4H':'4H','1H':'1H','1mo':'Monthly','1w':'Weekly',
+    '1d':'Daily','4h':'4H','1h':'1H'
+  };
+  const tf  = tfMap[tfLabel] || tfLabel;
+  const lo  = parseFloat(low);
+  const hi  = parseFloat(high);
+  const dec = lo < 0.01 ? 6 : lo < 1 ? 4 : lo < 100 ? 3 : 2;
+  return `${kind} ${tf} $${lo.toFixed(dec)}–$${hi.toFixed(dec)}`;
+}
 
-  // TF chips
+// ---- RENDER COIN CARD ----
+function renderCard(symbol, gradeResult, tfResults, priceInfo, htfBias, detectedAt) {
+  const {grade,direction,alignedTFs,gradeDesc,gradeTip} = gradeResult;
+  const emoji = direction==='bull'?'🟢':'🔴';
+
+  // Confluence
+  const conf = getConfluence(tfResults, direction);
+
+  // Best TF result for entry data
+  const best = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
+
+  const price = priceInfo?.price;
+  const chg   = priceInfo?.change24h||0;
+  const tvLink= `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}USDT`;
+
+  // TF chips — UPDATE 5: include TF label in C2 chip
   const tfChips = TIMEFRAMES.map((tf,i)=>{
     const r = tfResults[i];
     if(!r||r.signal==='none') return `<div class="tf-chip none">— ${tf.label}</div>`;
     const cls = r.direction==='bull'?'bull':'bear';
-    const icon = r.direction==='bull'?'✅':'🔴';
-    return `<div class="tf-chip ${cls}">${icon} ${tf.label}</div>`;
+    const icon= r.direction==='bull'?'✅':'🔴';
+    const c2s = r.c2s;
+    // C2 sweep label: e.g. "C2 Daily 🔴 Sweep 0.12%"
+    return `<div class="tf-chip ${cls}">${icon} ${tf.label} C2 ${c2s?c2s.sweepPct+'%':''}</div>`;
   }).join('');
 
-  // POI chips
-  const poiChips = (best?.pois||[]).map(p=>
-    `<div class="poi-chip">🎯 ${p.kind} ${fp(p.low)}–${fp(p.high)}</div>`
-  ).join('');
+  // POI chips — UPDATE 2+5: show fresh/touched + TF label
+  const poiChips = (best?.pois||[]).map(p=>{
+    const freshClass = p.fresh ? 'fresh' : 'touched';
+    const freshIcon  = p.fresh ? '🟢 FRESH' : '⚫ TOUCHED';
+    const label = buildTFLabel(p.kind, p.tfLabel||'', p.low, p.high);
+    return `<div class="poi-chip ${freshClass}">🎯 ${label} · ${freshIcon}</div>`;
+  }).join('');
+
+  // Confluence dots — UPDATE 3
+  const totalTFs = TIMEFRAMES.length;
+  const dots = TIMEFRAMES.map((_,i)=>{
+    const r = tfResults[i];
+    const active = r?.signal==='c2closed' && r?.direction===direction;
+    return `<div class="conf-dot ${active?'active '+direction:''}"></div>`;
+  }).join('');
+
+  // Grade section with description — UPDATE 4
+  const gradeEmoji = grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
 
   return `<div class="coin-card ${direction}">
-    <div class="card-top">
-      <div class="coin-left">
-        <div class="coin-sym">${symbol}</div>
+  <div class="card-top">
+    <div class="coin-left">
+      <div class="coin-sym">${symbol}</div>
+      <div class="grade-block">
         <div class="grade-badge ${grade}">${gradeEmoji} GRADE ${grade}</div>
-      </div>
-      <div class="coin-right">
-        <div class="coin-price">${fp(price)}</div>
-        <div class="coin-chg ${chg>=0?'up':'down'}">${chg>=0?'+':''}${chg.toFixed(2)}%</div>
+        <div class="grade-desc">${gradeDesc}</div>
       </div>
     </div>
-
-    <div class="c2-banner ${direction}">
-      ⚡ C2 CLOSED — ${direction==='bull'?'Swept below C1 low':'Swept above C1 high'} (${best?.c2s?.sweepPct}%) · WAIT FOR C3 ENTRY
+    <div class="coin-right">
+      <div class="coin-price">${price?fp(price):'—'}</div>
+      <div class="coin-chg ${chg>=0?'up':'down'}">${chg>=0?'+':''}${chg.toFixed(2)}%</div>
     </div>
+  </div>
 
-    <div class="tf-row">${tfChips}</div>
-    ${poiChips?`<div class="poi-row">${poiChips}</div>`:''}
+  ${best?.c2s?`<div class="c2-banner ${direction}">
+    ${direction==='bull'?'🟢':'🔴'} C2 ${direction.toUpperCase()} SWEEP
+    · Entry: ${best.c2s.entryZone.low}–${best.c2s.entryZone.high}
+  </div>`:''}
 
-    <div class="entry-grid">
-      <div class="entry-box">
-        <div class="entry-lbl">Entry Zone</div>
-        <div class="entry-val e">${best?.c2s?.entryZone?.low}–${best?.c2s?.entryZone?.high}</div>
-      </div>
-      <div class="entry-box">
-        <div class="entry-lbl">Stop Loss</div>
-        <div class="entry-val s">${best?.c2s?.stopLoss}</div>
-      </div>
-      <div class="entry-box">
-        <div class="entry-lbl">Target</div>
-        <div class="entry-val t">${best?.c2s?.target}</div>
-      </div>
+  <div class="tf-row">${tfChips}</div>
+
+  ${poiChips?`<div class="poi-row">${poiChips}</div>`:''}
+
+  <!-- UPDATE 3: Confluence bar -->
+  <div class="conf-bar">
+    <div class="conf-label">Confluence</div>
+    <div class="conf-dots">${dots}</div>
+    <div class="conf-count">${conf.count}/${totalTFs} · ${conf.items.join(', ')}</div>
+  </div>
+
+  ${best?.c2s?`<div class="entry-grid">
+    <div class="entry-box">
+      <div class="entry-lbl">Entry Zone</div>
+      <div class="entry-val e">${best.c2s.entryZone.low}–${best.c2s.entryZone.high}</div>
     </div>
+    <div class="entry-box">
+      <div class="entry-lbl">Stop Loss</div>
+      <div class="entry-val s">${best.c2s.stopLoss}</div>
+    </div>
+    <div class="entry-box">
+      <div class="entry-lbl">Target</div>
+      <div class="entry-val t">${best.c2s.target}</div>
+    </div>
+  </div>`:''}
 
-    <a class="tv-link" href="${tvLink}" target="_blank">
-      📈 View on TradingView → BINANCE:${symbol}USDT
-    </a>
-  </div>`;
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+    <a class="tv-link" href="${tvLink}" target="_blank">📊 TradingView →</a>
+    <div style="font-size:9px;color:var(--muted2);font-family:'DM Mono',monospace;">${gradeTip}</div>
+  </div>
+
+  <!-- UPDATE 1: Detected timestamp -->
+  <div class="det-time">🕐 Detected: ${detectedAt} PHT</div>
+</div>`;
 }
 
-// ---- SEND TELEGRAM ----
-async function sendTelegramAlert(symbol, gradeResult, tfResults, priceInfo, htfBias) {
-  const token = localStorage.getItem('tg_token');
-  const chatId = localStorage.getItem('tg_chatid');
+// ---- SEND TELEGRAM ALERT ----
+async function sendTelegramAlert(symbol, gradeResult, tfResults, priceInfo, detectedAt) {
+  const token  = localStorage.getItem('tg_token')||'';
+  const chatId = localStorage.getItem('tg_chatid')||'';
   if(!token||!chatId) return;
 
-  const {grade, direction, alignedTFs, sweepTFs} = gradeResult;
-  const emoji      = direction==='bull'?'🟢':'🔴';
+  const {grade,direction,alignedTFs,gradeDesc,score} = gradeResult;
+  const conf = getConfluence(tfResults, direction);
+  const best = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
+  const price= priceInfo?.price;
+  const chg  = priceInfo?.change24h||0;
+  const dirEmoji = direction==='bull'?'🟢':'🔴';
   const gradeEmoji = grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
-  const dirLabel   = direction==='bull'?'BULL CRT':'BEAR CRT';
-  const sweepDir   = direction==='bull'?'below C1 low':'above C1 high';
-  const best       = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
-  const pois       = best?.pois||[];
-  const tvLink     = `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}USDT`;
-  const now        = new Date().toLocaleString('en-PH',{timeZone:'Asia/Manila'});
-  const htfLabel   = htfBias==='bull'?'🟢 BULLISH':htfBias==='bear'?'🔴 BEARISH':'⚪ NEUTRAL';
-  const price      = fp(priceInfo?.price);
-  const chgStr     = priceInfo?`${priceInfo.change24h>=0?'+':''}${priceInfo.change24h?.toFixed(2)}%`:'';
 
-  // All 5 TF status
-  const tfStatus = TIMEFRAMES.map((tf,i)=>{
-    const r = tfResults[i];
-    if(!r||r.signal==='none') return `— ${tf.label}`;
-    if(r.direction==='bull') return sweepTFs&&sweepTFs.includes(tf.label)?`⚡ ${tf.label} C2`:`✅ ${tf.label}`;
-    if(r.direction==='bear') return sweepTFs&&sweepTFs.includes(tf.label)?`⚡ ${tf.label} C2`:`🔴 ${tf.label}`;
-    return `— ${tf.label}`;
+  // UPDATE 5: TF-labeled POI lines
+  const poiLines = (best?.pois||[]).map(p=>{
+    const freshIcon = p.fresh ? '🟢 FRESH' : '⚫ TOUCHED';
+    const label = buildTFLabel(p.kind, p.tfLabel||'', p.low, p.high);
+    return `🎯 ${label} · ${freshIcon}`;
   }).join('\n');
 
-  const poiText = pois.length>0
-    ? pois.map(p=>`🎯 ${p.kind}: ${fp(p.low)} – ${fp(p.high)}`).join('\n')
-    : '—';
-
-  const msg=`${emoji} ${gradeEmoji} <b>GRADE ${grade} ${dirLabel} ALERT!</b>
-
-📊 <b>${symbol}/USDT</b>
-💰 ${price} (${chgStr})
-⏰ ${now}
-
-<b>HTF Bias:</b> ${htfLabel}
-
-<b>Top-Down Alignment:</b>
-${tfStatus}
-
-<b>⚡ C2 Swept ${sweepDir}</b>
-📉 Sweep: ${best?.c2s?.sweepPct}%
-
-<b>Points of Interest:</b>
-${poiText}
-
-<b>Entry Details:</b>
-📥 Entry: ${best?.c2s?.entryZone?.low} – ${best?.c2s?.entryZone?.high}
-🛑 SL: ${best?.c2s?.stopLoss}
-💰 Target: ${best?.c2s?.target}
-
-📈 <a href="${tvLink}">View on TradingView</a>
-
-⚠️ <i>C3 pa lang forming — confirm muna sa chart bago mag-entry. Educational only.</i>`;
+  // UPDATE 1+3+4+5 combined Telegram message
+  const msg = [
+    `${gradeEmoji} *${symbol}* — Grade ${grade}`,
+    `━━━━━━━━━━━━━━━`,
+    `${dirEmoji} Direction: *${direction.toUpperCase()}*`,
+    `📊 ${gradeDesc}`,
+    ``,
+    `⭐ Confluence: *${conf.count}/${TIMEFRAMES.length}*`,
+    `TFs Hit: ${conf.items.join(' · ')||'—'}`,
+    ``,
+    poiLines ? `POI Zones:\n${poiLines}` : '',
+    ``,
+    best?.c2s ? [
+      `📌 Entry: ${best.c2s.entryZone.low}–${best.c2s.entryZone.high}`,
+      `🛑 Stop:  ${best.c2s.stopLoss}`,
+      `🎯 Target: ${best.c2s.target}`,
+    ].join('\n') : '',
+    ``,
+    price ? `💰 Price: ${fp(price)} (${chg>=0?'+':''}${chg.toFixed(2)}%)` : '',
+    `━━━━━━━━━━━━━━━`,
+    `🕐 ${detectedAt} PHT`,  // UPDATE 1: exact timestamp
+    ``,
+    `⚠️ Educational only. I-confirm sa TradingView.`,
+  ].filter(l=>l!==null&&l!==undefined).join('\n').trim();
 
   try {
-    const qs=new URLSearchParams({type:'telegram',token,chat_id:chatId,text:msg}).toString();
+    const qs = new URLSearchParams({type:'telegram',token,chat_id:chatId,text:msg}).toString();
     await fetch(`/api/binance?${qs}`);
-  } catch(e){}
+  } catch(e) { console.warn('Telegram alert failed:', e); }
 }
 
-// ---- MAIN SCAN ----
-let htfBiasGlobal = 'neutral';
-let scanInProgress = false;
+// ---- SCAN ONE SYMBOL ----
+async function scanSymbol(symbol) {
+  const [monthly,weekly,daily,h4,h1,priceInfo] = await Promise.all([
+    fetchOHLC(symbol,'histoday_monthly').catch(()=>[]),
+    fetchOHLC(symbol,'histoday_weekly').catch(()=>[]),
+    fetchOHLC(symbol,'histoday').catch(()=>[]),
+    fetchOHLC(symbol,'histohour_4h').catch(()=>[]),
+    fetchOHLC(symbol,'histohour').catch(()=>[]),
+    fetchPriceData(symbol).catch(()=>null),
+  ]);
 
-async function processCoin(symbol) {
-  try {
-    const allCandles = await Promise.all(TIMEFRAMES.map(tf=>fetchOHLC(symbol,tf.key).catch(()=>[])));
-    const htfBias = getHTFBias(allCandles[0],allCandles[1]);
-    const tfResults = allCandles.map((c,i)=>c.length>5?scanTF(c,htfBias):{signal:'none'});
-    const gradeResult = computeGrade(tfResults);
-    if(!gradeResult) return null;
-    const priceInfo = await fetchPriceData(symbol).catch(()=>null);
-    return {symbol, gradeResult, tfResults, htfBias, priceInfo};
-  } catch(e){ return null; }
+  const htfBias = getHTFBias(monthly, weekly);
+
+  const tfCandles = [monthly, weekly, daily, h4, h1];
+  // UPDATE 5: pass tfLabel into scanTF so POIs get labeled
+  const tfResults = tfCandles.map((c,i) => scanTF(c, htfBias, TIMEFRAMES[i].label));
+
+  const gradeResult = computeGrade(tfResults);
+  if(!gradeResult) return null;
+
+  return { symbol, gradeResult, tfResults, priceInfo, htfBias };
 }
 
-async function scanTop(limit) {
-  if(scanInProgress) return;
-  scanInProgress = true;
-  setUIScanning(true);
+// ---- SCAN TOP N ----
+async function scanTop(n) {
+  setUIBusy(true);
+  document.getElementById('resultsWrap').innerHTML='';
+  document.getElementById('statusBar').style.display='none';
+  document.getElementById('biasRow').style.display='none';
+  document.getElementById('disclaimer').style.display='none';
 
+  let symbols = [];
   try {
-    const data = await apiFetch(limit===50?'top50':'top100');
-    const symbols = (data.Data||[])
+    const data = await apiFetch('top', {limit:n});
+    symbols = (data.Data||[])
       .map(d=>d.CoinInfo?.Name)
       .filter(s=>s&&!STABLES.includes(s));
-
-    const results = [];
-    let scanned = 0;
-
-    for(let i=0; i<symbols.length; i+=5) {
-      const batch = symbols.slice(i,i+5);
-      const batchRes = await Promise.all(batch.map(processCoin));
-      batchRes.forEach(r=>{ if(r) results.push(r); });
-      scanned += batch.length;
-      updateProgress(scanned, symbols.length, `Scanning ${scanned}/${symbols.length} coins...`);
-      if(i+5<symbols.length) await delay(800);
-    }
-
-    // Send Telegram alerts for valid setups
-    const sentKeys = new Set();
-    for(const r of results) {
-      const key = `${r.symbol}-${r.gradeResult.direction}-${r.gradeResult.grade}`;
-      if(!sentKeys.has(key)) {
-        sentKeys.add(key);
-        await sendTelegramAlert(r.symbol, r.gradeResult, r.tfResults, r.priceInfo, r.htfBias);
-        await delay(500);
-      }
-    }
-
-    renderResults(results, symbols.length, limit);
-
   } catch(e) {
-    showError(e.message);
+    document.getElementById('resultsWrap').innerHTML=`<div class="empty">❌ Failed to fetch top coins: ${e.message}</div>`;
+    setUIBusy(false); return;
   }
 
-  scanInProgress = false;
-  setUIScanning(false);
+  const pw = document.getElementById('progressWrap');
+  const pf = document.getElementById('progressFill');
+  const pt = document.getElementById('progressText');
+  pw.style.display='block'; pf.style.width='0%';
+
+  let bullCount=0, bearCount=0, scanned=0;
+  const results=[], ts = nowPHT(); // UPDATE 1: snapshot timestamp
+
+  for(const sym of symbols) {
+    try {
+      const r = await scanSymbol(sym);
+      if(r) {
+        r.detectedAt = ts;
+        results.push(r);
+        if(r.gradeResult.direction==='bull') bullCount++;
+        else bearCount++;
+        sendTelegramAlert(sym, r.gradeResult, r.tfResults, r.priceInfo, ts);
+      }
+    } catch(e) { console.warn(sym, e.message); }
+    scanned++;
+    const pct = Math.round(scanned/symbols.length*100);
+    pf.style.width=pct+'%';
+    pt.textContent=`Scanning ${sym}… (${scanned}/${symbols.length})`;
+    if(scanned % 5 === 0) await new Promise(r=>setTimeout(r,0));
+  }
+
+  pw.style.display='none';
+  renderResults(results, bullCount, bearCount, ts);
+  setUIBusy(false);
 }
 
+// ---- SEARCH SINGLE ----
 async function searchCoin() {
-  const raw = document.getElementById('searchInput').value.trim().toUpperCase();
-  if(!raw) return;
-  if(scanInProgress) return;
-  scanInProgress = true;
-  setUIScanning(true);
-  updateProgress(0,1,`Scanning ${raw}...`);
+  const sym = document.getElementById('searchInput').value.trim().toUpperCase().replace(/USDT$/,'');
+  if(!sym) return;
+  setUIBusy(true);
+  document.getElementById('resultsWrap').innerHTML='';
+  document.getElementById('statusBar').style.display='none';
+  document.getElementById('biasRow').style.display='none';
+  document.getElementById('disclaimer').style.display='none';
 
+  const pw = document.getElementById('progressWrap');
+  const pt = document.getElementById('progressText');
+  pw.style.display='block';
+  document.getElementById('progressFill').style.width='50%';
+  pt.textContent=`Scanning ${sym}…`;
+
+  const ts = nowPHT(); // UPDATE 1
   try {
-    const result = await processCoin(raw);
-    if(!result) {
-      renderResults([], 1, 0, raw);
+    const r = await scanSymbol(sym);
+    document.getElementById('progressFill').style.width='100%';
+    pw.style.display='none';
+    if(r) {
+      r.detectedAt = ts;
+      const bull = r.gradeResult.direction==='bull'?1:0;
+      renderResults([r], bull, 1-bull, ts);
+      sendTelegramAlert(sym, r.gradeResult, r.tfResults, r.priceInfo, ts);
     } else {
-      await sendTelegramAlert(result.symbol, result.gradeResult, result.tfResults, result.priceInfo, result.htfBias);
-      renderResults([result], 1, 0, raw);
+      document.getElementById('resultsWrap').innerHTML=`<div class="empty">No valid CRT setup detected for <strong>${sym}</strong>.<br>Try a different coin or timeframe.</div>`;
     }
-  } catch(e){ showError(e.message); }
-
-  scanInProgress = false;
-  setUIScanning(false);
+  } catch(e) {
+    document.getElementById('progressFill').style.width='0%';
+    pw.style.display='none';
+    document.getElementById('resultsWrap').innerHTML=`<div class="empty">❌ Error scanning ${sym}: ${e.message}</div>`;
+  }
+  setUIBusy(false);
 }
 
-function renderResults(results, totalScanned, limit, searchSym='') {
-  const bullSetups = results.filter(r=>r.gradeResult.direction==='bull');
-  const bearSetups = results.filter(r=>r.gradeResult.direction==='bear');
-
-  // Status bar
-  document.getElementById('statusBar').style.display='flex';
-  document.getElementById('statusLeft').innerHTML=
-    `<span class="live-dot"></span>${searchSym?`Scanned: ${searchSym}`:`Scanned ${totalScanned} coins`} · ${new Date().toLocaleTimeString()}`;
-  document.getElementById('statusCounts').innerHTML=
-    `<div class="sc bull">🟢 ${bullSetups.length} Bull</div>
-     <div class="sc bear">🔴 ${bearSetups.length} Bear</div>
-     <div class="sc muted">⚪ ${totalScanned-results.length} No Setup</div>`;
-
-  // HTF Bias (from first result or neutral)
-  document.getElementById('biasRow').style.display='grid';
-  if(results.length>0) {
-    const bias = results[0].htfBias;
-    ['biasMonthly','biasWeekly','biasOverall'].forEach(id=>{
-      const el=document.getElementById(id);
-      el.textContent = bias==='bull'?'🟢 BULLISH':bias==='bear'?'🔴 BEARISH':'⚪ NEUTRAL';
-      el.className = `bias-val ${bias}`;
-    });
-    htfBiasGlobal = bias;
-  }
-
-  // Results
+// ---- RENDER RESULTS ----
+function renderResults(results, bullCount, bearCount, ts) {
   const wrap = document.getElementById('resultsWrap');
-  if(results.length===0) {
-    wrap.innerHTML=`<div class="empty">
-      ⚪ Walang valid CRT setup na-detect<br>
-      <span style="font-size:11px;color:var(--muted)">Lahat ng coins na-scan — walang Grade A/B/C setup ngayon.<br>Subukan ulit sa susunod na candle close.</span>
-    </div>`;
+
+  if(!results.length) {
+    wrap.innerHTML='<div class="empty">No Grade A/B/C setups found.<br>Try scanning more coins or check back after the next 4H close.</div>';
     document.getElementById('disclaimer').style.display='block';
     return;
   }
 
+  // Sort: A first, then B, then C; within grade by score desc
+  results.sort((a,b)=>{
+    const gOrder={A:0,B:1,C:2};
+    const gDiff = gOrder[a.gradeResult.grade] - gOrder[b.gradeResult.grade];
+    if(gDiff!==0) return gDiff;
+    return b.gradeResult.score - a.gradeResult.score;
+  });
+
+  // Status bar
+  const sb = document.getElementById('statusBar');
+  sb.style.display='flex';
+  document.getElementById('statusLeft').innerHTML=`<span class="live-dot"></span>${results.length} setup${results.length>1?'s':''} found · ${ts} PHT`;
+  document.getElementById('statusCounts').innerHTML=`
+    <span class="sc bull">🟢 ${bullCount} BULL</span>
+    <span class="sc bear">🔴 ${bearCount} BEAR</span>`;
+
+  // Grade breakdown header
+  const gradeA = results.filter(r=>r.gradeResult.grade==='A');
+  const gradeB = results.filter(r=>r.gradeResult.grade==='B');
+  const gradeC = results.filter(r=>r.gradeResult.grade==='C');
+
   let html = '';
-  if(bullSetups.length>0) {
-    html += `<div class="sec-title">Valid Setups <span class="pill bull">${bullSetups.length} BULL</span>${bearSetups.length>0?`<span class="pill bear">${bearSetups.length} BEAR</span>`:''}</div>`;
-  }
 
-  // Sort by grade A first
-  const sorted = results.sort((a,b)=>{
-    const gOrder={'A':0,'B':1,'C':2};
-    return (gOrder[a.gradeResult.grade]||3)-(gOrder[b.gradeResult.grade]||3);
+  // UPDATE 4: grade sections with clear headers
+  const sections = [
+    {label:'🏆 Grade A — High Confluence', items:gradeA, cls:'bull'},
+    {label:'🥈 Grade B — Moderate Setup',  items:gradeB, cls:'bear'},
+    {label:'🥉 Grade C — Low Confidence',  items:gradeC, cls:'none'},
+  ];
+
+  sections.forEach(sec=>{
+    if(!sec.items.length) return;
+    html += `<div class="sec-title">${sec.label} <span class="pill ${sec.cls}">${sec.items.length}</span></div>`;
+    sec.items.forEach(r=>{
+      html += renderCard(r.symbol, r.gradeResult, r.tfResults, r.priceInfo, r.htfBias, r.detectedAt||ts);
+    });
   });
-
-  sorted.forEach(r=>{
-    html += renderCard(r.symbol, r.gradeResult, r.tfResults, r.priceInfo, r.htfBias);
-  });
-
-  if(bullSetups.length===0&&bearSetups.length>0) {
-    html = `<div class="sec-title">Valid Setups <span class="pill bear">${bearSetups.length} BEAR</span></div>` + html;
-  }
 
   wrap.innerHTML = html;
-  document.getElementById('ts').textContent = `Last scan: ${new Date().toLocaleString()} · CryptoCompare`;
   document.getElementById('disclaimer').style.display='block';
+  document.getElementById('ts').textContent = `Last scan: ${ts} PHT`;
 }
 
-function showError(msg) {
-  document.getElementById('resultsWrap').innerHTML=
-    `<div style="background:rgba(255,68,102,0.08);border:1px solid rgba(255,68,102,0.3);border-radius:6px;padding:14px 18px;color:var(--bear);font-size:13px;text-align:center;">❌ ${msg}</div>`;
+// ---- UI HELPERS ----
+function setUIBusy(busy) {
+  ['btnSearch','btn50','btn100'].forEach(id=>{
+    document.getElementById(id).disabled=busy;
+  });
 }
 
-function setUIScanning(on) {
-  document.getElementById('btnSearch').disabled=on;
-  document.getElementById('btn50').disabled=on;
-  document.getElementById('btn100').disabled=on;
-  document.getElementById('progressWrap').style.display=on?'block':'none';
-  if(!on) { document.getElementById('progressFill').style.width='100%'; }
-}
-
-function updateProgress(done, total, text) {
-  const pct = total>0?Math.round(done/total*100):0;
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressText').textContent=text;
-}
-
-function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
+// ---- INIT ----
 loadSettings();
 </script>
 </body>
