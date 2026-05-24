@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRT Debug Tool</title>
+<style>
+body{font-family:monospace;background:#111;color:#0f0;padding:16px;font-size:11px;}
+h2{color:#fff;font-size:14px;}
+.err{color:#f44;}
+.ok{color:#0f0;}
+.warn{color:#fa0;}
+.info{color:#08f;}
+.box{background:#1a1a1a;border:1px solid #333;border-radius:4px;padding:10px;margin:8px 0;white-space:pre-wrap;word-break:break-all;}
+button{background:#1a6fe8;color:#fff;border:none;padding:10px 18px;border-radius:4px;cursor:pointer;font-size:13px;margin:4px;}
+input{background:#1a1a1a;border:1px solid #444;color:#fff;padding:8px;border-radius:4px;font-size:13px;width:120px;}
+</style>
+</head>
+<body>
+<h2>🔍 CRT Scanner Debug Tool</h2>
+<p>I-open mo ito sa <strong>crt-finals.vercel.app/debug.html</strong> para ma-test ang actual API data.</p>
+<br>
+<input id="sym" value="NEAR" placeholder="Symbol">
+<button onclick="runDebug()">▶ Run Full Debug</button>
+<button onclick="clearLog()">🗑 Clear</button>
+
+<div id="log"></div>
+
+<script>
+function log(msg, cls=''){
+  const d = document.getElementById('log');
+  const line = document.createElement('div');
+  line.className = 'box '+(cls||'');
+  line.textContent = msg;
+  d.appendChild(line);
+  window.scrollTo(0,document.body.scrollHeight);
+}
+function clearLog(){ document.getElementById('log').innerHTML=''; }
+
+async function apiFetch(type, params={}){
+  const qs = new URLSearchParams({type,...params}).toString();
+  const res = await fetch(`/api/binance?${qs}`);
+  return res.json();
+}
+
+function validateC1(c1, candles){
+  const body  = Math.abs(c1.c-c1.o);
+  const range = (c1.h-c1.l)||0.0001;
+  const uWick = c1.h-Math.max(c1.o,c1.c);
+  const lWick = Math.min(c1.o,c1.c)-c1.l;
+  const bodyRatio = body/range;
+  const isBodyDominant = bodyRatio>=0.40;
+  const bodyBiggerThanLargerWick = body>=Math.max(uWick,lWick);
+  const slice3  = candles.slice(-3);
+  const avg3    = slice3.length?slice3.reduce((a,b)=>a+Math.abs(b.c-b.o),0)/slice3.length:0.0001;
+  const isSig   = body>=avg3*0.25;
+  const isBull  = c1.c>c1.o;
+  const valid   = isBodyDominant&&bodyBiggerThanLargerWick&&isSig;
+  return {valid,isBull,bodyRatio:bodyRatio.toFixed(3),
+    body:body.toFixed(4),avg3:avg3.toFixed(4),
+    uWick:uWick.toFixed(4),lWick:lWick.toFixed(4),
+    isBodyDominant,bodyBiggerThanLargerWick,isSig};
+}
+
+function fp(p){
+  if(!p&&p!==0) return '—';
+  if(p>=100) return '$'+p.toFixed(2);
+  if(p>=1)   return '$'+p.toFixed(3);
+  return '$'+p.toFixed(5);
+}
+
+async function runDebug(){
+  clearLog();
+  const sym = document.getElementById('sym').value.trim().toUpperCase();
+  log(`=== DEBUG: ${sym} ===`,'info');
+
+  // Step 1: Fetch all TF data
+  const TFS = [
+    {label:'Monthly', type:'histoday_monthly'},
+    {label:'Weekly',  type:'histoday_weekly'},
+    {label:'Daily',   type:'histoday'},
+    {label:'4H',      type:'histohour_4h'},
+    {label:'1H',      type:'histohour'},
+  ];
+
+  for(const tf of TFS){
+    log(`\nFetching ${tf.label}...`,'info');
+    try{
+      const data = await apiFetch(tf.type,{symbol:sym,limit:60});
+
+      // Check API response
+      if(data.Response==='Error'){
+        log(`❌ API Error: ${data.Message}`,'err');
+        continue;
+      }
+
+      const raw = data.Data?.Data||[];
+      const candles = raw.map(k=>({
+        t:k.time*1000,o:k.open,h:k.high,l:k.low,c:k.close
+      })).filter(c=>c.h>0&&c.l>0);
+
+      log(`✅ ${tf.label}: ${candles.length} candles received`,'ok');
+
+      if(candles.length<5){
+        log(`⚠️ Too few candles for ${tf.label}`,'warn');
+        continue;
+      }
+
+      // Show last 6 candles
+      log(`Last 6 ${tf.label} candles:`,'info');
+      const last6 = candles.slice(-6);
+      last6.forEach((c,i)=>{
+        const d = new Date(c.t).toLocaleDateString();
+        const dir = c.c>c.o?'🟢 BULL':'🔴 BEAR';
+        const body = Math.abs(c.c-c.o);
+        const range = c.h-c.l;
+        const ratio = (body/range).toFixed(2);
+        log(`  [${i}] ${d} O:${fp(c.o)} H:${fp(c.h)} L:${fp(c.l)} C:${fp(c.c)} | ${dir} | body/range=${ratio}`);
+      });
+
+      // Scan for C1
+      log(`\nScanning ${tf.label} for valid C1...`,'info');
+      let foundC1 = false;
+      const scanStart = Math.max(1, candles.length-50);
+
+      for(let i=scanStart; i<candles.length-1; i++){
+        const c1 = candles[i];
+        const v  = validateC1(c1, candles.slice(0,i));
+
+        if(v.valid){
+          foundC1 = true;
+          const d = new Date(c1.t).toLocaleDateString();
+          log(`✅ VALID C1 at index ${i} (${d}):`,'ok');
+          log(`   ${c1.c>c1.o?'GREEN':'RED'} | O:${fp(c1.o)} H:${fp(c1.h)} L:${fp(c1.l)} C:${fp(c1.c)}`);
+          log(`   bodyRatio=${v.bodyRatio} | body=${v.body} | avg3=${v.avg3}`);
+          log(`   uWick=${v.uWick} lWick=${v.lWick} | bodyBiggerThanWick=${v.bodyBiggerThanLargerWick}`);
+
+          // Check C2
+          const afterC1 = candles.slice(i+1);
+          let foundC2 = false;
+          for(let j=0; j<afterC1.length; j++){
+            const c2 = afterC1[j];
+            const sweptHigh = c2.h > c1.h;
+            const sweptLow  = c2.l < c1.l;
+            const c2Green   = c2.c > c2.o;
+            const c2Red     = c2.c < c2.o;
+
+            if(v.isBull && sweptHigh){
+              foundC2 = true;
+              const confirmed = c2Red;
+              const d2 = new Date(c2.t).toLocaleDateString();
+              log(`  → C2 found at +${j+1} candles (${d2}): swept HIGH of C1`,'ok');
+              log(`  → C2 close: ${c2Red?'RED ✅':'GREEN ❌'} | sweep=${((c2.h-c1.h)/c1.h*100).toFixed(3)}%`);
+              if(confirmed) log(`  🎯 BEAR CRT DETECTED on ${tf.label}!`,'ok');
+              else log(`  ⚠️ C2 not confirmed (need RED close for bear setup)`,'warn');
+              break;
+            }
+            if(!v.isBull && sweptLow){
+              foundC2 = true;
+              const confirmed = c2Green;
+              const d2 = new Date(c2.t).toLocaleDateString();
+              log(`  → C2 found at +${j+1} candles (${d2}): swept LOW of C1`,'ok');
+              log(`  → C2 close: ${c2Green?'GREEN ✅':'RED ❌'} | sweep=${((c1.l-c2.l)/c1.l*100).toFixed(3)}%`);
+              if(confirmed) log(`  🎯 BULL CRT DETECTED on ${tf.label}!`,'ok');
+              else log(`  ⚠️ C2 not confirmed (need GREEN close for bull setup)`,'warn');
+              break;
+            }
+          }
+          if(!foundC2) log(`  ⚠️ No C2 sweep found after this C1`,'warn');
+        }
+      }
+
+      if(!foundC1){
+        log(`❌ No valid C1 found on ${tf.label}`,'err');
+        log(`   Checking why — last 5 candles:`,'warn');
+        candles.slice(-5).forEach((c,i)=>{
+          const v2 = validateC1(c, candles.slice(0,candles.length-5+i));
+          const body=Math.abs(c.c-c.o),range=c.h-c.l;
+          const uW=c.h-Math.max(c.o,c.c),lW=Math.min(c.o,c.c)-c.l;
+          const why = !v2.isBodyDominant?`bodyRatio=${v2.bodyRatio}<0.40`:
+                      !v2.bodyBiggerThanLargerWick?`body(${v2.body})<maxWick(${Math.max(Number(v2.uWick),Number(v2.lWick)).toFixed(4)})`:
+                      !v2.isSig?`body(${v2.body})<avg3(${v2.avg3})*0.25`:'unknown';
+          log(`   Candle ${i}: ratio=${v2.bodyRatio} FAIL: ${why}`,'warn');
+        });
+      }
+
+    } catch(e){
+      log(`❌ Fetch error: ${e.message}`,'err');
+    }
+
+    // Small delay between requests
+    await new Promise(r=>setTimeout(r,300));
+  }
+
+  log(`\n=== DEBUG COMPLETE ===`,'info');
+}
+</script>
+</body>
+</html>
