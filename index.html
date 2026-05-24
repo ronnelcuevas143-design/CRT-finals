@@ -537,10 +537,23 @@ function scanTF(candles, htfBias, tfLabel) {
     });
   }
 
-  // Return MOST RECENT setup (highest c1Index)
+  // Return MOST RECENT setup — prefer direction aligned with current price
   if(found.length>0){
+    // Current price vs midpoint of last candle
+    const lastC  = candles[candles.length-1];
+    const midPx  = (lastC.h + lastC.l) / 2;
+    const prevC  = candles[candles.length-2];
+    const priceUp = lastC.c > prevC.c; // is price moving up?
+
+    // Sort by recency first
     found.sort((a,b)=>b.c1Index-a.c1Index);
-    return found[0];
+
+    // Prefer setup whose direction matches current price movement
+    const aligned = found.find(r =>
+      (priceUp  && r.direction==='bull') ||
+      (!priceUp && r.direction==='bear')
+    );
+    return aligned || found[0];
   }
 
   return {signal:'none',rsiDiv:divResult};
