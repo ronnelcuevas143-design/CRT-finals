@@ -7,17 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
---bg:#eef0f4;
---surface:#ffffff;
---surface2:#f4f5f7;
---border:#dde1e7;
---accent:#1a6fe8;
---bull:#1a7a4a;
---bear:#c0392b;
---warn:#d35400;
---text:#1c1e24;
---muted:#6b7280;
---muted2:#9ca3af;
+  --bg:#eef0f4;--surface:#fff;--surface2:#f4f5f7;--border:#dde1e7;
+  --accent:#1a6fe8;--bull:#1a7a4a;--bear:#c0392b;--warn:#d35400;
+  --text:#1c1e24;--muted:#6b7280;--muted2:#9ca3af;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:80px;}
@@ -25,137 +17,52 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px;position:relative;z-index:1;}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--accent);}
 .logo-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-top:3px;margin-bottom:20px;}
-
-/* Light theme overrides */
-.settings,.status-bar,.bias-card,.coin-card,.entry-box,.alert-log{box-shadow:0 1px 3px rgba(0,0,0,0.08);}
-.coin-card.bull{border-left:3px solid var(--bull);}
-.coin-card.bear{border-left:3px solid var(--bear);}
-.tf-chip.bull{background:rgba(26,122,74,0.1);border-color:rgba(26,122,74,0.3);color:var(--bull);}
-.tf-chip.bear{background:rgba(192,57,43,0.1);border-color:rgba(192,57,43,0.3);color:var(--bear);}
-.tf-chip.c2{background:rgba(26,111,232,0.1);border-color:rgba(26,111,232,0.35);color:var(--accent);}
-.tf-chip.none{background:rgba(107,114,128,0.08);border-color:var(--border);color:var(--muted);}
-.poi-chip{background:rgba(211,84,0,0.07);border-color:rgba(211,84,0,0.2);color:var(--warn);}
-.poi-chip.fresh{background:rgba(26,122,74,0.08);border-color:rgba(26,122,74,0.25);color:var(--bull);}
-.poi-chip.touched{background:rgba(107,114,128,0.07);border-color:var(--border);color:var(--muted);}
-.c2-banner.bull{background:rgba(26,122,74,0.07);border-color:rgba(26,122,74,0.2);color:var(--bull);}
-.c2-banner.bear{background:rgba(192,57,43,0.07);border-color:rgba(192,57,43,0.2);color:var(--bear);}
-.overall-signal.bull{background:rgba(26,122,74,0.06);border-color:rgba(26,122,74,0.25);}
-.overall-signal.bear{background:rgba(192,57,43,0.06);border-color:rgba(192,57,43,0.25);}
-.overall-signal.forming{background:rgba(211,84,0,0.06);border-color:rgba(211,84,0,0.25);}
-.overall-signal.none{background:rgba(107,114,128,0.06);border-color:var(--border);}
-.signal-title.bull{color:var(--bull);}
-.signal-title.bear{color:var(--bear);}
-.signal-title.forming{color:var(--warn);}
-.signal-title.none{color:var(--muted);}
-.grade-badge.A{background:rgba(26,111,232,0.1);color:var(--accent);border-color:rgba(26,111,232,0.3);}
-.grade-badge.B{background:rgba(211,84,0,0.1);color:var(--warn);border-color:rgba(211,84,0,0.25);}
-.grade-badge.C{background:rgba(107,114,128,0.1);color:var(--muted);border-color:var(--border);}
-.tf-signal-badge.bull{background:rgba(26,122,74,0.12);color:var(--bull);}
-.tf-signal-badge.bear{background:rgba(192,57,43,0.12);color:var(--bear);}
-.tf-signal-badge.forming{background:rgba(211,84,0,0.12);color:var(--warn);}
-.tf-signal-badge.none{background:rgba(107,114,128,0.1);color:var(--muted);}
-.coin-price{color:var(--accent);}
-.coin-chg.up{color:var(--bull);}
-.coin-chg.down{color:var(--bear);}
-.entry-val.e{color:var(--accent);}
-.entry-val.s{color:var(--bear);}
-.entry-val.t{color:var(--bull);}
-.live-dot{background:var(--bull);}
-.sc.bull{color:var(--bull);}
-.sc.bear{color:var(--bear);}
-.bias-val.bull{color:var(--bull);}
-.bias-val.bear{color:var(--bear);}
-.bias-val.neutral{color:var(--muted);}
-.tv-link{color:var(--accent);}
-.btn-scan{background:var(--accent);}
-.spinner{border-top-color:var(--accent);}
-.progress-fill{background:var(--accent);}
-.tg-status.ok{background:rgba(26,122,74,0.1);color:var(--bull);border-color:rgba(26,122,74,0.2);}
-.tg-status.err{background:rgba(192,57,43,0.1);color:var(--bear);border-color:rgba(192,57,43,0.2);}
-.si{background:var(--surface2);color:var(--text);}
-.si:focus{border-color:var(--accent);}
-.search-input{background:var(--surface);color:var(--text);}
-.search-input:focus{border-color:var(--accent);}
-.test-btn{background:rgba(26,111,232,0.08);border-color:rgba(26,111,232,0.25);color:var(--accent);}
-.btn-top:hover{border-color:var(--accent);color:var(--accent);}
-.qbtn:hover,.qbtn.active{border-color:var(--accent);color:var(--accent);}
-.alert-msg.bull{color:var(--bull);}
-.alert-msg.bear{color:var(--bear);}
-
-/* Confluence bar - NEW */
-.conf-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.conf-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
-.conf-dots{display:flex;gap:4px;}
-.conf-dot{width:8px;height:8px;border-radius:50%;background:var(--border);}
-.conf-dot.active.bull{background:var(--bull);}
-.conf-dot.active.bear{background:var(--bear);}
-.conf-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
-
-/* Detected timestamp - NEW */
-.det-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);margin-top:6px;letter-spacing:0.5px;}
-
-/* Grade description - NEW */
-.grade-desc{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;}
-
-/* Settings */
-.settings{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:16px;}
+.settings{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
 .settings-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
 .settings-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;}
 .sf{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;}
 .sl{font-size:9px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;}
-.si{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);outline:none;width:100%;}
+.si{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);outline:none;width:100%;}
 .si:focus{border-color:var(--accent);}
-.test-btn{background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);color:var(--accent);border-radius:5px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;}
+.test-btn{background:rgba(26,111,232,.08);border:1px solid rgba(26,111,232,.25);color:var(--accent);border-radius:5px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;}
 .tg-status{font-family:'DM Mono',monospace;font-size:10px;margin-top:8px;padding:5px 10px;border-radius:4px;display:none;}
-.tg-status.ok{background:rgba(0,255,157,0.1);color:var(--bull);}
-.tg-status.err{background:rgba(255,68,102,0.1);color:var(--bear);}
-
-/* Search & Scan */
+.tg-status.ok{background:rgba(26,122,74,.1);color:var(--bull);border:1px solid rgba(26,122,74,.2);}
+.tg-status.err{background:rgba(192,57,43,.1);color:var(--bear);border:1px solid rgba(192,57,43,.2);}
 .search-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .search-input{flex:1;min-width:160px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 14px;font-family:'DM Mono',monospace;font-size:13px;color:var(--text);letter-spacing:1px;text-transform:uppercase;outline:none;}
 .search-input::placeholder{text-transform:none;color:var(--muted);font-size:12px;letter-spacing:0;}
 .search-input:focus{border-color:var(--accent);}
 .btn-scan{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:11px 18px;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
-.btn-scan:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-scan:disabled{opacity:.4;cursor:not-allowed;}
 .btn-top{background:var(--surface);border:1px solid var(--border);color:var(--muted2);border-radius:6px;padding:11px 14px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;white-space:nowrap;}
 .btn-top:hover{border-color:var(--accent);color:var(--accent);}
-.btn-top:disabled{opacity:0.4;cursor:not-allowed;}
-
-/* Progress */
+.btn-top:disabled{opacity:.4;cursor:not-allowed;}
 .progress-wrap{display:none;margin-bottom:14px;}
 .progress-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s;}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s;}
 .progress-text{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:1px;}
-
-/* Status bar */
-.status-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;}
+.status-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
 .status-left{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
 .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 1.2s infinite;margin-right:5px;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .status-counts{display:flex;gap:12px;}
 .sc{font-family:'DM Mono',monospace;font-size:10px;}
 .sc.bull{color:var(--bull);}
 .sc.bear{color:var(--bear);}
-.sc.muted{color:var(--muted);}
-
-/* HTF Bias */
 .bias-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.bias-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;text-align:center;}
+.bias-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08);}
 .bias-lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
 .bias-val{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;}
 .bias-val.bull{color:var(--bull);}
 .bias-val.bear{color:var(--bear);}
 .bias-val.neutral{color:var(--muted2);}
-
-/* Section title */
 .sec-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .pill{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;}
-.pill.bull{background:rgba(0,255,157,0.15);color:var(--bull);}
-.pill.bear{background:rgba(255,68,102,0.15);color:var(--bear);}
-.pill.none{background:rgba(74,96,112,0.15);color:var(--muted2);}
-
-/* Coin Card */
-.coin-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.pill.bull{background:rgba(26,122,74,.15);color:var(--bull);}
+.pill.bear{background:rgba(192,57,43,.15);color:var(--bear);}
+.pill.none{background:rgba(107,114,128,.15);color:var(--muted2);}
+/* Card */
+.coin-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
 .coin-card.bull{border-left:3px solid var(--bull);}
 .coin-card.bear{border-left:3px solid var(--bear);}
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
@@ -163,35 +70,66 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .coin-sym{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
 .grade-block{display:flex;flex-direction:column;gap:2px;}
 .grade-badge{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:1px;border:1px solid;}
-.grade-badge.A{background:rgba(26,111,232,0.1);color:var(--accent);border-color:rgba(26,111,232,0.3);}
-.grade-badge.B{background:rgba(211,84,0,0.1);color:var(--warn);border-color:rgba(211,84,0,0.25);}
-.grade-badge.C{background:rgba(107,114,128,0.1);color:var(--muted);border-color:var(--border);}
+.grade-badge.A{background:rgba(26,111,232,.1);color:var(--accent);border-color:rgba(26,111,232,.3);}
+.grade-badge.Aplus{background:rgba(26,111,232,.18);color:var(--accent);border-color:rgba(26,111,232,.5);}
+.grade-badge.B{background:rgba(211,84,0,.1);color:var(--warn);border-color:rgba(211,84,0,.25);}
+.grade-badge.C{background:rgba(107,114,128,.1);color:var(--muted);border-color:var(--border);}
+.grade-desc{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.grade-tip{font-size:9px;color:var(--muted2);margin-top:1px;line-height:1.3;font-style:italic;}
 .coin-right{text-align:right;}
 .coin-price{font-family:'DM Mono',monospace;font-size:15px;color:var(--accent);}
 .coin-chg{font-family:'DM Mono',monospace;font-size:11px;}
 .coin-chg.up{color:var(--bull);}
 .coin-chg.down{color:var(--bear);}
-
-/* C2 Alert */
-.c2-banner{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:5px;margin-bottom:10px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;}
-.c2-banner.bull{background:rgba(26,122,74,0.07);border:1px solid rgba(26,122,74,0.2);color:var(--bull);}
-.c2-banner.bear{background:rgba(192,57,43,0.07);border:1px solid rgba(192,57,43,0.2);color:var(--bear);}
-
-/* TF chips */
-.tf-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
-.tf-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;border:1px solid;letter-spacing:1px;}
-.tf-chip.bull{background:rgba(26,122,74,0.06);border-color:rgba(26,122,74,0.25);color:var(--bull);}
-.tf-chip.bear{background:rgba(192,57,43,0.06);border-color:rgba(192,57,43,0.25);color:var(--bear);}
-.tf-chip.c2{background:rgba(26,111,232,0.1);border-color:rgba(26,111,232,0.35);color:var(--accent);font-weight:700;}
-.tf-chip.none{background:rgba(107,114,128,0.06);border-color:var(--border);color:var(--muted);}
-
+/* C2 banner */
+.c2-banner{display:flex;align-items:flex-start;gap:6px;padding:8px 10px;border-radius:5px;margin-bottom:10px;font-family:'DM Mono',monospace;font-size:10px;flex-direction:column;}
+.c2-banner.bull{background:rgba(26,122,74,.07);border:1px solid rgba(26,122,74,.2);color:var(--bull);}
+.c2-banner.bear{background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.2);color:var(--bear);}
+.c2-banner-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.prob-badge{font-family:'DM Mono',monospace;font-size:8px;padding:2px 7px;border-radius:3px;font-weight:700;}
+.prob-badge.high{background:rgba(26,122,74,.15);color:var(--bull);border:1px solid rgba(26,122,74,.3);}
+.prob-badge.low{background:rgba(211,84,0,.12);color:var(--warn);border:1px solid rgba(211,84,0,.25);}
+.multi-poi-alert{background:rgba(26,111,232,.07);border:1px solid rgba(26,111,232,.2);border-radius:5px;padding:6px 10px;margin-bottom:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);}
+/* TF section */
+.tf-section{margin-bottom:8px;}
+.tf-section-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
+.tf-row{display:flex;gap:5px;flex-wrap:wrap;}
+.tf-chip{font-family:'DM Mono',monospace;font-size:8px;padding:4px 8px;border-radius:3px;border:1px solid;letter-spacing:.5px;display:inline-flex;align-items:center;gap:4px;text-decoration:none;cursor:pointer;}
+.tf-chip.bull{background:rgba(26,122,74,.06);border-color:rgba(26,122,74,.25);color:var(--bull);}
+.tf-chip.bear{background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.25);color:var(--bear);}
+.tf-chip.none{background:rgba(107,114,128,.06);border-color:var(--border);color:var(--muted);}
+.tf-chip:hover{opacity:.8;}
+.tf-tv-icon{font-size:9px;opacity:.7;}
 /* POI chips */
-.poi-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
-.poi-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;background:rgba(211,84,0,0.07);border:1px solid rgba(211,84,0,0.2);color:var(--warn);}
-.poi-chip.fresh{background:rgba(26,122,74,0.08);border-color:rgba(26,122,74,0.25);color:var(--bull);}
-.poi-chip.touched{background:rgba(107,114,128,0.07);border-color:var(--border);color:var(--muted);}
-
-/* Entry grid */
+.poi-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
+.poi-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:3px;border:1px solid;}
+.poi-chip.FVG{background:rgba(26,111,232,.08);border-color:rgba(26,111,232,.3);color:var(--accent);}
+.poi-chip.IFVG{background:rgba(150,80,200,.08);border-color:rgba(150,80,200,.3);color:#8b44c8;}
+.poi-chip.OB{background:rgba(211,84,0,.08);border-color:rgba(211,84,0,.25);color:var(--warn);}
+.poi-chip.RJB{background:rgba(192,57,43,.08);border-color:rgba(192,57,43,.25);color:var(--bear);}
+.poi-chip.BRK{background:rgba(26,122,74,.08);border-color:rgba(26,122,74,.25);color:var(--bull);}
+.poi-chip.fresh::after{content:'🟢';margin-left:3px;font-size:7px;}
+.poi-chip.touched::after{content:'⚫';margin-left:3px;font-size:7px;}
+/* RSI section */
+.rsi-section{background:var(--surface2);border-radius:6px;padding:8px 10px;margin-bottom:8px;}
+.rsi-section-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.rsi-row{font-family:'DM Mono',monospace;font-size:9px;padding:3px 0;border-bottom:1px solid var(--border);line-height:1.6;display:flex;align-items:center;justify-content:space-between;gap:4px;}
+.rsi-row:last-child{border-bottom:none;}
+.rsi-row.bull{color:var(--bull);}
+.rsi-row.bear{color:var(--bear);}
+.rsi-row.none{color:var(--muted2);}
+.rsi-tv-link{font-size:8px;opacity:.6;text-decoration:none;color:inherit;}
+.rsi-tv-link:hover{opacity:1;}
+/* Confluence */
+.conf-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.conf-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.conf-dots{display:flex;gap:4px;}
+.conf-dot{width:8px;height:8px;border-radius:50%;background:var(--border);}
+.conf-dot.active.bull{background:var(--bull);}
+.conf-dot.active.bear{background:var(--bear);}
+.conf-dot.rsi-boost{box-shadow:0 0 0 2px var(--accent);}
+.conf-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
+/* Entry */
 .entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
 .entry-box{background:var(--bg);border-radius:5px;padding:8px 10px;text-align:center;}
 .entry-lbl{font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
@@ -199,85 +137,54 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .entry-val.e{color:var(--accent);}
 .entry-val.s{color:var(--bear);}
 .entry-val.t{color:var(--bull);}
-
-/* TV Link */
-.tv-link{display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
-.tv-link:hover{color:var(--accent);}
-
-/* No results / Empty */
+/* TV links row */
+.tv-links-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.tv-link-btn{display:inline-flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);text-decoration:none;padding:3px 8px;border-radius:3px;border:1px solid var(--border);background:var(--surface2);}
+.tv-link-btn:hover{color:var(--accent);border-color:var(--accent);}
+.det-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);margin-top:6px;}
 .empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.8;}
-.divider{height:1px;background:var(--border);margin:16px 0;}
 .ts{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-align:right;margin-top:10px;}
 .disclaimer{font-size:10px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.7;padding:12px;border-top:1px solid var(--border);}
-
-/* Alert log */
-.alert-log{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:16px;max-height:200px;overflow-y:auto;}
-.alert-log-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
-.alert-item{font-family:'DM Mono',monospace;font-size:10px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--muted);}
-.alert-item:last-child{border-bottom:none;}
-.alert-msg.bull{color:var(--bull);}
-.alert-msg.bear{color:var(--bear);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="logo">CRT SCANNER PRO</div>
-  <div class="logo-sub">Top-Down Analysis · Auto POI Detection · Telegram Alerts · TradingView Links</div>
+  <div class="logo-sub">CRT · ICT POI · RSI Divergence · Multi-TF · Telegram Alerts</div>
 
-  <!-- Telegram Settings -->
   <div class="settings">
     <div class="settings-title">⚙️ Telegram Settings</div>
     <div class="settings-row">
-      <div class="sf">
-        <div class="sl">Bot Token</div>
-        <input class="si" id="tgToken" type="password" placeholder="Paste bot token">
-      </div>
-      <div class="sf" style="max-width:150px">
-        <div class="sl">Chat ID</div>
-        <input class="si" id="tgChatId" placeholder="Chat ID">
-      </div>
+      <div class="sf"><div class="sl">Bot Token</div><input class="si" id="tgToken" type="password" placeholder="Paste bot token"></div>
+      <div class="sf" style="max-width:150px"><div class="sl">Chat ID</div><input class="si" id="tgChatId" placeholder="Chat ID"></div>
       <button class="test-btn" onclick="saveAndTest()">💾 Save &amp; Test</button>
     </div>
     <div class="tg-status" id="tgStatus"></div>
   </div>
 
-  <!-- Search & Scan Buttons -->
   <div class="search-row">
-    <input class="search-input" id="searchInput" placeholder="Search any coin (e.g. LINK, AVAX...)" onkeydown="if(event.key==='Enter')searchCoin()">
+    <input class="search-input" id="searchInput" placeholder="Search coin (e.g. NEAR, ADA, BTC...)" onkeydown="if(event.key==='Enter')searchCoin()">
     <button class="btn-scan" id="btnSearch" onclick="searchCoin()">🔍 Search</button>
     <button class="btn-top" id="btn50" onclick="scanTop(50)">📊 Top 50</button>
     <button class="btn-top" id="btn100" onclick="scanTop(100)">⚡ Top 100</button>
   </div>
 
-  <!-- Progress -->
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="progress-text" id="progressText">Scanning...</div>
   </div>
 
-  <!-- Status Bar -->
   <div class="status-bar" id="statusBar" style="display:none">
     <div class="status-left" id="statusLeft"><span class="live-dot"></span>—</div>
     <div class="status-counts" id="statusCounts"></div>
   </div>
 
-  <!-- HTF Bias -->
   <div class="bias-row" id="biasRow" style="display:none">
-    <div class="bias-card">
-      <div class="bias-lbl">Monthly Bias</div>
-      <div class="bias-val" id="biasMonthly">—</div>
-    </div>
-    <div class="bias-card">
-      <div class="bias-lbl">Weekly Bias</div>
-      <div class="bias-val" id="biasWeekly">—</div>
-    </div>
-    <div class="bias-card">
-      <div class="bias-lbl">Overall HTF</div>
-      <div class="bias-val" id="biasOverall">—</div>
-    </div>
+    <div class="bias-card"><div class="bias-lbl">Monthly Bias</div><div class="bias-val" id="biasMonthly">—</div></div>
+    <div class="bias-card"><div class="bias-lbl">Weekly Bias</div><div class="bias-val" id="biasWeekly">—</div></div>
+    <div class="bias-card"><div class="bias-lbl">Overall HTF</div><div class="bias-val" id="biasOverall">—</div></div>
   </div>
 
-  <!-- Results -->
   <div id="resultsWrap"></div>
   <div class="ts" id="ts"></div>
   <div class="disclaimer" id="disclaimer" style="display:none">
@@ -289,236 +196,70 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <script>
 const STABLES = ['USDT','USDC','BUSD','DAI','TUSD','FDUSD','USDE','USDS'];
 const TIMEFRAMES = [
-  { key:'1mo', label:'Monthly', tfCode:'1M', weight:5 },
-  { key:'1w',  label:'Weekly',  tfCode:'1W', weight:4 },
-  { key:'1d',  label:'Daily',   tfCode:'1D', weight:3 },
-  { key:'4h',  label:'4H',      tfCode:'4H', weight:2 },
-  { key:'1h',  label:'1H',      tfCode:'1H', weight:1 },
+  { key:'1mo', label:'Monthly', tvInterval:'1M',  weight:5 },
+  { key:'1w',  label:'Weekly',  tvInterval:'1W',  weight:4 },
+  { key:'1d',  label:'Daily',   tvInterval:'1D',  weight:3 },
+  { key:'4h',  label:'4H',      tvInterval:'240', weight:2 },
+  { key:'1h',  label:'1H',      tvInterval:'60',  weight:1 },
 ];
 
-// ============================================================
-// UPDATE 1 — Timestamp helper (PHT = UTC+8)
-// ============================================================
-function nowPHT() {
-  return new Date().toLocaleString('en-PH', {
-    timeZone: 'Asia/Manila',
-    year:   'numeric',
-    month:  'short',
-    day:    '2-digit',
-    hour:   '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true
-  }); // → "May 21, 2025, 09:45:12 PM"
+// TradingView URL per timeframe
+function tvUrl(symbol, interval) {
+  return `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}USDT&interval=${interval}`;
 }
 
-// ---- SETTINGS ----
+// Timestamp PHT
+function nowPHT() {
+  return new Date().toLocaleString('en-PH',{
+    timeZone:'Asia/Manila',year:'numeric',month:'short',
+    day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true
+  });
+}
+
+// ── Settings ───────────────────────────────────────────────
 function loadSettings() {
   const t = localStorage.getItem('tg_token')||'';
   const c = localStorage.getItem('tg_chatid')||'';
   if(t) document.getElementById('tgToken').value = t;
   if(c) document.getElementById('tgChatId').value = c;
 }
-
 async function saveAndTest() {
   const token  = document.getElementById('tgToken').value.trim();
   const chatId = document.getElementById('tgChatId').value.trim();
-  if(token)  localStorage.setItem('tg_token',  token);
+  if(token)  localStorage.setItem('tg_token', token);
   if(chatId) localStorage.setItem('tg_chatid', chatId);
   const el = document.getElementById('tgStatus');
   if(!token||!chatId){ el.textContent='❌ Fill in token and chat ID'; el.className='tg-status err'; el.style.display='block'; return; }
   try {
-    const msg = '✅ CRT Scanner Pro connected!\n\nMag-s-send ng alerts kapag may Grade A/B/C CRT setup na na-detect. 🚀';
+    const msg = '✅ CRT Scanner Pro connected!\nAuto-alert ng CRT setups na may ICT POI confluence. 🚀';
     const qs = new URLSearchParams({type:'telegram',token,chat_id:chatId,text:msg}).toString();
     const res = await fetch(`/api/binance?${qs}`);
     const data = await res.json();
-    el.textContent = data.ok ? '✅ Saved! Test message sent to Telegram.' : `❌ ${data.description}`;
-    el.className = `tg-status ${data.ok?'ok':'err'}`;
-  } catch(e) { el.textContent=`❌ ${e.message}`; el.className='tg-status err'; }
+    el.textContent = data.ok ? '✅ Saved! Test message sent.' : ('❌ '+data.description);
+    el.className = 'tg-status '+(data.ok?'ok':'err');
+  } catch(e){ el.textContent='❌ '+e.message; el.className='tg-status err'; }
   el.style.display='block';
 }
 
-// ---- API ----
+// ── API ────────────────────────────────────────────────────
 async function apiFetch(type, params={}) {
   const qs = new URLSearchParams({type,...params}).toString();
   const res = await fetch(`/api/binance?${qs}`);
   if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(e.error||`HTTP ${res.status}`); }
   return res.json();
 }
-
 async function fetchOHLC(symbol, type) {
-  const data = await apiFetch(type, {symbol, limit:100});
+  const data = await apiFetch(type,{symbol,limit:120});
   if(data.Response==='Error') throw new Error(data.Message);
-  return (data.Data?.Data||[])
-    .map(k=>({t:k.time*1000,o:k.open,h:k.high,l:k.low,c:k.close,v:k.volumefrom}))
-    .filter(c=>c.h>0&&c.l>0);
+  return (data.Data?.Data||[]).map(k=>({t:k.time*1000,o:k.open,h:k.high,l:k.low,c:k.close,v:k.volumefrom})).filter(c=>c.h>0&&c.l>0);
 }
-
 async function fetchPriceData(symbol) {
   const data = await apiFetch('price',{symbol});
   const info = data.RAW?.[symbol]?.USD;
-  return info?{price:info.PRICE,change24h:info.CHANGEPCT24HOUR}:null;
+  return info ? {price:info.PRICE,change24h:info.CHANGEPCT24HOUR} : null;
 }
 
-// ---- HTF BIAS ----
-function getTrend(candles) {
-  if(candles.length < 6) return 'neutral';
-  const last5 = candles.slice(-5), prev5 = candles.slice(-10,-5);
-  if(!prev5.length) return 'neutral';
-  const avgLast = last5.reduce((a,b)=>a+b.c,0)/last5.length;
-  const avgPrev = prev5.reduce((a,b)=>a+b.c,0)/prev5.length;
-  if(avgLast > avgPrev*1.02) return 'bull';
-  if(avgLast < avgPrev*0.98) return 'bear';
-  return 'neutral';
-}
-
-function getHTFBias(monthlyC, weeklyC) {
-  const m = getTrend(monthlyC), w = getTrend(weeklyC);
-  if(m===w && m!=='neutral') return m;
-  if(m!=='neutral') return m;
-  if(w!=='neutral') return w;
-  return 'neutral';
-}
-
-// ---- POI DETECTION ----
-function detectPOIs(candles) {
-  const pois = [];
-  for(let i=5; i<candles.length-3; i++) {
-    const c=candles[i], next=candles[i+1];
-    const body=Math.abs(c.c-c.o), range=(c.h-c.l)||0.0001;
-    const avgBody=candles.slice(Math.max(0,i-5),i).reduce((a,b)=>a+Math.abs(b.c-b.o),0)/5||0.0001;
-
-    // OB
-    if(body >= avgBody*1.2) {
-      if(c.c<c.o && next.c>c.h) pois.push({type:'bull',kind:'OB',high:c.h,low:c.l,mid:(c.h+c.l)/2,formationIndex:i,touched:false});
-      if(c.c>c.o && next.c<c.l) pois.push({type:'bear',kind:'OB',high:c.h,low:c.l,mid:(c.h+c.l)/2,formationIndex:i,touched:false});
-    }
-    // FVG
-    if(i>=1 && i<candles.length-2) {
-      const c0=candles[i-1], c2=candles[i+1];
-      if(c0.h<c2.l && (c2.l-c0.h)/c0.h>0.002) pois.push({type:'bull',kind:'FVG',high:c2.l,low:c0.h,mid:(c0.h+c2.l)/2,formationIndex:i,touched:false});
-      if(c0.l>c2.h && (c0.l-c2.h)/c2.h>0.002) pois.push({type:'bear',kind:'FVG',high:c0.l,low:c2.h,mid:(c0.l+c2.h)/2,formationIndex:i,touched:false});
-    }
-    // Rejection Block
-    const uWick=c.h-Math.max(c.o,c.c), lWick=Math.min(c.o,c.c)-c.l;
-    if(uWick/range>0.65) pois.push({type:'bear',kind:'RB',high:c.h,low:Math.max(c.o,c.c),mid:(c.h+Math.max(c.o,c.c))/2,formationIndex:i,touched:false});
-    if(lWick/range>0.65) pois.push({type:'bull',kind:'RB',high:Math.min(c.o,c.c),low:c.l,mid:(Math.min(c.o,c.c)+c.l)/2,formationIndex:i,touched:false});
-  }
-
-  // ============================================================
-  // UPDATE 2 — Mark each POI as fresh (hindi pa na-touch) or touched
-  // ============================================================
-  pois.forEach(poi => {
-    const candlesAfter = candles.slice(poi.formationIndex + 1);
-    poi.touched = candlesAfter.some(c => c.low <= poi.high && c.high >= poi.low);
-    poi.fresh = !poi.touched;
-  });
-
-  return pois.slice(-15);
-}
-
-function findNearPOI(price, pois, direction, pct=0.03) {
-  return pois.find(p=>(p.type===direction||direction==='neutral') && Math.abs(price-p.mid)/(p.mid||1)<pct)||null;
-}
-
-// ---- C1 VALIDATION ----
-function validateC1(c1, candles, htfBias, pois) {
-  const slice = candles.slice(-15,-1);
-  const avgBody = slice.length ? slice.reduce((a,b)=>a+Math.abs(b.c-b.o),0)/slice.length : 0.0001;
-  const body = Math.abs(c1.c-c1.o);
-  const range = (c1.h-c1.l)||0.0001;
-  const isLarge  = body >= avgBody*1.5;
-  const notDoji  = (body/range) >= 0.4;
-  const c1Dir    = c1.c>c1.o?'bull':'bear';
-  const biasOk   = htfBias==='neutral' || c1Dir===htfBias;
-  const poi      = findNearPOI((c1.h+c1.l)/2, pois, htfBias==='neutral'?c1Dir:htfBias);
-  return { valid:isLarge&&notDoji&&biasOk&&!!poi, isLarge, notDoji, biasOk, poi, direction:c1Dir };
-}
-
-// ---- C2 DETECTION ----
-function detectC2(c1, c2, htfBias) {
-  const c1High=c1.h, c1Low=c1.l, c1Mid=(c1High+c1Low)/2;
-  const sweptLow=c2.l<c1Low, sweptHigh=c2.h>c1High;
-  let direction=null, sweepPct=0;
-  if((htfBias==='bull'||htfBias==='neutral') && sweptLow)  { direction='bull'; sweepPct=((c1Low-c2.l)/c1Low*100); }
-  else if((htfBias==='bear'||htfBias==='neutral') && sweptHigh) { direction='bear'; sweepPct=((c2.h-c1High)/c1High*100); }
-  if(!direction) return null;
-  return {
-    direction, sweepPct:sweepPct.toFixed(2),
-    c1Mid, c1High, c1Low,
-    entryZone: direction==='bull'?{low:fp(c1Low),high:fp(c1Mid)}:{low:fp(c1Mid),high:fp(c1High)},
-    stopLoss:  direction==='bull'?fp(c2.l*0.997):fp(c2.h*1.003),
-    target:    direction==='bull'?fp(c1High):fp(c1Low),
-  };
-}
-
-// ---- SCAN ONE TF ----
-function scanTF(candles, htfBias, tfLabel) {
-  if(candles.length<6) return {signal:'none'};
-  const pois = detectPOIs(candles);
-  for(let i=candles.length-16; i<candles.length-2; i++) {
-    if(i<1) continue;
-    const c1=candles[i], c2=candles[i+1];
-    const c1v = validateC1(c1, candles.slice(0,i+1), htfBias, pois);
-    if(!c1v.valid) continue;
-    const c2s = detectC2(c1, c2, htfBias);
-    if(!c2s) continue;
-    // Attach TF label to each POI for display
-    const taggedPois = pois.filter(p=>p.type===c2s.direction).slice(-2).map(p=>({...p, tfLabel}));
-    return { signal:'c2closed', direction:c2s.direction, c1v, c2s, pois:taggedPois };
-  }
-  return {signal:'none'};
-}
-
-// ============================================================
-// UPDATE 3 — Confluence count: ilang POI/signal ang na-hit
-// ============================================================
-function getConfluence(tfResults, direction) {
-  const items = [];
-  tfResults.forEach((r, i) => {
-    if(!r || r.signal !== 'c2closed' || r.direction !== direction) return;
-    items.push(TIMEFRAMES[i].label);
-  });
-  return { count: items.length, items };
-}
-
-// ============================================================
-// UPDATE 4 — Improved grade: A/B/C mas malinaw na description
-// ============================================================
-function computeGrade(tfResults) {
-  const WEIGHTS=[5,4,3,2,1];
-  let bullScore=0, bearScore=0, bullTFs=[], bearTFs=[];
-  tfResults.forEach((r,i)=>{
-    if(!r||r.signal!=='c2closed') return;
-    const w=WEIGHTS[i], tf=TIMEFRAMES[i];
-    if(r.direction==='bull'){bullScore+=w;bullTFs.push(tf.label);}
-    else if(r.direction==='bear'){bearScore+=w;bearTFs.push(tf.label);}
-  });
-  const direction = bullScore>=bearScore?'bull':'bear';
-  const score     = Math.max(bullScore,bearScore);
-  const alignedTFs= direction==='bull'?bullTFs:bearTFs;
-  if(alignedTFs.length<2) return null;
-
-  let grade=null, gradeDesc='', gradeTip='';
-  if(score>=9 && alignedTFs.length>=3) {
-    grade='A';
-    gradeDesc='🏆 High Confluence — 3+ TF aligned';
-    gradeTip ='Strong HTF confirmation. Wait for C3 entry candle.';
-  } else if(score>=6 && alignedTFs.length>=3) {
-    grade='B';
-    gradeDesc='🥈 Moderate Setup — Multiple TF hits';
-    gradeTip ='Good setup pero monitor pa rin. Tight SL recommended.';
-  } else if(score>=4 && alignedTFs.length>=2) {
-    grade='C';
-    gradeDesc='🥉 Low Confluence — 2 TF lang';
-    gradeTip ='Risky. Minimum 2:1 RR required. Confirm sa higher TF.';
-  }
-  if(!grade) return null;
-
-  return {grade, direction, score, alignedTFs, gradeDesc, gradeTip};
-}
-
-// ---- FORMAT ----
+// ── Format ────────────────────────────────────────────────
 function fp(p) {
   if(!p&&p!==0) return '—';
   if(p>=10000) return '$'+p.toLocaleString(undefined,{maximumFractionDigits:0});
@@ -526,76 +267,420 @@ function fp(p) {
   if(p>=0.01)  return '$'+p.toFixed(4);
   return '$'+p.toFixed(8);
 }
-
-// ============================================================
-// UPDATE 5 — TF label builder for C2 sweep + POI display
-// e.g. "OB Daily $178–$183" or "FVG 4H $0.412–$0.418"
-// ============================================================
-function buildTFLabel(kind, tfLabel, low, high) {
-  const tfMap = {
-    'Monthly':'Monthly','Weekly':'Weekly','Daily':'Daily',
-    '4H':'4H','1H':'1H','1mo':'Monthly','1w':'Weekly',
-    '1d':'Daily','4h':'4H','1h':'1H'
-  };
-  const tf  = tfMap[tfLabel] || tfLabel;
-  const lo  = parseFloat(low);
-  const hi  = parseFloat(high);
-  const dec = lo < 0.01 ? 6 : lo < 1 ? 4 : lo < 100 ? 3 : 2;
-  return `${kind} ${tf} $${lo.toFixed(dec)}–$${hi.toFixed(dec)}`;
+function fRaw(p) {
+  if(!p&&p!==0) return '—';
+  if(p>=10000) return p.toLocaleString(undefined,{maximumFractionDigits:0});
+  if(p>=1)     return p.toFixed(2);
+  if(p>=0.01)  return p.toFixed(4);
+  return p.toFixed(8);
 }
 
-// ---- RENDER COIN CARD ----
-function renderCard(symbol, gradeResult, tfResults, priceInfo, htfBias, detectedAt) {
-  const {grade,direction,alignedTFs,gradeDesc,gradeTip} = gradeResult;
-  const emoji = direction==='bull'?'🟢':'🔴';
+// ── HTF Bias ──────────────────────────────────────────────
+function getTrend(candles) {
+  if(candles.length<6) return 'neutral';
+  const last5=candles.slice(-5), prev5=candles.slice(-10,-5);
+  if(!prev5.length) return 'neutral';
+  const aL=last5.reduce((a,b)=>a+b.c,0)/5;
+  const aP=prev5.reduce((a,b)=>a+b.c,0)/5;
+  if(aL>aP*1.02) return 'bull';
+  if(aL<aP*0.98) return 'bear';
+  return 'neutral';
+}
+function getHTFBias(mC, wC) {
+  const m=getTrend(mC), w=getTrend(wC);
+  if(m===w&&m!=='neutral') return m;
+  if(m!=='neutral') return m;
+  if(w!=='neutral') return w;
+  return 'neutral';
+}
 
-  // Confluence
-  const conf = getConfluence(tfResults, direction);
+// ════════════════════════════════════════════════════════════
+// RSI DIVERGENCE
+// ════════════════════════════════════════════════════════════
+function calcRSI(candles, period=14) {
+  if(candles.length<period+1) return [];
+  let avgGain=0, avgLoss=0;
+  for(let i=1;i<=period;i++){
+    const d=candles[i].c-candles[i-1].c;
+    if(d>=0) avgGain+=d; else avgLoss+=Math.abs(d);
+  }
+  avgGain/=period; avgLoss/=period;
+  const out=[];
+  for(let i=period;i<candles.length;i++){
+    if(i>period){
+      const d=candles[i].c-candles[i-1].c;
+      avgGain=(avgGain*(period-1)+(d>0?d:0))/period;
+      avgLoss=(avgLoss*(period-1)+(d<0?Math.abs(d):0))/period;
+    }
+    const rs=avgLoss===0?100:avgGain/avgLoss;
+    out.push({index:i,price:candles[i].c,high:candles[i].h,low:candles[i].l,rsi:100-(100/(1+rs))});
+  }
+  return out;
+}
+function detectRSIDivergence(candles, lookback=25) {
+  const rsiData=calcRSI(candles);
+  if(rsiData.length<lookback) return {bull:false,bear:false,bullDetails:'',bearDetails:''};
+  const recent=rsiData.slice(-lookback);
+  const highs=[], lows=[];
+  for(let i=1;i<recent.length-1;i++){
+    if(recent[i].high>recent[i-1].high&&recent[i].high>recent[i+1].high) highs.push(recent[i]);
+    if(recent[i].low<recent[i-1].low&&recent[i].low<recent[i+1].low)   lows.push(recent[i]);
+  }
+  let bull=false,bear=false,bullDetails='',bearDetails='';
+  if(highs.length>=2){
+    const h1=highs[highs.length-2],h2=highs[highs.length-1];
+    if(h2.high>h1.high&&h2.rsi<h1.rsi){
+      bear=true;
+      bearDetails=`Bear Div · Price HH ${fp(h2.high)} · RSI ↓${h2.rsi.toFixed(1)}`;
+    }
+  }
+  if(lows.length>=2){
+    const l1=lows[lows.length-2],l2=lows[lows.length-1];
+    if(l2.low<l1.low&&l2.rsi>l1.rsi){
+      bull=true;
+      bullDetails=`Bull Div · Price LL ${fp(l2.low)} · RSI ↑${l2.rsi.toFixed(1)}`;
+    }
+  }
+  return {bull,bear,bullDetails,bearDetails};
+}
 
-  // Best TF result for entry data
-  const best = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
+// ════════════════════════════════════════════════════════════
+// ICT POI DETECTION — OB, FVG, IFVG, RJB, BRK
+// ════════════════════════════════════════════════════════════
+function detectAllPOIs(candles) {
+  const pois=[];
+  const scanEnd=candles.length-2;
 
-  const price = priceInfo?.price;
-  const chg   = priceInfo?.change24h||0;
-  const tvLink= `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}USDT`;
+  for(let i=3;i<scanEnd;i++){
+    const p=candles[i-1], c=candles[i], n=candles[i+1];
+    const body=Math.abs(c.c-c.o);
+    const range=(c.h-c.l)||0.0001;
+    const uWick=c.h-Math.max(c.o,c.c);
+    const lWick=Math.min(c.o,c.c)-c.l;
+    const avgBody=candles.slice(Math.max(0,i-5),i).reduce((a,b)=>a+Math.abs(b.c-b.o),0)/5||0.0001;
+    const avgRange=candles.slice(Math.max(0,i-5),i).reduce((a,b)=>a+(b.h-b.l),0)/5||0.0001;
 
-  // TF chips — UPDATE 5: include TF label in C2 chip
+    // OB — Order Block: last opposite candle before strong move
+    if(body>=avgBody*1.2){
+      if(c.c<c.o&&n.c>c.h)
+        pois.push({kind:'OB',type:'bull',high:c.h,low:c.l,mid:(c.h+c.l)/2,idx:i});
+      if(c.c>c.o&&n.c<c.l)
+        pois.push({kind:'OB',type:'bear',high:c.h,low:c.l,mid:(c.h+c.l)/2,idx:i});
+    }
+
+    // FVG — Fair Value Gap: gap between prev high and next low (or vice versa)
+    if(i>=1&&i<scanEnd-1){
+      const c0=candles[i-1],c2=candles[i+1];
+      if(c0.h<c2.l&&(c2.l-c0.h)/c0.h>0.003)
+        pois.push({kind:'FVG',type:'bull',high:c2.l,low:c0.h,mid:(c0.h+c2.l)/2,idx:i});
+      if(c0.l>c2.h&&(c0.l-c2.h)/c2.h>0.003)
+        pois.push({kind:'FVG',type:'bear',high:c0.l,low:c2.h,mid:(c0.l+c2.h)/2,idx:i});
+    }
+
+    // IFVG — Inversion FVG: FVG that was touched (price came back = now inverted POI)
+    if(i>=2){
+      const c0=candles[i-2],c1b=candles[i-1];
+      const fvgHigh=Math.max(c0.h,c1b.h);
+      const fvgLow =Math.min(c0.l,c1b.l);
+      // If current candle entered old FVG zone = IFVG
+      if(c.h>=fvgLow&&c.l<=fvgHigh&&body>=avgBody*0.8){
+        if(c.c>c.o) pois.push({kind:'IFVG',type:'bull',high:fvgHigh,low:fvgLow,mid:(fvgHigh+fvgLow)/2,idx:i});
+        if(c.c<c.o) pois.push({kind:'IFVG',type:'bear',high:fvgHigh,low:fvgLow,mid:(fvgHigh+fvgLow)/2,idx:i});
+      }
+    }
+
+    // RJB — Rejection Block: long wick candle
+    if(uWick/range>0.60&&uWick>body)
+      pois.push({kind:'RJB',type:'bear',high:c.h,low:Math.max(c.o,c.c),mid:(c.h+Math.max(c.o,c.c))/2,idx:i});
+    if(lWick/range>0.60&&lWick>body)
+      pois.push({kind:'RJB',type:'bull',high:Math.min(c.o,c.c),low:c.l,mid:(Math.min(c.o,c.c)+c.l)/2,idx:i});
+
+    // BRK — Breaker Block: failed OB (price broke back through it)
+    if(i>=2){
+      const prev2=candles[i-2];
+      const wasOB=Math.abs(prev2.c-prev2.o)>=avgBody*1.2;
+      if(wasOB){
+        // Bull OB that price broke below = bearish BRK
+        if(prev2.c<prev2.o&&c.c<prev2.l)
+          pois.push({kind:'BRK',type:'bear',high:prev2.h,low:prev2.l,mid:(prev2.h+prev2.l)/2,idx:i});
+        // Bear OB that price broke above = bullish BRK
+        if(prev2.c>prev2.o&&c.c>prev2.h)
+          pois.push({kind:'BRK',type:'bull',high:prev2.h,low:prev2.l,mid:(prev2.h+prev2.l)/2,idx:i});
+      }
+    }
+  }
+
+  // Mark fresh vs touched
+  pois.forEach(poi=>{
+    const after=candles.slice(poi.idx+1);
+    poi.touched=after.some(c=>c.low<=poi.high&&c.high>=poi.low);
+    poi.fresh=!poi.touched;
+  });
+
+  // Return only fresh POIs, last 12
+  return pois.filter(p=>p.fresh).slice(-12);
+}
+
+// ════════════════════════════════════════════════════════════
+// C1 VALIDATION — dominant body, small wicks (Rowdy Fx rules)
+// ════════════════════════════════════════════════════════════
+function validateC1(c1, candles, htfBias, pois) {
+  const body  = Math.abs(c1.c-c1.o);
+  const range = (c1.h-c1.l)||0.0001;
+  const uWick = c1.h-Math.max(c1.o,c1.c);
+  const lWick = Math.min(c1.o,c1.c)-c1.l;
+  const bodyRatio = body/range;
+
+  // RULE 1: Body must be at least 40% of total range
+  const isBodyDominant = bodyRatio >= 0.40;
+
+  // RULE 2: Body must be bigger than the LARGEST wick
+  // (allows one big wick as long as body still leads)
+  const bodyBiggerThanLargerWick = body >= Math.max(uWick, lWick);
+
+  // RULE 3: isSig — skip avg comparison for Monthly/Weekly
+  // because after a big bull/bear run, recent candles shrink
+  // naturally but are still valid C1s
+  // Instead: body must be at least 30% of range (already covered by rule1)
+  // AND at least 0.3x of last 3 candles avg (very loose, catches all real setups)
+  const slice3  = candles.slice(-3);
+  const avg3    = slice3.length ? slice3.reduce((a,b)=>a+Math.abs(b.c-b.o),0)/slice3.length : 0.0001;
+  const isSig   = body >= avg3 * 0.25; // 25% of last 3 avg — very permissive
+
+  const isBull = c1.c > c1.o;
+  const valid  = isBodyDominant && bodyBiggerThanLargerWick && isSig;
+
+  return {valid,isBodyDominant,bodyBiggerThanLargerWick,isSig,isBull,
+    direction:isBull?'bull':'bear',bodyRatio:bodyRatio.toFixed(2)};
+}
+
+// ════════════════════════════════════════════════════════════
+// C2 DETECTION — sweep + close + POI inside check
+// ════════════════════════════════════════════════════════════
+function detectC2(c1, c2Candles, htfBias, pois) {
+  if(!c2Candles||!c2Candles.length) return null;
+  const c1High=c1.h, c1Low=c1.l, c1Mid=(c1High+c1Low)/2;
+  const c1IsBull=c1.c>c1.o, c1IsBear=c1.c<c1.o;
+
+  for(let i=0;i<c2Candles.length;i++){
+    const c2=c2Candles[i];
+    const sweptHigh=c2.h>c1High, sweptLow=c2.l<c1Low;
+    const c2IsBear=c2.c<c2.o, c2IsBull=c2.c>c2.o;
+    let direction=null, sweepPct=0, sweepInsidePOI=false, confluencePOIs=[];
+
+    // BEAR setup: C1 green → C2 sweeps HIGH → C2 closes RED
+    if(c1IsBull&&sweptHigh){
+      direction='bear';
+      sweepPct=((c2.h-c1High)/c1High*100);
+      confluencePOIs=(pois||[]).filter(p=>p.type==='bear'&&c2.h>=p.low&&c2.h<=p.high*1.008);
+      sweepInsidePOI=confluencePOIs.length>0;
+    }
+    // BULL setup: C1 red → C2 sweeps LOW → C2 closes GREEN
+    if(c1IsBear&&sweptLow){
+      direction='bull';
+      sweepPct=((c1Low-c2.l)/c1Low*100);
+      confluencePOIs=(pois||[]).filter(p=>p.type==='bull'&&c2.l<=p.high&&c2.l>=p.low*0.992);
+      sweepInsidePOI=confluencePOIs.length>0;
+    }
+    if(!direction) continue;
+
+    const poiTypesHit=[...new Set(confluencePOIs.map(p=>p.kind))];
+    const multiPOIConfluence=poiTypesHit.length>=2;
+    // AUTO GRADE A: C2 opposite color close + swept inside POI
+    const autoGradeA=(direction==='bear'?c2IsBear:c2IsBull)&&sweepInsidePOI;
+    const gradeAStrength=autoGradeA?(multiPOIConfluence?'A+':'A'):null;
+
+    return {
+      direction,sweepPct:sweepPct.toFixed(2),
+      c2Index:i,c2Candle:c2,
+      autoGradeA,gradeAStrength,
+      sweepInsidePOI,confluencePOIs,poiTypesHit,multiPOIConfluence,
+      c2IsBear,c2IsBull,
+      c1High,c1Low,c1Mid,
+      entryZone:direction==='bull'?{low:fp(c1Low),high:fp(c1Mid)}:{low:fp(c1Mid),high:fp(c1High)},
+      stopLoss:direction==='bull'?fp(c2.l*0.997):fp(c2.h*1.003),
+      target:direction==='bull'?fp(c1High):fp(c1Low),
+    };
+  }
+  return null;
+}
+
+// ════════════════════════════════════════════════════════════
+// SCAN SINGLE TF
+// ════════════════════════════════════════════════════════════
+function scanTF(candles, htfBias, tfLabel) {
+  if(candles.length<6) return {signal:'none'};
+  const pois      = detectAllPOIs(candles);
+  const divResult = detectRSIDivergence(candles);
+
+  // Collect ALL valid setups, then return the MOST RECENT one
+  const found = [];
+
+  for(let i=Math.max(1,candles.length-50);i<candles.length-1;i++){
+    const c1  = candles[i];
+    const c1v = validateC1(c1, candles.slice(0,i+1), htfBias, pois);
+    if(!c1v.valid) continue;
+
+    const afterC1 = candles.slice(i+1);
+    const c2s     = detectC2(c1, afterC1, htfBias, pois);
+    if(!c2s) continue;
+
+    const taggedPOIs = pois.filter(p=>p.type===c2s.direction).slice(-3).map(p=>({...p,tfLabel}));
+    const rsiConfirmed=(c2s.direction==='bull'&&divResult.bull)||(c2s.direction==='bear'&&divResult.bear);
+
+    found.push({
+      signal:'c2closed', direction:c2s.direction,
+      c1v, c2s,
+      c1Index:i, c2CandlesAgo:c2s.c2Index+1,
+      pois:taggedPOIs,
+      rsiDiv:divResult, rsiConfirmed,
+    });
+  }
+
+  // Return MOST RECENT setup (highest c1Index)
+  if(found.length>0){
+    found.sort((a,b)=>b.c1Index-a.c1Index);
+    return found[0];
+  }
+
+  return {signal:'none',rsiDiv:divResult};
+}
+
+// ════════════════════════════════════════════════════════════
+// GRADE — A+, A, B, C
+// ════════════════════════════════════════════════════════════
+function computeGrade(tfResults) {
+  const WEIGHTS=[5,4,3,2,1];
+  let bullScore=0,bearScore=0,bullTFs=[],bearTFs=[];
+  let hasAutoA=false,bestStrength=null,bestPOITypes=[];
+
+  tfResults.forEach((r,i)=>{
+    if(!r||r.signal!=='c2closed') return;
+    const w=WEIGHTS[i],tf=TIMEFRAMES[i];
+    if(r.direction==='bull'){bullScore+=w;bullTFs.push(tf.label);}
+    else if(r.direction==='bear'){bearScore+=w;bearTFs.push(tf.label);}
+    if(r.c2s?.autoGradeA){
+      hasAutoA=true;
+      if(r.c2s.gradeAStrength==='A+') bestStrength='A+';
+      else if(!bestStrength) bestStrength='A';
+      (r.c2s.poiTypesHit||[]).forEach(t=>{if(!bestPOITypes.includes(t))bestPOITypes.push(t);});
+    }
+  });
+
+  const direction=bullScore>=bearScore?'bull':'bear';
+  const score=Math.max(bullScore,bearScore);
+  const alignedTFs=direction==='bull'?bullTFs:bearTFs;
+  if(alignedTFs.length<1) return null;
+
+  let grade,gradeDesc,gradeTip;
+  if(hasAutoA&&bestStrength==='A+'){
+    grade='A+';gradeDesc='🔥 A+ — Sweep inside multi-POI confluence';
+    gradeTip=`C2 swept inside ${bestPOITypes.join('+')} zone. Highest probability. Wait C3.`;
+  } else if(hasAutoA){
+    grade='A';gradeDesc='🏆 Auto Grade A — C2 swept inside POI + confirmed close';
+    gradeTip='C2 closed opposite color inside key level. High probability. Wait C3.';
+  } else if(score>=9&&alignedTFs.length>=3){
+    grade='A';gradeDesc='🏆 High Confluence — 3+ TF aligned';
+    gradeTip='Strong HTF confirmation. Wait for C3 entry candle.';
+  } else if(score>=6&&alignedTFs.length>=2){
+    grade='B';gradeDesc='🥈 Moderate Setup — Multiple TF hits';
+    gradeTip='Good setup pero monitor pa rin. Tight SL recommended.';
+  } else if(score>=2&&alignedTFs.length>=1){
+    grade='C';gradeDesc='🥉 Low Confluence — Needs confirmation';
+    gradeTip='Risky. Minimum 2:1 RR. Confirm sa higher TF first.';
+  } else return null;
+
+  return {grade,direction,score,alignedTFs,gradeDesc,gradeTip,hasAutoA,bestStrength,bestPOITypes};
+}
+
+// ════════════════════════════════════════════════════════════
+// CONFLUENCE COUNT
+// ════════════════════════════════════════════════════════════
+function getConfluence(tfResults, direction) {
+  const items=[];
+  tfResults.forEach((r,i)=>{
+    if(!r||r.signal!=='c2closed'||r.direction!==direction) return;
+    items.push(TIMEFRAMES[i].label);
+  });
+  return {count:items.length,items};
+}
+
+// ════════════════════════════════════════════════════════════
+// TF LABEL for POI chips
+// ════════════════════════════════════════════════════════════
+function buildPOILabel(kind, tfLabel, low, high) {
+  const lo=parseFloat(low),hi=parseFloat(high);
+  const dec=lo<0.01?6:lo<1?4:lo<100?3:2;
+  return `${kind} ${tfLabel} $${lo.toFixed(dec)}–$${hi.toFixed(dec)}`;
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER CARD
+// ════════════════════════════════════════════════════════════
+function renderCard(symbol, gradeResult, tfResults, priceInfo, detectedAt) {
+  const {grade,direction,alignedTFs,gradeDesc,gradeTip,hasAutoA,bestStrength,bestPOITypes} = gradeResult;
+  const conf   = getConfluence(tfResults, direction);
+  const best   = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
+  const price  = priceInfo?.price;
+  const chg    = priceInfo?.change24h||0;
+
+  const gradeEmoji = grade==='A+'?'🔥':grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
+  const badgeClass = grade==='A+'?'Aplus':grade;
+
+  // ── TF chips with TradingView links ──────────────────────
   const tfChips = TIMEFRAMES.map((tf,i)=>{
-    const r = tfResults[i];
-    if(!r||r.signal==='none') return `<div class="tf-chip none">— ${tf.label}</div>`;
-    const cls = r.direction==='bull'?'bull':'bear';
-    const icon= r.direction==='bull'?'✅':'🔴';
-    const c2s = r.c2s;
-    // C2 sweep label: e.g. "C2 Daily 🔴 Sweep 0.12%"
-    return `<div class="tf-chip ${cls}">${icon} ${tf.label} C2 ${c2s?c2s.sweepPct+'%':''}</div>`;
+    const r   = tfResults[i];
+    const url = tvUrl(symbol, tf.tvInterval);
+    if(!r||r.signal==='none'){
+      return `<a class="tf-chip none" href="${url}" target="_blank">— ${tf.label} <span class="tf-tv-icon">📊</span></a>`;
+    }
+    const cls  = r.direction==='bull'?'bull':'bear';
+    const icon = r.direction==='bull'?'🟢':'🔴';
+    const ago  = r.c2CandlesAgo>1?` C2 ${r.c2CandlesAgo}c ago`:' C2 last c';
+    return `<a class="tf-chip ${cls}" href="${url}" target="_blank">${icon} ${tf.label}${ago} · ${r.c2s?.sweepPct||'0'}% <span class="tf-tv-icon">📊</span></a>`;
   }).join('');
 
-  // POI chips — UPDATE 2+5: show fresh/touched + TF label
+  // ── POI chips ─────────────────────────────────────────────
   const poiChips = (best?.pois||[]).map(p=>{
-    const freshClass = p.fresh ? 'fresh' : 'touched';
-    const freshIcon  = p.fresh ? '🟢 FRESH' : '⚫ TOUCHED';
-    const label = buildTFLabel(p.kind, p.tfLabel||'', p.low, p.high);
-    return `<div class="poi-chip ${freshClass}">🎯 ${label} · ${freshIcon}</div>`;
+    const fc = p.fresh?'fresh':'touched';
+    return `<span class="poi-chip ${p.kind} ${fc}">${buildPOILabel(p.kind,p.tfLabel||'',p.low,p.high)}</span>`;
   }).join('');
 
-  // Confluence dots — UPDATE 3
-  const totalTFs = TIMEFRAMES.length;
+  // ── RSI divergence per TF with TV links ──────────────────
+  const rsiRows = TIMEFRAMES.map((tf,i)=>{
+    const r   = tfResults[i];
+    const div = r?.rsiDiv;
+    const url = tvUrl(symbol, tf.tvInterval);
+    if(!div||(!div.bull&&!div.bear))
+      return `<div class="rsi-row none">— ${tf.label}: No divergence <a class="rsi-tv-link" href="${url}" target="_blank">📊</a></div>`;
+    if(div.bull&&(direction==='bull'||!div.bear))
+      return `<div class="rsi-row bull">📈 ${tf.label}: ${div.bullDetails} <a class="rsi-tv-link" href="${url}" target="_blank">📊</a></div>`;
+    if(div.bear&&(direction==='bear'||!div.bull))
+      return `<div class="rsi-row bear">📉 ${tf.label}: ${div.bearDetails} <a class="rsi-tv-link" href="${url}" target="_blank">📊</a></div>`;
+    return `<div class="rsi-row none">— ${tf.label}: No div <a class="rsi-tv-link" href="${url}" target="_blank">📊</a></div>`;
+  }).join('');
+
+  // ── Confluence dots ───────────────────────────────────────
   const dots = TIMEFRAMES.map((_,i)=>{
-    const r = tfResults[i];
-    const active = r?.signal==='c2closed' && r?.direction===direction;
-    return `<div class="conf-dot ${active?'active '+direction:''}"></div>`;
+    const r      = tfResults[i];
+    const active = r?.signal==='c2closed'&&r?.direction===direction;
+    const boost  = r?.rsiConfirmed?' rsi-boost':'';
+    return `<div class="conf-dot ${active?'active '+direction:''}${boost}" title="${TIMEFRAMES[i].label}"></div>`;
   }).join('');
 
-  // Grade section with description — UPDATE 4
-  const gradeEmoji = grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
+  // ── TV links row (one per TF that has setup) ──────────────
+  const tvLinksRow = TIMEFRAMES.filter((_,i)=>tfResults[i]?.signal==='c2closed'&&tfResults[i]?.direction===direction)
+    .map(tf=>`<a class="tv-link-btn" href="${tvUrl(symbol,tf.tvInterval)}" target="_blank">📊 ${tf.label}</a>`)
+    .join('');
 
   return `<div class="coin-card ${direction}">
   <div class="card-top">
     <div class="coin-left">
       <div class="coin-sym">${symbol}</div>
       <div class="grade-block">
-        <div class="grade-badge ${grade}">${gradeEmoji} GRADE ${grade}</div>
+        <div class="grade-badge ${badgeClass}">${gradeEmoji} GRADE ${grade}</div>
         <div class="grade-desc">${gradeDesc}</div>
+        <div class="grade-tip">${gradeTip}</div>
       </div>
     </div>
     <div class="coin-right">
@@ -605,99 +690,133 @@ function renderCard(symbol, gradeResult, tfResults, priceInfo, htfBias, detected
   </div>
 
   ${best?.c2s?`<div class="c2-banner ${direction}">
-    ${direction==='bull'?'🟢':'🔴'} C2 ${direction.toUpperCase()} SWEEP
-    · Entry: ${best.c2s.entryZone.low}–${best.c2s.entryZone.high}
+    <div class="c2-banner-row">
+      ${direction==='bull'?'🟢':'🔴'} <strong>C2 ${direction.toUpperCase()} SWEEP</strong> · ${best.c2s.sweepPct}%
+      <span class="prob-badge ${best.c2s.sweepInsidePOI?'high':'low'}">
+        ${best.c2s.sweepInsidePOI?'✅ HIGH PROBABILITY':'⚠️ LOW PROBABILITY'}
+      </span>
+    </div>
+    ${best.c2s.sweepInsidePOI?`<div style="font-size:9px;opacity:.8;">C2 swept inside key level zone</div>`:'<div style="font-size:9px;opacity:.8;">C2 swept outside key level — lower confidence</div>'}
   </div>`:''}
 
-  <div class="tf-row">${tfChips}</div>
+  ${best?.c2s?.multiPOIConfluence?`<div class="multi-poi-alert">
+    🔥 Multi-POI Confluence: <strong>${best.c2s.poiTypesHit.join(' + ')}</strong> overlapping at sweep zone — Highest probability
+  </div>`:''}
+
+  <div class="tf-section">
+    <div class="tf-section-title">Timeframe Signals — click to open TradingView</div>
+    <div class="tf-row">${tfChips}</div>
+  </div>
 
   ${poiChips?`<div class="poi-row">${poiChips}</div>`:''}
 
-  <!-- UPDATE 3: Confluence bar -->
+  <div class="rsi-section">
+    <div class="rsi-section-title">RSI Divergence per TF</div>
+    ${rsiRows}
+  </div>
+
   <div class="conf-bar">
     <div class="conf-label">Confluence</div>
     <div class="conf-dots">${dots}</div>
-    <div class="conf-count">${conf.count}/${totalTFs} · ${conf.items.join(', ')}</div>
+    <div class="conf-count">${conf.count}/${TIMEFRAMES.length} · ${conf.items.join(', ')||'—'}</div>
   </div>
 
   ${best?.c2s?`<div class="entry-grid">
-    <div class="entry-box">
-      <div class="entry-lbl">Entry Zone</div>
-      <div class="entry-val e">${best.c2s.entryZone.low}–${best.c2s.entryZone.high}</div>
-    </div>
-    <div class="entry-box">
-      <div class="entry-lbl">Stop Loss</div>
-      <div class="entry-val s">${best.c2s.stopLoss}</div>
-    </div>
-    <div class="entry-box">
-      <div class="entry-lbl">Target</div>
-      <div class="entry-val t">${best.c2s.target}</div>
-    </div>
+    <div class="entry-box"><div class="entry-lbl">Entry Zone</div><div class="entry-val e">${best.c2s.entryZone.low}–${best.c2s.entryZone.high}</div></div>
+    <div class="entry-box"><div class="entry-lbl">Stop Loss</div><div class="entry-val s">${best.c2s.stopLoss}</div></div>
+    <div class="entry-box"><div class="entry-lbl">Target</div><div class="entry-val t">${best.c2s.target}</div></div>
   </div>`:''}
 
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-    <a class="tv-link" href="${tvLink}" target="_blank">📊 TradingView →</a>
-    <div style="font-size:9px;color:var(--muted2);font-family:'DM Mono',monospace;">${gradeTip}</div>
-  </div>
+  ${tvLinksRow?`<div style="margin-bottom:6px;"><div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">TradingView — Active TFs</div><div class="tv-links-row">${tvLinksRow}</div></div>`:''}
 
-  <!-- UPDATE 1: Detected timestamp -->
   <div class="det-time">🕐 Detected: ${detectedAt} PHT</div>
 </div>`;
 }
 
-// ---- SEND TELEGRAM ALERT ----
+// ════════════════════════════════════════════════════════════
+// TELEGRAM ALERT
+// ════════════════════════════════════════════════════════════
 async function sendTelegramAlert(symbol, gradeResult, tfResults, priceInfo, detectedAt) {
   const token  = localStorage.getItem('tg_token')||'';
   const chatId = localStorage.getItem('tg_chatid')||'';
   if(!token||!chatId) return;
 
-  const {grade,direction,alignedTFs,gradeDesc,score} = gradeResult;
-  const conf = getConfluence(tfResults, direction);
-  const best = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
-  const price= priceInfo?.price;
-  const chg  = priceInfo?.change24h||0;
+  const {grade,direction,alignedTFs,gradeDesc,hasAutoA,bestStrength,bestPOITypes} = gradeResult;
+  const conf  = getConfluence(tfResults, direction);
+  const best  = tfResults.find(r=>r?.signal==='c2closed'&&r?.direction===direction);
+  const price = priceInfo?.price;
+  const chg   = priceInfo?.change24h||0;
   const dirEmoji = direction==='bull'?'🟢':'🔴';
-  const gradeEmoji = grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
+  const gradeEmoji = grade==='A+'?'🔥':grade==='A'?'🏆':grade==='B'?'🥈':'🥉';
 
-  // UPDATE 5: TF-labeled POI lines
+  // POI lines
   const poiLines = (best?.pois||[]).map(p=>{
-    const freshIcon = p.fresh ? '🟢 FRESH' : '⚫ TOUCHED';
-    const label = buildTFLabel(p.kind, p.tfLabel||'', p.low, p.high);
-    return `🎯 ${label} · ${freshIcon}`;
+    const label = buildPOILabel(p.kind,p.tfLabel||'',p.low,p.high);
+    return `🎯 ${label} · ${p.fresh?'🟢 FRESH':'⚫ TOUCHED'}`;
   }).join('\n');
 
-  // UPDATE 1+3+4+5 combined Telegram message
-  const msg = [
+  // RSI divergence per TF
+  const rsiLines = TIMEFRAMES.map((tf,i)=>{
+    const r=tfResults[i], div=r?.rsiDiv;
+    if(!div) return `— ${tf.label}: No div`;
+    if(div.bull&&direction==='bull') return `📈 ${tf.label}: ${div.bullDetails}`;
+    if(div.bear&&direction==='bear') return `📉 ${tf.label}: ${div.bearDetails}`;
+    return `— ${tf.label}: No div`;
+  }).join('\n');
+
+  // TF signals with TV links
+  const tfLines = TIMEFRAMES.map((tf,i)=>{
+    const r=tfResults[i];
+    if(!r||r.signal==='none') return `— ${tf.label}: No setup`;
+    const icon=r.direction==='bull'?'🟢':'🔴';
+    const ago=r.c2CandlesAgo>1?`C2 ${r.c2CandlesAgo}c ago`:'C2 last candle';
+    const url=tvUrl(symbol,tf.tvInterval);
+    return `${icon} ${tf.label}: ${ago} · ${r.c2s?.sweepPct||0}% sweep\n   📊 ${url}`;
+  }).join('\n');
+
+  const probLine = best?.c2s?.sweepInsidePOI
+    ? '✅ HIGH PROBABILITY — C2 swept inside key level'
+    : best?.c2s ? '⚠️ LOW PROBABILITY — C2 swept outside key level' : '';
+
+  const lines = [
     `${gradeEmoji} *${symbol}* — Grade ${grade}`,
     `━━━━━━━━━━━━━━━`,
     `${dirEmoji} Direction: *${direction.toUpperCase()}*`,
-    `📊 ${gradeDesc}`,
+    `${gradeDesc}`,
+    probLine,
+    hasAutoA&&bestStrength==='A+'?`🔥 Multi-POI: ${bestPOITypes.join(' + ')} at sweep zone`:'',
     ``,
-    `⭐ Confluence: *${conf.count}/${TIMEFRAMES.length}*`,
-    `TFs Hit: ${conf.items.join(' · ')||'—'}`,
+    `📊 TF Signals:`,
+    tfLines,
     ``,
-    poiLines ? `POI Zones:\n${poiLines}` : '',
+    `⭐ Confluence: *${conf.count}/${TIMEFRAMES.length}* · ${conf.items.join(', ')||'—'}`,
     ``,
-    best?.c2s ? [
+    poiLines?`POI Zones:\n${poiLines}`:'',
+    ``,
+    `RSI Divergence:\n${rsiLines}`,
+    ``,
+    best?.c2s?[
       `📌 Entry: ${best.c2s.entryZone.low}–${best.c2s.entryZone.high}`,
       `🛑 Stop:  ${best.c2s.stopLoss}`,
       `🎯 Target: ${best.c2s.target}`,
-    ].join('\n') : '',
+    ].join('\n'):'',
     ``,
-    price ? `💰 Price: ${fp(price)} (${chg>=0?'+':''}${chg.toFixed(2)}%)` : '',
+    price?`💰 Price: ${fp(price)} (${chg>=0?'+':''}${chg.toFixed(2)}%)`:'',
     `━━━━━━━━━━━━━━━`,
-    `🕐 ${detectedAt} PHT`,  // UPDATE 1: exact timestamp
+    `🕐 ${detectedAt} PHT`,
     ``,
     `⚠️ Educational only. I-confirm sa TradingView.`,
   ].filter(l=>l!==null&&l!==undefined).join('\n').trim();
 
   try {
-    const qs = new URLSearchParams({type:'telegram',token,chat_id:chatId,text:msg}).toString();
+    const qs = new URLSearchParams({type:'telegram',token,chat_id:chatId,text:lines}).toString();
     await fetch(`/api/binance?${qs}`);
-  } catch(e) { console.warn('Telegram alert failed:', e); }
+  } catch(e){ console.warn('Telegram failed:',e); }
 }
 
-// ---- SCAN ONE SYMBOL ----
+// ════════════════════════════════════════════════════════════
+// SCAN ONE SYMBOL
+// ════════════════════════════════════════════════════════════
 async function scanSymbol(symbol) {
   const [monthly,weekly,daily,h4,h1,priceInfo] = await Promise.all([
     fetchOHLC(symbol,'histoday_monthly').catch(()=>[]),
@@ -707,20 +826,17 @@ async function scanSymbol(symbol) {
     fetchOHLC(symbol,'histohour').catch(()=>[]),
     fetchPriceData(symbol).catch(()=>null),
   ]);
-
   const htfBias = getHTFBias(monthly, weekly);
-
-  const tfCandles = [monthly, weekly, daily, h4, h1];
-  // UPDATE 5: pass tfLabel into scanTF so POIs get labeled
-  const tfResults = tfCandles.map((c,i) => scanTF(c, htfBias, TIMEFRAMES[i].label));
-
+  const tfCandles = [monthly,weekly,daily,h4,h1];
+  const tfResults = tfCandles.map((c,i)=>scanTF(c, htfBias, TIMEFRAMES[i].label));
   const gradeResult = computeGrade(tfResults);
   if(!gradeResult) return null;
-
-  return { symbol, gradeResult, tfResults, priceInfo, htfBias };
+  return {symbol,gradeResult,tfResults,priceInfo,htfBias};
 }
 
-// ---- SCAN TOP N ----
+// ════════════════════════════════════════════════════════════
+// SCAN TOP N
+// ════════════════════════════════════════════════════════════
 async function scanTop(n) {
   setUIBusy(true);
   document.getElementById('resultsWrap').innerHTML='';
@@ -728,146 +844,116 @@ async function scanTop(n) {
   document.getElementById('biasRow').style.display='none';
   document.getElementById('disclaimer').style.display='none';
 
-  let symbols = [];
+  let symbols=[];
   try {
-    const data = await apiFetch('top', {limit:n});
-    symbols = (data.Data||[])
-      .map(d=>d.CoinInfo?.Name)
-      .filter(s=>s&&!STABLES.includes(s));
-  } catch(e) {
-    document.getElementById('resultsWrap').innerHTML=`<div class="empty">❌ Failed to fetch top coins: ${e.message}</div>`;
+    const data = await apiFetch('top',{limit:n});
+    symbols = (data.Data||[]).map(d=>d.CoinInfo?.Name).filter(s=>s&&!STABLES.includes(s));
+  } catch(e){
+    document.getElementById('resultsWrap').innerHTML=`<div class="empty">❌ Failed: ${e.message}</div>`;
     setUIBusy(false); return;
   }
 
-  const pw = document.getElementById('progressWrap');
-  const pf = document.getElementById('progressFill');
-  const pt = document.getElementById('progressText');
+  const pw=document.getElementById('progressWrap');
+  const pf=document.getElementById('progressFill');
+  const pt=document.getElementById('progressText');
   pw.style.display='block'; pf.style.width='0%';
 
-  let bullCount=0, bearCount=0, scanned=0;
-  const results=[], ts = nowPHT(); // UPDATE 1: snapshot timestamp
+  let bullCount=0,bearCount=0,scanned=0;
+  const results=[], ts=nowPHT();
 
-  for(const sym of symbols) {
+  for(const sym of symbols){
     try {
-      const r = await scanSymbol(sym);
-      if(r) {
-        r.detectedAt = ts;
-        results.push(r);
-        if(r.gradeResult.direction==='bull') bullCount++;
-        else bearCount++;
-        sendTelegramAlert(sym, r.gradeResult, r.tfResults, r.priceInfo, ts);
-      }
-    } catch(e) { console.warn(sym, e.message); }
+      const r=await scanSymbol(sym);
+      if(r){ r.detectedAt=ts; results.push(r); if(r.gradeResult.direction==='bull') bullCount++; else bearCount++; sendTelegramAlert(sym,r.gradeResult,r.tfResults,r.priceInfo,ts); }
+    } catch(e){ console.warn(sym,e.message); }
     scanned++;
-    const pct = Math.round(scanned/symbols.length*100);
-    pf.style.width=pct+'%';
+    pf.style.width=Math.round(scanned/symbols.length*100)+'%';
     pt.textContent=`Scanning ${sym}… (${scanned}/${symbols.length})`;
-    if(scanned % 5 === 0) await new Promise(r=>setTimeout(r,0));
+    if(scanned%5===0) await new Promise(r=>setTimeout(r,0));
   }
-
   pw.style.display='none';
-  renderResults(results, bullCount, bearCount, ts);
+  renderResults(results,bullCount,bearCount,ts);
   setUIBusy(false);
 }
 
-// ---- SEARCH SINGLE ----
+// ════════════════════════════════════════════════════════════
+// SEARCH SINGLE COIN
+// ════════════════════════════════════════════════════════════
 async function searchCoin() {
-  const sym = document.getElementById('searchInput').value.trim().toUpperCase().replace(/USDT$/,'');
+  const sym=document.getElementById('searchInput').value.trim().toUpperCase().replace(/USDT$/,'');
   if(!sym) return;
   setUIBusy(true);
   document.getElementById('resultsWrap').innerHTML='';
   document.getElementById('statusBar').style.display='none';
   document.getElementById('biasRow').style.display='none';
   document.getElementById('disclaimer').style.display='none';
-
-  const pw = document.getElementById('progressWrap');
-  const pt = document.getElementById('progressText');
+  const pw=document.getElementById('progressWrap');
   pw.style.display='block';
   document.getElementById('progressFill').style.width='50%';
-  pt.textContent=`Scanning ${sym}…`;
-
-  const ts = nowPHT(); // UPDATE 1
+  document.getElementById('progressText').textContent=`Scanning ${sym}…`;
+  const ts=nowPHT();
   try {
-    const r = await scanSymbol(sym);
+    const r=await scanSymbol(sym);
     document.getElementById('progressFill').style.width='100%';
     pw.style.display='none';
-    if(r) {
-      r.detectedAt = ts;
-      const bull = r.gradeResult.direction==='bull'?1:0;
-      renderResults([r], bull, 1-bull, ts);
-      sendTelegramAlert(sym, r.gradeResult, r.tfResults, r.priceInfo, ts);
+    if(r){
+      r.detectedAt=ts;
+      const bull=r.gradeResult.direction==='bull'?1:0;
+      renderResults([r],bull,1-bull,ts);
+      sendTelegramAlert(sym,r.gradeResult,r.tfResults,r.priceInfo,ts);
     } else {
-      document.getElementById('resultsWrap').innerHTML=`<div class="empty">No valid CRT setup detected for <strong>${sym}</strong>.<br>Try a different coin or timeframe.</div>`;
+      document.getElementById('resultsWrap').innerHTML=`<div class="empty">No valid CRT setup found for <strong>${sym}</strong>.<br>Try another coin or wait for next candle close.</div>`;
     }
-  } catch(e) {
-    document.getElementById('progressFill').style.width='0%';
+  } catch(e){
     pw.style.display='none';
+    document.getElementById('progressFill').style.width='0%';
     document.getElementById('resultsWrap').innerHTML=`<div class="empty">❌ Error scanning ${sym}: ${e.message}</div>`;
   }
   setUIBusy(false);
 }
 
-// ---- RENDER RESULTS ----
-function renderResults(results, bullCount, bearCount, ts) {
-  const wrap = document.getElementById('resultsWrap');
-
-  if(!results.length) {
-    wrap.innerHTML='<div class="empty">No Grade A/B/C setups found.<br>Try scanning more coins or check back after the next 4H close.</div>';
-    document.getElementById('disclaimer').style.display='block';
-    return;
+// ════════════════════════════════════════════════════════════
+// RENDER RESULTS
+// ════════════════════════════════════════════════════════════
+function renderResults(results,bullCount,bearCount,ts){
+  const wrap=document.getElementById('resultsWrap');
+  if(!results.length){
+    wrap.innerHTML='<div class="empty">No Grade A/B/C setups found.<br>Try scanning more coins or wait for next 4H close.</div>';
+    document.getElementById('disclaimer').style.display='block'; return;
   }
-
-  // Sort: A first, then B, then C; within grade by score desc
   results.sort((a,b)=>{
-    const gOrder={A:0,B:1,C:2};
-    const gDiff = gOrder[a.gradeResult.grade] - gOrder[b.gradeResult.grade];
-    if(gDiff!==0) return gDiff;
-    return b.gradeResult.score - a.gradeResult.score;
+    const o={'A+':0,'A':1,'B':2,'C':3};
+    const gd=(o[a.gradeResult.grade]||3)-(o[b.gradeResult.grade]||3);
+    return gd!==0?gd:b.gradeResult.score-a.gradeResult.score;
   });
-
-  // Status bar
-  const sb = document.getElementById('statusBar');
+  const sb=document.getElementById('statusBar');
   sb.style.display='flex';
-  document.getElementById('statusLeft').innerHTML=`<span class="live-dot"></span>${results.length} setup${results.length>1?'s':''} found · ${ts} PHT`;
-  document.getElementById('statusCounts').innerHTML=`
-    <span class="sc bull">🟢 ${bullCount} BULL</span>
-    <span class="sc bear">🔴 ${bearCount} BEAR</span>`;
+  document.getElementById('statusLeft').innerHTML=`<span class="live-dot"></span>${results.length} setup${results.length>1?'s':''} · ${ts} PHT`;
+  document.getElementById('statusCounts').innerHTML=`<span class="sc bull">🟢 ${bullCount} BULL</span><span class="sc bear">🔴 ${bearCount} BEAR</span>`;
 
-  // Grade breakdown header
-  const gradeA = results.filter(r=>r.gradeResult.grade==='A');
-  const gradeB = results.filter(r=>r.gradeResult.grade==='B');
-  const gradeC = results.filter(r=>r.gradeResult.grade==='C');
-
-  let html = '';
-
-  // UPDATE 4: grade sections with clear headers
-  const sections = [
-    {label:'🏆 Grade A — High Confluence', items:gradeA, cls:'bull'},
-    {label:'🥈 Grade B — Moderate Setup',  items:gradeB, cls:'bear'},
-    {label:'🥉 Grade C — Low Confidence',  items:gradeC, cls:'none'},
+  const sections=[
+    {label:'🔥 Grade A+ — Multi-POI Confluence',items:results.filter(r=>r.gradeResult.grade==='A+'),cls:'bull'},
+    {label:'🏆 Grade A — High Confluence',       items:results.filter(r=>r.gradeResult.grade==='A'),cls:'bull'},
+    {label:'🥈 Grade B — Moderate Setup',        items:results.filter(r=>r.gradeResult.grade==='B'),cls:'bear'},
+    {label:'🥉 Grade C — Needs Confirmation',    items:results.filter(r=>r.gradeResult.grade==='C'),cls:'none'},
   ];
 
+  let html='';
   sections.forEach(sec=>{
     if(!sec.items.length) return;
-    html += `<div class="sec-title">${sec.label} <span class="pill ${sec.cls}">${sec.items.length}</span></div>`;
-    sec.items.forEach(r=>{
-      html += renderCard(r.symbol, r.gradeResult, r.tfResults, r.priceInfo, r.htfBias, r.detectedAt||ts);
-    });
+    html+=`<div class="sec-title">${sec.label}<span class="pill ${sec.cls}">${sec.items.length}</span></div>`;
+    sec.items.forEach(r=>{ html+=renderCard(r.symbol,r.gradeResult,r.tfResults,r.priceInfo,r.detectedAt||ts); });
   });
 
-  wrap.innerHTML = html;
+  wrap.innerHTML=html;
   document.getElementById('disclaimer').style.display='block';
-  document.getElementById('ts').textContent = `Last scan: ${ts} PHT`;
+  document.getElementById('ts').textContent=`Last scan: ${ts} PHT`;
 }
 
-// ---- UI HELPERS ----
-function setUIBusy(busy) {
-  ['btnSearch','btn50','btn100'].forEach(id=>{
-    document.getElementById(id).disabled=busy;
-  });
+function setUIBusy(busy){
+  ['btnSearch','btn50','btn100'].forEach(id=>document.getElementById(id).disabled=busy);
 }
 
-// ---- INIT ----
 loadSettings();
 </script>
 </body>
